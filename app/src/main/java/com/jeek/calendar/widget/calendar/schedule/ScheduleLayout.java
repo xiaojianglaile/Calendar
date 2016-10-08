@@ -1,7 +1,6 @@
 package com.jeek.calendar.widget.calendar.schedule;
 
 import android.content.Context;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="week_bar_height">52dp</dimen>
+    <dimen name="week_calendar_height">72dp</dimen>
+    <dimen name="month_calendar_height">432dp</dimen>
+    <integer name="calendar_text_size">20</integer>
+
+</resources>

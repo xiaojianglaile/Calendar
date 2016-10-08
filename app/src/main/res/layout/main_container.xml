@@ -43,8 +43,9 @@
 
         <com.jeek.calendar.widget.calendar.WeekBarView
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="@color/colorWrite"/>
+            android:layout_height="@dimen/week_bar_height"
+            android:background="@color/colorWrite"
+            app:week_text_size="@integer/calendar_text_size"/>
 
         <include
             layout="@layout/layout_schedule"/>
