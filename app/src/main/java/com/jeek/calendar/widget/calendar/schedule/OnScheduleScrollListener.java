@@ -3,12 +3,9 @@ package com.jeek.calendar.widget.calendar.schedule;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
-import com.jeek.calendar.widget.calendar.schedule.ScheduleLayout;
-
 /**
  * Created by Jimmy on 2016/10/7 0007.
  */
-
 public class OnScheduleScrollListener extends GestureDetector.SimpleOnGestureListener {
 
     private ScheduleLayout mScheduleLayout;

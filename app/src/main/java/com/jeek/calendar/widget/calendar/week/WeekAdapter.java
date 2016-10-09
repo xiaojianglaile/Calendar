@@ -14,7 +14,6 @@ import java.util.Calendar;
 /**
  * Created by Jimmy on 2016/10/7 0007.
  */
-
 public class WeekAdapter extends PagerAdapter {
 
     private SparseArray<WeekView> mViews;
