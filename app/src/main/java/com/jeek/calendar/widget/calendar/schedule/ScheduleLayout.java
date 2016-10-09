@@ -185,7 +185,7 @@ public class ScheduleLayout extends FrameLayout {
         return true;
     }
 
-    private int downY;
+    private int downX, downY;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -196,35 +196,52 @@ public class ScheduleLayout extends FrameLayout {
         }
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
+                downX = (int) event.getX();
+                downY = (int) event.getY();
                 if (mState == ScheduleState.CLOSE) {
-                    mcvCalendar.setVisibility(VISIBLE);
-                    wcvCalendar.setVisibility(INVISIBLE);
                     rvScheduleList.onTouchEvent(event);
-                    downY = (int) event.getY();
+                    wcvCalendar.onTouchEvent(event);
+                } else {
+                    mcvCalendar.onTouchEvent(event);
                 }
                 resetCalendarPosition();
                 return true;
             case MotionEvent.ACTION_MOVE:
-                if (mState == ScheduleState.CLOSE) {
-                    int moveY = (int) event.getY();
-                    if (moveY < downY || !rvScheduleList.isScrollTop()) {
-                        rvScheduleList.onTouchEvent(event);
-                    } else {
-                        mGestureDetector.onTouchEvent(event);
-                    }
-                } else {
-                    mGestureDetector.onTouchEvent(event);
-                }
+                transferEvent(event);
                 return true;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
+                transferEvent(event);
                 changeCalendarState();
-                if (mState == ScheduleState.CLOSE) {
-                    rvScheduleList.onTouchEvent(event);
-                }
                 return true;
         }
         return super.onTouchEvent(event);
+    }
+
+    private void transferEvent(MotionEvent event) {
+        int moveX = (int) event.getX();
+        int moveY = (int) event.getY();
+        if (Math.abs(moveX - downX) > Math.abs(moveY - downY)) { // 左右滑动
+            if (mState == ScheduleState.OPEN && moveY < mcvCalendar.getHeight()) {
+                mcvCalendar.onTouchEvent(event);
+            } else if (mState == ScheduleState.CLOSE && moveY < mRowSize) {
+                mcvCalendar.setVisibility(INVISIBLE);
+                wcvCalendar.setVisibility(VISIBLE);
+                wcvCalendar.onTouchEvent(event);
+            }
+        } else { // 上下滑动
+            if (mState == ScheduleState.CLOSE) {
+                if (moveY < downY || !rvScheduleList.isScrollTop()) {
+                    rvScheduleList.onTouchEvent(event);
+                } else {
+                    mcvCalendar.setVisibility(VISIBLE);
+                    wcvCalendar.setVisibility(INVISIBLE);
+                    mGestureDetector.onTouchEvent(event);
+                }
+            } else {
+                mGestureDetector.onTouchEvent(event);
+            }
+        }
     }
 
     private void changeCalendarState() {
