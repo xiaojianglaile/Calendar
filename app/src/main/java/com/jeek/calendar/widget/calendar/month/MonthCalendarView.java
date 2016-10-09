@@ -7,8 +7,7 @@ import android.util.AttributeSet;
 import android.util.SparseArray;
 
 import com.jeek.calendar.R;
-import com.jeek.calendar.widget.calendar.listener.OnCalendarClickListener;
-import com.jeek.calendar.widget.calendar.listener.OnMonthClickListener;
+import com.jeek.calendar.widget.calendar.OnCalendarClickListener;
 
 import java.util.Calendar;
 

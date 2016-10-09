@@ -7,8 +7,7 @@ import android.util.AttributeSet;
 import android.util.SparseArray;
 
 import com.jeek.calendar.R;
-import com.jeek.calendar.widget.calendar.listener.OnCalendarClickListener;
-import com.jeek.calendar.widget.calendar.listener.OnWeekClickListener;
+import com.jeek.calendar.widget.calendar.OnCalendarClickListener;
 
 /**
  * Created by Jimmy on 2016/10/7 0007.
@@ -71,6 +70,14 @@ public class WeekCalendarView extends ViewPager implements OnWeekClickListener {
 
     public SparseArray<WeekView> getWeekViews() {
         return mWeekAdapter.getViews();
+    }
+
+    public WeekAdapter getWeekAdapter() {
+        return mWeekAdapter;
+    }
+
+    public WeekView getCurrentWeekView() {
+        return getWeekViews().get(getCurrentItem());
     }
 
 }

@@ -7,11 +7,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.jeek.calendar.R;
-import com.jeek.calendar.widget.calendar.listener.OnWeekClickListener;
 
 import org.joda.time.DateTime;
 
@@ -21,7 +21,6 @@ import java.util.List;
 /**
  * Created by Jimmy on 2016/10/7 0007.
  */
-
 public class WeekView extends View {
 
     private static final int NUM_COLUMNS = 7;
@@ -39,6 +38,7 @@ public class WeekView extends View {
     private DateTime mStartDate;
     private DisplayMetrics mDisplayMetrics;
     private OnWeekClickListener mOnWeekClickListener;
+    private GestureDetector mGestureDetector;
     private List<Integer> daysHasThingList;
 
     public WeekView(Context context, DateTime dateTime) {
@@ -58,6 +58,7 @@ public class WeekView extends View {
         initAttrs(array, dateTime);
         initPaint();
         initWeek();
+        initGestureDetector();
     }
 
     private void initAttrs(TypedArray array, DateTime dateTime) {
@@ -97,6 +98,21 @@ public class WeekView extends View {
         } else {
             setSelectYearMonth(mStartDate.getYear(), mStartDate.getMonthOfYear() - 1, mStartDate.getDayOfMonth());
         }
+    }
+
+    private void initGestureDetector() {
+        mGestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onDown(MotionEvent e) {
+                return true;
+            }
+
+            @Override
+            public boolean onSingleTapUp(MotionEvent e) {
+                doClickAction((int) e.getX(), (int) e.getY());
+                return true;
+            }
+        });
     }
 
     public void setSelectYearMonth(int year, int month, int day) {
@@ -173,30 +189,16 @@ public class WeekView extends View {
         return super.performClick();
     }
 
-    private int downX = 0;
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        int eventCode = event.getAction();
-        switch (eventCode) {
-            case MotionEvent.ACTION_DOWN:
-                downX = (int) event.getX();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                break;
-            case MotionEvent.ACTION_UP:
-                int upX = (int) event.getX();
-                if (Math.abs(upX - downX) < 10) {
-                    performClick();
-                    doClickAction((upX + downX) / 2);
-                }
-                break;
-        }
-        return true;
+        return mGestureDetector.onTouchEvent(event);
     }
 
-    private void doClickAction(int x) {
+    private void doClickAction(int x, int y) {
+        if (y > getHeight())
+            return;
         int column = x / mColumnSize;
+        column = Math.min(column, 6);
         DateTime date = mStartDate.plusDays(column);
         clickThisWeek(date.getYear(), date.getMonthOfYear() - 1, date.getDayOfMonth());
     }

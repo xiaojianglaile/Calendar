@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Calendar</string>
+    <string name="app_name">JeekCalendar</string>
 
     <!--calendar-->
     <string name="calendar_today">今天</string>

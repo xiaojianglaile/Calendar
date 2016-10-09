@@ -2,55 +2,60 @@
 <com.jeek.calendar.widget.calendar.schedule.ScheduleLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/slSchedule"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.jeek.calendar.widget.calendar.week.WeekCalendarView
-        android:id="@+id/wcvCalendar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/week_calendar_height"
-        android:background="@color/colorWrite"
-        android:overScrollMode="never"
-        android:visibility="gone"
-        app:week_day_text_size="@integer/calendar_text_size"/>
-
-    <com.jeek.calendar.widget.calendar.month.MonthCalendarView
-        android:id="@+id/mcvCalendar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/month_calendar_height"
-        android:background="@color/colorWrite"
-        android:overScrollMode="never"
-        app:month_day_text_size="@integer/calendar_text_size"/>
-
-    <RelativeLayout
-        android:id="@+id/rlScheduleList"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBackground">
+        android:orientation="vertical">
 
-        <View
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:background="@color/colorAccent"/>
+            android:layout_height="wrap_content">
 
-        <View
+            <com.jeek.calendar.widget.calendar.week.WeekCalendarView
+                android:id="@+id/wcvCalendar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/week_calendar_height"
+                android:background="@color/colorWrite"
+                android:overScrollMode="never"
+                android:visibility="gone"
+                app:week_day_text_size="@integer/calendar_text_size"/>
+
+            <RelativeLayout
+                android:id="@+id/rlMonthCalendar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.jeek.calendar.widget.calendar.month.MonthCalendarView
+                    android:id="@+id/mcvCalendar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/month_calendar_height"
+                    android:background="@color/colorWrite"
+                    android:overScrollMode="never"
+                    app:month_day_text_size="@integer/calendar_text_size"/>
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlScheduleList"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginTop="30dp"
-            android:background="@color/colorPrimary"/>
+            android:layout_height="match_parent"
+            android:background="@color/colorBackground">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginTop="60dp"
-            android:background="@color/colorAccent"/>
+            <com.jeek.calendar.widget.calendar.schedule.ScheduleRecyclerView
+                android:id="@+id/rvScheduleList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginTop="90dp"
-            android:background="@color/colorPrimary"/>
-    </RelativeLayout>
+            </com.jeek.calendar.widget.calendar.schedule.ScheduleRecyclerView>
 
+        </RelativeLayout>
+
+    </LinearLayout>
 
 </com.jeek.calendar.widget.calendar.schedule.ScheduleLayout>

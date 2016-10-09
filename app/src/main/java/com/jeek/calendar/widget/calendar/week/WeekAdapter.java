@@ -48,12 +48,7 @@ public class WeekAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         if (mViews.get(position) == null) {
-            WeekView weekView = new WeekView(mContext, mArray, mStartDate.plusWeeks(position - mWeekCount / 2));
-            weekView.setId(position);
-            weekView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            weekView.setOnWeekClickListener(mWeekCalendarView);
-            weekView.invalidate();
-            mViews.put(position, weekView);
+            instanceWeekView(position);
         }
         container.addView(mViews.get(position));
         return mViews.get(position);
@@ -76,6 +71,16 @@ public class WeekAdapter extends PagerAdapter {
 
     public int getWeekCount() {
         return mWeekCount;
+    }
+
+    public WeekView instanceWeekView(int position) {
+        WeekView weekView = new WeekView(mContext, mArray, mStartDate.plusWeeks(position - mWeekCount / 2));
+        weekView.setId(position);
+        weekView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        weekView.setOnWeekClickListener(mWeekCalendarView);
+        weekView.invalidate();
+        mViews.put(position, weekView);
+        return weekView;
     }
 
 }

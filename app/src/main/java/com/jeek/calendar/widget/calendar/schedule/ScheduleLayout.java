@@ -4,14 +4,15 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import com.jeek.calendar.R;
 import com.jeek.calendar.widget.calendar.CalendarUtils;
-import com.jeek.calendar.widget.calendar.listener.OnCalendarClickListener;
-import com.jeek.calendar.widget.calendar.listener.OnScheduleScrollListener;
+import com.jeek.calendar.widget.calendar.OnCalendarClickListener;
 import com.jeek.calendar.widget.calendar.month.MonthCalendarView;
 import com.jeek.calendar.widget.calendar.month.MonthView;
 import com.jeek.calendar.widget.calendar.week.WeekCalendarView;
@@ -26,7 +27,9 @@ public class ScheduleLayout extends FrameLayout {
 
     private MonthCalendarView mcvCalendar;
     private WeekCalendarView wcvCalendar;
+    private RelativeLayout rlMonthCalendar;
     private RelativeLayout rlScheduleList;
+    private ScheduleRecyclerView rvScheduleList;
 
     private int mCurrentSelectYear;
     private int mCurrentSelectMonth;
@@ -54,6 +57,7 @@ public class ScheduleLayout extends FrameLayout {
 
     private void initAttrs() {
         mState = ScheduleState.OPEN;
+        mRowSize = getResources().getDimensionPixelSize(R.dimen.week_calendar_height);
     }
 
     private void initGestureDetector() {
@@ -70,7 +74,9 @@ public class ScheduleLayout extends FrameLayout {
         super.onFinishInflate();
         mcvCalendar = (MonthCalendarView) findViewById(R.id.mcvCalendar);
         wcvCalendar = (WeekCalendarView) findViewById(R.id.wcvCalendar);
+        rlMonthCalendar = (RelativeLayout) findViewById(R.id.rlMonthCalendar);
         rlScheduleList = (RelativeLayout) findViewById(R.id.rlScheduleList);
+        rvScheduleList = (ScheduleRecyclerView) findViewById(R.id.rvScheduleList);
         bindingMonthAndWeekCalendar();
     }
 
@@ -103,10 +109,14 @@ public class ScheduleLayout extends FrameLayout {
     };
 
     private void resetWeekView() {
-        WeekView weekView = wcvCalendar.getWeekViews().get(wcvCalendar.getCurrentItem());
+        WeekView weekView = wcvCalendar.getCurrentWeekView();
         if (weekView != null) {
             weekView.setSelectYearMonth(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay);
             weekView.invalidate();
+        } else {
+            WeekView newWeekView = wcvCalendar.getWeekAdapter().instanceWeekView(wcvCalendar.getCurrentItem());
+            newWeekView.setSelectYearMonth(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay);
+            newWeekView.invalidate();
         }
         if (mOnCalendarClickListener != null) {
             mOnCalendarClickListener.onClickDate(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay);
@@ -140,13 +150,24 @@ public class ScheduleLayout extends FrameLayout {
     }
 
     @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        mcvCalendar.layout(0, 0, right, mcvCalendar.getLayoutParams().height);
-        wcvCalendar.layout(0, 0, right, wcvCalendar.getLayoutParams().height);
-        if (mRowSize == 0) {
-            rlScheduleList.layout(0, mcvCalendar.getLayoutParams().height, right, bottom);
-            mRowSize = mcvCalendar.getCurrentMonthView().getRowSize();
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int height = MeasureSpec.getSize(heightMeasureSpec);
+        resetViewHeight(rlScheduleList, height - mRowSize);
+        resetViewHeight(rlScheduleList, height - mRowSize);
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    private void resetViewHeight(View view, int height) {
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        if (layoutParams.height != height) {
+            layoutParams.height = height;
+            view.setLayoutParams(layoutParams);
         }
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
     }
 
     @Override
@@ -160,21 +181,47 @@ public class ScheduleLayout extends FrameLayout {
     }
 
     @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        return true;
+    }
+
+    private int downY;
+
+    @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (mState == ScheduleState.OPEN) {
+            mcvCalendar.getCurrentMonthView().onTouchEvent(event);
+        } else {
+            wcvCalendar.getCurrentWeekView().onTouchEvent(event);
+        }
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
                 if (mState == ScheduleState.CLOSE) {
                     mcvCalendar.setVisibility(VISIBLE);
                     wcvCalendar.setVisibility(INVISIBLE);
+                    rvScheduleList.onTouchEvent(event);
+                    downY = (int) event.getY();
                 }
                 resetCalendarPosition();
                 return true;
             case MotionEvent.ACTION_MOVE:
-                mGestureDetector.onTouchEvent(event);
+                if (mState == ScheduleState.CLOSE) {
+                    int moveY = (int) event.getY();
+                    if (moveY < downY || rvScheduleList.isScrollTop()) {
+                        rvScheduleList.onTouchEvent(event);
+                    } else {
+                        mGestureDetector.onTouchEvent(event);
+                    }
+                } else {
+                    mGestureDetector.onTouchEvent(event);
+                }
                 return true;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 changeCalendarState();
+                if (mState == ScheduleState.CLOSE) {
+                    rvScheduleList.onTouchEvent(event);
+                }
                 return true;
         }
         return super.onTouchEvent(event);
@@ -251,11 +298,11 @@ public class ScheduleLayout extends FrameLayout {
 
     private void resetCalendarPosition() {
         if (mState == ScheduleState.OPEN) {
-            mcvCalendar.setY(0);
-            rlScheduleList.layout(0, mcvCalendar.getHeight(), getRight(), getBottom());
+            rlMonthCalendar.setY(0);
+            rlScheduleList.setY(mcvCalendar.getHeight());
         } else {
-            mcvCalendar.setY(-CalendarUtils.getWeekRow(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay) * mRowSize);
-            rlScheduleList.layout(0, mRowSize, getRight(), getBottom());
+            rlMonthCalendar.setY(-CalendarUtils.getWeekRow(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay) * mRowSize);
+            rlScheduleList.setY(mRowSize);
         }
     }
 
@@ -274,34 +321,38 @@ public class ScheduleLayout extends FrameLayout {
             mState = ScheduleState.CLOSE;
             mcvCalendar.setVisibility(INVISIBLE);
             wcvCalendar.setVisibility(VISIBLE);
-            mcvCalendar.setY((1 - mcvCalendar.getCurrentMonthView().getWeekRow()) * mRowSize);
+            rlMonthCalendar.setY((1 - mcvCalendar.getCurrentMonthView().getWeekRow()) * mRowSize);
         } else {
             mState = ScheduleState.OPEN;
             mcvCalendar.setVisibility(VISIBLE);
             wcvCalendar.setVisibility(INVISIBLE);
-            mcvCalendar.setY(0);
+            rlMonthCalendar.setY(0);
         }
     }
 
-    public void onCalendarScroll(float distanceY) {
+    protected void onCalendarScroll(float distanceY) {
         MonthView monthView = mcvCalendar.getCurrentMonthView();
         distanceY = Math.min(distanceY, 30);
         float calendarDistanceY = distanceY / 5.0f;
         int row = monthView.getWeekRow() - 1;
         int calendarTop = -row * mRowSize;
         int scheduleTop = mRowSize;
-        float calendarY = mcvCalendar.getY() - calendarDistanceY * row;
+        float calendarY = rlMonthCalendar.getY() - calendarDistanceY * row;
         calendarY = Math.min(calendarY, 0);
         calendarY = Math.max(calendarY, calendarTop);
-        mcvCalendar.setY(calendarY);
+        rlMonthCalendar.setY(calendarY);
         float scheduleY = rlScheduleList.getY() - distanceY;
         scheduleY = Math.min(scheduleY, mcvCalendar.getHeight());
         scheduleY = Math.max(scheduleY, scheduleTop);
-        rlScheduleList.layout(0, (int) scheduleY, rlScheduleList.getRight(), getBottom());
+        rlScheduleList.setY(scheduleY);
     }
 
     public void setOnCalendarClickListener(OnCalendarClickListener onCalendarClickListener) {
         mOnCalendarClickListener = onCalendarClickListener;
+    }
+
+    public ScheduleRecyclerView getSchedulerRecyclerView() {
+        return rvScheduleList;
     }
 
 }

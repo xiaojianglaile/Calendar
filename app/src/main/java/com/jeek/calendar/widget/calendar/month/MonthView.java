@@ -7,12 +7,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.jeek.calendar.R;
 import com.jeek.calendar.widget.calendar.CalendarUtils;
-import com.jeek.calendar.widget.calendar.listener.OnMonthClickListener;
 
 import java.util.Calendar;
 import java.util.List;
@@ -40,6 +40,7 @@ public class MonthView extends View {
     private int[][] mDaysText;
     private DisplayMetrics mDisplayMetrics;
     private OnMonthClickListener mDateClickListener;
+    private GestureDetector mGestureDetector;
     private List<Integer> daysHasThingList;
 
     public MonthView(Context context, int year, int month) {
@@ -59,6 +60,22 @@ public class MonthView extends View {
         initAttrs(array, year, month);
         initPaint();
         initMonth();
+        initGestureDetector();
+    }
+
+    private void initGestureDetector() {
+        mGestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onDown(MotionEvent e) {
+                return true;
+            }
+
+            @Override
+            public boolean onSingleTapUp(MotionEvent e) {
+                doClickAction((int) e.getX(), (int) e.getY());
+                return true;
+            }
+        });
     }
 
     private void initAttrs(TypedArray array, int year, int month) {
@@ -225,27 +242,9 @@ public class MonthView extends View {
         return super.performClick();
     }
 
-    private int downX = 0, downY = 0;
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                downX = (int) event.getX();
-                downY = (int) event.getY();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                break;
-            case MotionEvent.ACTION_UP:
-                int upX = (int) event.getX();
-                int upY = (int) event.getY();
-                if (Math.abs(upX - downX) < 10 && Math.abs(upY - downY) < 10) {//点击事件
-                    performClick();
-                    doClickAction((upX + downX) / 2, (upY + downY) / 2);
-                }
-                break;
-        }
-        return true;
+        return mGestureDetector.onTouchEvent(event);
     }
 
     public void setSelectYearMonth(int year, int month, int day) {
@@ -255,8 +254,11 @@ public class MonthView extends View {
     }
 
     private void doClickAction(int x, int y) {
+        if (y > getHeight())
+            return;
         int row = y / mRowSize;
         int column = x / mColumnSize;
+        column = Math.min(column, 6);
         int clickYear = mSelYear, clickMonth = mSelMonth;
         if (row == 0) {
             if (mDaysText[row][column] >= 23) {

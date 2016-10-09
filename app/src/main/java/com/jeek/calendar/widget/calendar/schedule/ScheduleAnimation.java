@@ -7,7 +7,6 @@ import android.view.animation.Transformation;
 /**
  * Created by Jimmy on 2016/10/8 0008.
  */
-
 public class ScheduleAnimation extends Animation {
 
     private ScheduleLayout mScheduleLayout;
