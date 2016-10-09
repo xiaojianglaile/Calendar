@@ -207,7 +207,7 @@ public class ScheduleLayout extends FrameLayout {
             case MotionEvent.ACTION_MOVE:
                 if (mState == ScheduleState.CLOSE) {
                     int moveY = (int) event.getY();
-                    if (moveY < downY || rvScheduleList.isScrollTop()) {
+                    if (moveY < downY || !rvScheduleList.isScrollTop()) {
                         rvScheduleList.onTouchEvent(event);
                     } else {
                         mGestureDetector.onTouchEvent(event);
@@ -353,6 +353,14 @@ public class ScheduleLayout extends FrameLayout {
 
     public ScheduleRecyclerView getSchedulerRecyclerView() {
         return rvScheduleList;
+    }
+
+    public MonthCalendarView getMonthCalendar() {
+        return mcvCalendar;
+    }
+
+    public WeekCalendarView getWeekCalendar() {
+        return wcvCalendar;
     }
 
 }

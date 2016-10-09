@@ -26,7 +26,7 @@ public class ScheduleRecyclerView extends RecyclerView {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                mIsScrollTop = recyclerView.canScrollVertically(-1);
+                mIsScrollTop = !recyclerView.canScrollVertically(-1);
             }
         });
     }
