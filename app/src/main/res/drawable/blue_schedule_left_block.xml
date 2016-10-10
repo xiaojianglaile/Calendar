@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/color_schedule_blue"/>
+    <corners
+        android:bottomLeftRadius="@dimen/schedule_radius_size"
+        android:topLeftRadius="@dimen/schedule_radius_size"/>
+</shape>

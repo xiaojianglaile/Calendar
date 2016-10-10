@@ -24,5 +24,4 @@ public class OnScheduleScrollListener extends GestureDetector.SimpleOnGestureLis
         mScheduleLayout.onCalendarScroll(distanceY);
         return true;
     }
-
 }

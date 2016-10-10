@@ -3,6 +3,21 @@
     <dimen name="week_bar_height">36dp</dimen>
     <dimen name="week_calendar_height">48dp</dimen>
     <dimen name="month_calendar_height">288dp</dimen>
+    <dimen name="calendar_min_distance">5dp</dimen>
     <integer name="calendar_text_size">13</integer>
+
+    <dimen name="text_size_12sp">12sp</dimen>
+    <dimen name="text_size_14sp">14sp</dimen>
+    <dimen name="text_size_16sp">16sp</dimen>
+    <dimen name="text_size_18sp">18sp</dimen>
+
+    <dimen name="schedule_item_size">50dp</dimen>
+    <dimen name="schedule_radius_size">4dp</dimen>
+    <dimen name="schedule_hint_dash_line_width">1dp</dimen>
+    <dimen name="schedule_hint_dash_width">4dp</dimen>
+    <dimen name="schedule_hint_dash_gap_width">2dp</dimen>
+
+    <dimen name="space_10dp">10dp</dimen>
+    <dimen name="space_12dp">12dp</dimen>
 
 </resources>

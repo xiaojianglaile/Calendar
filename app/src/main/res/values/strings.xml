@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">JeekCalendar</string>
+    <string name="app_name">Calendar</string>
 
     <!--calendar-->
     <string name="calendar_today">今天</string>
@@ -11,6 +11,28 @@
         <item>四</item>
         <item>五</item>
         <item>六</item>
+    </string-array>
+    <string-array name="calendar_month">
+        <item>一月</item>
+        <item>二月</item>
+        <item>三月</item>
+        <item>四月</item>
+        <item>五月</item>
+        <item>六月</item>
+        <item>七月</item>
+        <item>八月</item>
+        <item>九月</item>
+        <item>十月</item>
+        <item>十一月</item>
+        <item>十二月</item>
+    </string-array>
+    <string name="calendar_day">%d日</string>
+    <string name="calendar_year">%d年</string>
+
+    <!--schedule-->
+    <string-array name="schedule_state">
+        <item>Start</item>
+        <item>Finish</item>
     </string-array>
 
 </resources>

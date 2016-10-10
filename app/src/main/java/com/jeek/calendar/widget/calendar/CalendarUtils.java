@@ -68,7 +68,7 @@ public class CalendarUtils {
         if (clickDay.getTimeInMillis() > lastClickDay.getTimeInMillis()) {
             return (int) ((clickDay.getTimeInMillis() - lastClickDay.getTimeInMillis() + week * 24 * 3600 * 1000) / (7 * 24 * 3600 * 1000));
         } else {
-            return (int) ((clickDay.getTimeInMillis() - lastClickDay.getTimeInMillis() + (week - 7) * 24 * 3600 * 1000) / (7 * 24 * 3600 * 1000));
+            return (int) ((clickDay.getTimeInMillis() - lastClickDay.getTimeInMillis() + (week - 6) * 24 * 3600 * 1000) / (7 * 24 * 3600 * 1000));
         }
     }
 

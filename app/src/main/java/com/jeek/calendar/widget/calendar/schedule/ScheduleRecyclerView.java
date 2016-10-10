@@ -10,8 +10,6 @@ import android.util.AttributeSet;
  */
 public class ScheduleRecyclerView extends RecyclerView {
 
-    private boolean mIsScrollTop = true;
-
     public ScheduleRecyclerView(Context context) {
         this(context, null);
     }
@@ -22,16 +20,9 @@ public class ScheduleRecyclerView extends RecyclerView {
 
     public ScheduleRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        addOnScrollListener(new OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                mIsScrollTop = !recyclerView.canScrollVertically(-1);
-            }
-        });
     }
 
     public boolean isScrollTop() {
-        return mIsScrollTop;
+        return computeVerticalScrollOffset() == 0;
     }
 }

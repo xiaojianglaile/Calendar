@@ -5,4 +5,15 @@
     <color name="colorAccent">#FF8594</color>
     <color name="colorBackground">#F0F1F5</color>
     <color name="colorWrite">#FFFFFF</color>
+    <color name="colorTranslate">#00FFFFFF</color>
+    
+    <color name="color_schedule_purple">#9082BD</color>
+    <color name="color_schedule_pink">#E67986</color>
+    <color name="color_schedule_yellow">#F7E373</color>
+    <color name="color_schedule_green">#84C5A3</color>
+    <color name="color_schedule_blue">#679BE4</color>
+    <color name="color_schedule_start">#3D81E2</color>
+    <color name="color_schedule_finish">#EC4A5F</color>
+    <color name="color_schedule_title_text">#272E3E</color>
+
 </resources>

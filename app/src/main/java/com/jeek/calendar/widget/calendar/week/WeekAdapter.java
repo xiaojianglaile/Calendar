@@ -33,10 +33,7 @@ public class WeekAdapter extends PagerAdapter {
 
     private void initStartDate() {
         mStartDate = new DateTime();
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(mStartDate.getYear(), mStartDate.getMonthOfYear() - 1, mStartDate.getDayOfMonth());
-        int week = calendar.get(Calendar.DAY_OF_WEEK);
-        mStartDate = mStartDate.plusDays(1 - week);
+        mStartDate = mStartDate.plusDays(-mStartDate.getDayOfWeek() % 7);
     }
 
     @Override

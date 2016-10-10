@@ -35,6 +35,9 @@ public class ScheduleLayout extends FrameLayout {
     private int mCurrentSelectMonth;
     private int mCurrentSelectDay;
     private int mRowSize;
+    private int mMinDistance;
+    private float mDownPosition[] = new float[2];
+    private boolean mIsScrolling = false;
 
     private ScheduleState mState;
     private OnCalendarClickListener mOnCalendarClickListener;
@@ -58,6 +61,7 @@ public class ScheduleLayout extends FrameLayout {
     private void initAttrs() {
         mState = ScheduleState.OPEN;
         mRowSize = getResources().getDimensionPixelSize(R.dimen.week_calendar_height);
+        mMinDistance = getResources().getDimensionPixelSize(R.dimen.calendar_min_distance);
     }
 
     private void initGestureDetector() {
@@ -173,6 +177,8 @@ public class ScheduleLayout extends FrameLayout {
     public boolean dispatchTouchEvent(MotionEvent ev) {
         switch (ev.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
+                mDownPosition[0] = ev.getRawX();
+                mDownPosition[1] = ev.getRawY();
                 mGestureDetector.onTouchEvent(ev);
                 break;
         }
@@ -181,10 +187,27 @@ public class ScheduleLayout extends FrameLayout {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return true;
+        if (mIsScrolling) {
+            return true;
+        }
+        switch (ev.getActionMasked()) {
+            case MotionEvent.ACTION_MOVE:
+                float x = ev.getRawX();
+                float y = ev.getRawY();
+                float distanceX = Math.abs(x - mDownPosition[0]);
+                float distanceY = Math.abs(y - mDownPosition[1]);
+                if (distanceY > mMinDistance && distanceY > distanceX * 2.0f) {
+                    return (y > mDownPosition[1] && isRecyclerViewTouch()) || (y < mDownPosition[1] && mState == ScheduleState.OPEN);
+                }
+                break;
+        }
+        return super.onInterceptTouchEvent(ev);
     }
 
-    private int downX, downY;
+    private boolean isRecyclerViewTouch() {
+        return mState == ScheduleState.CLOSE && (rvScheduleList.getChildCount() == 0 || rvScheduleList.isScrollTop());
+    }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -195,10 +218,10 @@ public class ScheduleLayout extends FrameLayout {
         }
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
-                downX = (int) event.getX();
-                downY = (int) event.getY();
+                mDownPosition[0] = event.getRawX();
+                mDownPosition[1] = event.getRawY();
+                rvScheduleList.onTouchEvent(event);
                 if (mState == ScheduleState.CLOSE) {
-                    rvScheduleList.onTouchEvent(event);
                     wcvCalendar.onTouchEvent(event);
                 } else {
                     mcvCalendar.onTouchEvent(event);
@@ -218,26 +241,30 @@ public class ScheduleLayout extends FrameLayout {
     }
 
     private void transferEvent(MotionEvent event) {
-        int moveX = (int) event.getX();
-        int moveY = (int) event.getY();
-        if (Math.abs(moveX - downX) > Math.abs(moveY - downY)) { // 左右滑动
-            if (mState == ScheduleState.OPEN && moveY < mcvCalendar.getHeight()) {
+        float nextX = event.getRawX();
+        float nextY = event.getRawY();
+        if (Math.abs(nextX - mDownPosition[0]) > Math.abs(nextY - mDownPosition[1])) { // 左右滑动
+            if (mState == ScheduleState.OPEN && nextY < mcvCalendar.getHeight()) {
                 mcvCalendar.onTouchEvent(event);
-            } else if (mState == ScheduleState.CLOSE && moveY < mRowSize) {
+            } else if (mState == ScheduleState.CLOSE && nextY < mRowSize) {
                 mcvCalendar.setVisibility(INVISIBLE);
                 wcvCalendar.setVisibility(VISIBLE);
                 wcvCalendar.onTouchEvent(event);
+            } else {
+                rvScheduleList.onTouchEvent(event);
             }
         } else { // 上下滑动
             if (mState == ScheduleState.CLOSE) {
-                if (moveY < downY || !rvScheduleList.isScrollTop()) {
+                if (nextY < mDownPosition[1] || !rvScheduleList.isScrollTop()) {
                     rvScheduleList.onTouchEvent(event);
                 } else {
+                    mIsScrolling = true;
                     mcvCalendar.setVisibility(VISIBLE);
                     wcvCalendar.setVisibility(INVISIBLE);
                     mGestureDetector.onTouchEvent(event);
                 }
             } else {
+                mIsScrolling = true;
                 mGestureDetector.onTouchEvent(event);
             }
         }
@@ -256,6 +283,7 @@ public class ScheduleLayout extends FrameLayout {
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     changeState();
+                    resetSrcollingState();
                 }
 
                 @Override
@@ -280,6 +308,7 @@ public class ScheduleLayout extends FrameLayout {
                     } else {
                         resetCalendar();
                     }
+                    resetSrcollingState();
                 }
 
                 @Override
@@ -300,6 +329,7 @@ public class ScheduleLayout extends FrameLayout {
                 public void onAnimationEnd(Animation animation) {
                     if (mState == ScheduleState.CLOSE) {
                         mState = ScheduleState.OPEN;
+                        resetSrcollingState();
                     }
                 }
 
@@ -346,6 +376,12 @@ public class ScheduleLayout extends FrameLayout {
         }
     }
 
+    private void resetSrcollingState() {
+        mDownPosition[0] = 0;
+        mDownPosition[1] = 0;
+        mIsScrolling = false;
+    }
+
     protected void onCalendarScroll(float distanceY) {
         MonthView monthView = mcvCalendar.getCurrentMonthView();
         distanceY = Math.min(distanceY, 30);
@@ -379,4 +415,15 @@ public class ScheduleLayout extends FrameLayout {
         return wcvCalendar;
     }
 
+    public int getCurrentSelectYear() {
+        return mCurrentSelectYear;
+    }
+
+    public int getCurrentSelectMonth() {
+        return mCurrentSelectMonth;
+    }
+
+    public int getCurrentSelectDay() {
+        return mCurrentSelectDay;
+    }
 }

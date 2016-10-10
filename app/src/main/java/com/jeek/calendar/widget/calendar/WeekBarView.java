@@ -22,7 +22,6 @@ public class WeekBarView extends View {
     private DisplayMetrics mDisplayMetrics;
     private String[] mWeekString;
 
-
     public WeekBarView(Context context) {
         this(context, null);
     }

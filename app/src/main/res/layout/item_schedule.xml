@@ -1,13 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="40dp"
-              android:orientation="vertical"
-              android:padding="10dp">
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/schedule_item_size"
+    android:layout_marginLeft="@dimen/space_10dp"
+    android:layout_marginRight="@dimen/space_10dp"
+    android:layout_marginTop="@dimen/space_10dp"
+    app:cardCornerRadius="@dimen/schedule_radius_size"
+    app:cardElevation="@dimen/schedule_radius_size"
+    app:cardPreventCornerOverlap="true">
 
-    <View
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="@color/colorAccent"/>
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-</LinearLayout>
+        <View
+            android:id="@+id/vScheduleHintBlock"
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/purple_schedule_left_block"/>
+
+        <TextView
+            android:id="@+id/tvScheduleState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_10dp"
+            android:background="@drawable/finish_schedule_hint"
+            android:gravity="center"
+            android:minWidth="50dp"
+            android:padding="3dp"
+            android:text="Finish"
+            android:textColor="@color/color_schedule_finish"/>
+
+        <TextView
+            android:id="@+id/tvScheduleTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_10dp"
+            android:layout_marginRight="@dimen/space_10dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="和老板吃饭"
+            android:textColor="@color/color_schedule_title_text"
+            android:textSize="@dimen/text_size_16sp"/>
+
+        <TextView
+            android:id="@+id/tvScheduleTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/space_12dp"
+            android:ellipsize="end"
+            android:text="18:00"
+            android:textColor="@color/color_schedule_title_text"
+            android:textSize="@dimen/text_size_16sp"/>
+
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>
