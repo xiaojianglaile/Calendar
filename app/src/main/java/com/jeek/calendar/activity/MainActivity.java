@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements OnCalendarClickLi
     private void resetTitleText() {
         Calendar calendar = Calendar.getInstance();
         if (slSchedule.getCurrentSelectYear() == calendar.get(Calendar.YEAR) &&
-                slSchedule.getCurrentSelectDay() == calendar.get(Calendar.MONTH) &&
+                slSchedule.getCurrentSelectMonth() == calendar.get(Calendar.MONTH) &&
                 slSchedule.getCurrentSelectDay() == calendar.get(Calendar.DAY_OF_MONTH)) {
             tvTitleMonth.setText(mMonthText[slSchedule.getCurrentSelectMonth()]);
             tvTitleDay.setText(getString(R.string.calendar_today));
