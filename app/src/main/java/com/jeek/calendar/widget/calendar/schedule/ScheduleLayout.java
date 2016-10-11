@@ -36,6 +36,7 @@ public class ScheduleLayout extends FrameLayout {
     private int mCurrentSelectDay;
     private int mRowSize;
     private int mMinDistance;
+    private int mAutoScrollDistance;
     private float mDownPosition[] = new float[2];
     private boolean mIsScrolling = false;
 
@@ -62,6 +63,7 @@ public class ScheduleLayout extends FrameLayout {
         mState = ScheduleState.OPEN;
         mRowSize = getResources().getDimensionPixelSize(R.dimen.week_calendar_height);
         mMinDistance = getResources().getDimensionPixelSize(R.dimen.calendar_min_distance);
+        mAutoScrollDistance = getResources().getDimensionPixelSize(R.dimen.auto_scroll_distance);
     }
 
     private void initGestureDetector() {
@@ -211,21 +213,10 @@ public class ScheduleLayout extends FrameLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (mState == ScheduleState.OPEN) {
-            mcvCalendar.getCurrentMonthView().onTouchEvent(event);
-        } else {
-            wcvCalendar.getCurrentWeekView().onTouchEvent(event);
-        }
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
                 mDownPosition[0] = event.getRawX();
                 mDownPosition[1] = event.getRawY();
-                rvScheduleList.onTouchEvent(event);
-                if (mState == ScheduleState.CLOSE) {
-                    wcvCalendar.onTouchEvent(event);
-                } else {
-                    mcvCalendar.onTouchEvent(event);
-                }
                 resetCalendarPosition();
                 return true;
             case MotionEvent.ACTION_MOVE:
@@ -241,39 +232,21 @@ public class ScheduleLayout extends FrameLayout {
     }
 
     private void transferEvent(MotionEvent event) {
-        float nextX = event.getRawX();
-        float nextY = event.getRawY();
-        if (Math.abs(nextX - mDownPosition[0]) > Math.abs(nextY - mDownPosition[1])) { // 左右滑动
-            if (mState == ScheduleState.OPEN && nextY < mcvCalendar.getHeight()) {
-                mcvCalendar.onTouchEvent(event);
-            } else if (mState == ScheduleState.CLOSE && nextY < mRowSize) {
-                mcvCalendar.setVisibility(INVISIBLE);
-                wcvCalendar.setVisibility(VISIBLE);
-                wcvCalendar.onTouchEvent(event);
-            } else {
-                rvScheduleList.onTouchEvent(event);
-            }
-        } else { // 上下滑动
-            if (mState == ScheduleState.CLOSE) {
-                if (nextY < mDownPosition[1] || !rvScheduleList.isScrollTop()) {
-                    rvScheduleList.onTouchEvent(event);
-                } else {
-                    mIsScrolling = true;
-                    mcvCalendar.setVisibility(VISIBLE);
-                    wcvCalendar.setVisibility(INVISIBLE);
-                    mGestureDetector.onTouchEvent(event);
-                }
-            } else {
-                mIsScrolling = true;
-                mGestureDetector.onTouchEvent(event);
-            }
+        if (mState == ScheduleState.CLOSE) {
+            mIsScrolling = true;
+            mcvCalendar.setVisibility(VISIBLE);
+            wcvCalendar.setVisibility(INVISIBLE);
+            mGestureDetector.onTouchEvent(event);
+        } else {
+            mIsScrolling = true;
+            mGestureDetector.onTouchEvent(event);
         }
     }
 
     private void changeCalendarState() {
         if (rlScheduleList.getY() > mRowSize * 2 &&
                 rlScheduleList.getY() < mcvCalendar.getHeight() - mRowSize) { // 位于中间
-            ScheduleAnimation animation = new ScheduleAnimation(this, mState, 30);
+            ScheduleAnimation animation = new ScheduleAnimation(this, mState, mAutoScrollDistance);
             animation.setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
@@ -283,7 +256,7 @@ public class ScheduleLayout extends FrameLayout {
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     changeState();
-                    resetSrcollingState();
+                    resetScrollingState();
                 }
 
                 @Override
@@ -293,7 +266,7 @@ public class ScheduleLayout extends FrameLayout {
             });
             rlScheduleList.startAnimation(animation);
         } else if (rlScheduleList.getY() <= mRowSize * 2) { // 位于顶部
-            ScheduleAnimation animation = new ScheduleAnimation(this, ScheduleState.OPEN, 20);
+            ScheduleAnimation animation = new ScheduleAnimation(this, ScheduleState.OPEN, mAutoScrollDistance);
             animation.setDuration(50);
             animation.setAnimationListener(new Animation.AnimationListener() {
                 @Override
@@ -308,7 +281,7 @@ public class ScheduleLayout extends FrameLayout {
                     } else {
                         resetCalendar();
                     }
-                    resetSrcollingState();
+                    resetScrollingState();
                 }
 
                 @Override
@@ -318,7 +291,7 @@ public class ScheduleLayout extends FrameLayout {
             });
             rlScheduleList.startAnimation(animation);
         } else {
-            ScheduleAnimation animation = new ScheduleAnimation(this, ScheduleState.CLOSE, 20);
+            ScheduleAnimation animation = new ScheduleAnimation(this, ScheduleState.CLOSE, mAutoScrollDistance);
             animation.setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
@@ -329,7 +302,7 @@ public class ScheduleLayout extends FrameLayout {
                 public void onAnimationEnd(Animation animation) {
                     if (mState == ScheduleState.CLOSE) {
                         mState = ScheduleState.OPEN;
-                        resetSrcollingState();
+                        resetScrollingState();
                     }
                 }
 
@@ -376,7 +349,7 @@ public class ScheduleLayout extends FrameLayout {
         }
     }
 
-    private void resetSrcollingState() {
+    private void resetScrollingState() {
         mDownPosition[0] = 0;
         mDownPosition[1] = 0;
         mIsScrolling = false;
@@ -384,7 +357,7 @@ public class ScheduleLayout extends FrameLayout {
 
     protected void onCalendarScroll(float distanceY) {
         MonthView monthView = mcvCalendar.getCurrentMonthView();
-        distanceY = Math.min(distanceY, 30);
+        distanceY = Math.min(distanceY, mAutoScrollDistance);
         float calendarDistanceY = distanceY / 5.0f;
         int row = monthView.getWeekRow() - 1;
         int calendarTop = -row * mRowSize;

@@ -4,6 +4,7 @@
     <dimen name="week_bar_height">40dp</dimen>
     <dimen name="week_calendar_height">48dp</dimen>
     <dimen name="month_calendar_height">288dp</dimen>
+    <dimen name="auto_scroll_distance">15dp</dimen>
     <integer name="calendar_text_size">13</integer>
 
 </resources>
