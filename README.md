@@ -15,6 +15,7 @@
                 });
 
 #效果图:
+![image](https://github.com/xiaojianglaile/Calendar/blob/master/raw/jeek_image_0.gif)
 ![image](https://github.com/xiaojianglaile/Calendar/blob/master/raw/jeek_image_1.png)
 ![image](https://github.com/xiaojianglaile/Calendar/blob/master/raw/jeek_image_2.png)
 ![image](https://github.com/xiaojianglaile/Calendar/blob/master/raw/jeek_image_3.png)
