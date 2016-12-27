@@ -84,6 +84,9 @@ public class MonthCalendarView extends ViewPager implements OnMonthClickListener
         }
     };
 
+    /**
+     * 跳转到今天
+     */
     public void setTodayToView() {
         setCurrentItem(mMonthAdapter.getMonthCount() / 2, true);
         MonthView monthView = mMonthAdapter.getViews().get(mMonthAdapter.getMonthCount() / 2);
@@ -93,6 +96,10 @@ public class MonthCalendarView extends ViewPager implements OnMonthClickListener
         }
     }
 
+    /**
+     * 设置点击日期监听
+     * @param onCalendarClickListener
+     */
     public void setOnCalendarClickListener(OnCalendarClickListener onCalendarClickListener) {
         mOnCalendarClickListener = onCalendarClickListener;
     }

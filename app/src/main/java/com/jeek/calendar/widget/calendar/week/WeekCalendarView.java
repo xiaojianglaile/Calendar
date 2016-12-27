@@ -64,6 +64,10 @@ public class WeekCalendarView extends ViewPager implements OnWeekClickListener {
         }
     };
 
+    /**
+     * 设置点击日期监听
+     * @param onCalendarClickListener
+     */
     public void setOnCalendarClickListener(OnCalendarClickListener onCalendarClickListener) {
         mOnCalendarClickListener = onCalendarClickListener;
     }

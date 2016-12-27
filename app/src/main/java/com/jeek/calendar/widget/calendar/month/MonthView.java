@@ -69,6 +69,7 @@ public class MonthView extends View {
 
     private void initTaskHint() {
         if (mIsShowHint) {
+            // 从数据库中获取圆点提示数据
             ScheduleDao dao = ScheduleDao.getInstance(getContext());
             mTaskHintList = dao.getTaskHintByMonth(mSelYear, mSelMonth);
         }
@@ -246,6 +247,12 @@ public class MonthView extends View {
         }
     }
 
+    /**
+     * 绘制圆点提示
+     * @param column
+     * @param day
+     * @param canvas
+     */
     private void drawHintCircle(int row, int column, int day, Canvas canvas) {
         if (mTaskHintList != null && mTaskHintList.size() > 0) {
             if (!mTaskHintList.contains(day)) return;
@@ -315,6 +322,12 @@ public class MonthView extends View {
         }
     }
 
+    /**
+     * 跳转到某日期
+     * @param year
+     * @param month
+     * @param day
+     */
     public void clickThisMonth(int year, int month, int day) {
         if (mDateClickListener != null) {
             mDateClickListener.onClickThisMonth(year, month, day);
@@ -323,14 +336,26 @@ public class MonthView extends View {
         invalidate();
     }
 
+    /**
+     * 获取当前选择年
+     * @return
+     */
     public int getSelectYear() {
         return mSelYear;
     }
 
+    /**
+     * 获取当前选择月
+     * @return
+     */
     public int getSelectMonth() {
         return mSelMonth;
     }
 
+    /**
+     * 获取当前选择日
+     * @return
+     */
     public int getSelectDay() {
         return this.mSelDay;
     }
@@ -343,11 +368,19 @@ public class MonthView extends View {
         return mWeekRow;
     }
 
+    /**
+     * 设置圆点提示的集合
+     * @param taskHintList
+     */
     public void setTaskHintList(List<Integer> taskHintList) {
         mTaskHintList = taskHintList;
         invalidate();
     }
 
+    /**
+     * 添加一个圆点提示
+     * @param day
+     */
     public void addTaskHint(Integer day) {
         if (mTaskHintList != null) {
             if (!mTaskHintList.contains(day)) {
@@ -357,6 +390,10 @@ public class MonthView extends View {
         }
     }
 
+    /**
+     * 删除一个圆点提示
+     * @param day
+     */
     public void removeTaskHint(Integer day) {
         if (mTaskHintList != null) {
             if (mTaskHintList.remove(day)) {
@@ -365,6 +402,10 @@ public class MonthView extends View {
         }
     }
 
+    /**
+     * 设置点击日期监听
+     * @param dateClickListener
+     */
     public void setOnDateClickListener(OnMonthClickListener dateClickListener) {
         this.mDateClickListener = dateClickListener;
     }

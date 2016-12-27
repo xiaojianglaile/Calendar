@@ -5,14 +5,28 @@
 *该Demo的DragContainerLayout，即拖拽功能未实现，可忽略删除
 
 #使用方法：
-###slSchedule为ScheduleLayout
+###MonthCalendarView
 ###
+        <com.jeek.calendar.widget.calendar.month.MonthCalendarView
+                  android:id="@+id/mcvCalendar"
+                  android:layout_width="match_parent"
+                  android:layout_height="@dimen/small_month_calendar_height"
+                    app:month_day_text_size="@integer/small_calendar_text_size"
+                    app:month_selected_circle_color="@color/color_select_date_dialog_edit_text_bg_focus"
+                    app:month_selected_circle_today_color="@color/color_select_date_dialog_edit_text_bg_focus"
+                    app:month_show_task_hint="false" <!-是否显示圆点提示->
+                    app:week_text_size="@integer/small_calendar_text_size"/>
+
+###设置日期监听
         slSchedule.setOnCalendarClickListener(new OnCalendarClickListener() {
                     @Override
                     public void onClickDate(int year, int month, int day) {
                         //监听获得点击的年月日
                     }
                 });
+
+###跳转到今天
+        slSchedule.getMonthCalendar().setTodayToView();
 
 #效果图:
 ![image](https://github.com/xiaojianglaile/Calendar/blob/master/raw/jeek_image_0.gif)

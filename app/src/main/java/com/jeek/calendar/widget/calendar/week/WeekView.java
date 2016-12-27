@@ -193,6 +193,12 @@ public class WeekView extends View {
         }
     }
 
+    /**
+     * 绘制圆点提示
+     * @param column
+     * @param day
+     * @param canvas
+     */
     private void drawHintCircle(int column, int day, Canvas canvas) {
         if (mTaskHintList != null && mTaskHintList.size() > 0) {
             if (!mTaskHintList.contains(day)) return;
@@ -234,23 +240,43 @@ public class WeekView extends View {
         mOnWeekClickListener = onWeekClickListener;
     }
 
+    /**
+     * 获取当前选择年
+     * @return
+     */
     public int getSelectYear() {
         return mSelYear;
     }
 
+    /**
+     * 获取当前选择月
+     * @return
+     */
     public int getSelectMonth() {
         return mSelMonth;
     }
 
+    /**
+     * 获取当前选择日
+     * @return
+     */
     public int getSelectDay() {
-        return mSelDay;
+        return this.mSelDay;
     }
 
+    /**
+     * 设置圆点提示的集合
+     * @param taskHintList
+     */
     public void setTaskHintList(List<Integer> taskHintList) {
         mTaskHintList = taskHintList;
         invalidate();
     }
 
+    /**
+     * 添加一个圆点提示
+     * @param day
+     */
     public void addTaskHint(Integer day) {
         if (mTaskHintList != null) {
             if (!mTaskHintList.contains(day)) {
@@ -260,6 +286,10 @@ public class WeekView extends View {
         }
     }
 
+    /**
+     * 删除一个圆点提示
+     * @param day
+     */
     public void removeTaskHint(Integer day) {
         if (mTaskHintList != null) {
             if (mTaskHintList.remove(day)) {
