@@ -1,12 +1,13 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+    <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:actionBarSize">48dp</item>
+        <item name="android:actionBarSize">@dimen/action_bar_height</item>
+    </style>
+
+    <style name="AppTheme" parent="BaseAppTheme">
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -17,6 +18,20 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
         <item name="colorControlHighlight">@color/colorPrimary</item>
         <item name="android:windowBackground">@color/colorPrimary</item>
+    </style>
+
+    <style name="DialogFullScreen" parent="DialogStyle"/>
+
+    <style name="DialogStyle" parent="Base.Theme.AppCompat.Light.Dialog">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:actionBarSize">@dimen/action_bar_height</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
 </resources>

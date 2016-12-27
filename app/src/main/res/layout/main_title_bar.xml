@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/color_menu_title_background"
     android:theme="@style/AppTheme.AppBarOverlay"
     app:elevation="0dp">
 
@@ -11,6 +12,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
         app:contentInsetEnd="0dp"
         app:contentInsetLeft="0dp"
         app:contentInsetRight="0dp"
@@ -21,6 +23,14 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/ivMainMenu"
+                android:layout_width="@dimen/action_bar_height"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:background="@color/colorTranslate"
+                android:src="@drawable/btn_menu"/>
 
             <LinearLayout
                 android:id="@+id/llTitleDate"
@@ -34,9 +44,9 @@
                     android:id="@+id/tvTitleMonth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
                     android:layout_gravity="center"
                     android:text="九月"
+                    android:textColor="@color/colorWrite"
                     android:textSize="@dimen/text_size_16sp"
                     android:textStyle="bold"/>
 
@@ -44,9 +54,9 @@
                     android:id="@+id/tvTitleDay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
                     android:layout_gravity="center"
                     android:text="今天"
+                    android:textColor="@color/colorWrite"
                     android:textSize="@dimen/text_size_14sp"/>
 
             </LinearLayout>
@@ -56,7 +66,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/action_bar_height"
+                android:layout_marginRight="@dimen/action_bar_height"
+                android:ellipsize="end"
+                android:lines="1"
                 android:text="沙盒网络"
+                android:textColor="@color/colorWrite"
                 android:textSize="@dimen/text_size_18sp"
                 android:textStyle="bold"
                 android:visibility="gone"/>

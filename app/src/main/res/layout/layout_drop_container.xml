@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.jeek.calendar.widget.drag.DragContainerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dclDropContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.jeek.calendar.widget.drag.DragDisplayBoard
+        android:id="@+id/ddbDisplayBoard"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/month_calendar_height"/>
+
+    <com.jeek.calendar.widget.drag.DragLayout
+        android:id="@+id/dlDragLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/color_schedule_green"/>
+
+        <View
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:background="@color/color_schedule_green"/>
+
+    </com.jeek.calendar.widget.drag.DragLayout>
+
+</com.jeek.calendar.widget.drag.DragContainerLayout>

@@ -159,6 +159,7 @@ public class ScheduleLayout extends FrameLayout {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int height = MeasureSpec.getSize(heightMeasureSpec);
         resetViewHeight(rlScheduleList, height - mRowSize);
+        resetViewHeight(this, height);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
@@ -221,11 +222,13 @@ public class ScheduleLayout extends FrameLayout {
                 return true;
             case MotionEvent.ACTION_MOVE:
                 transferEvent(event);
+                mIsScrolling = true;
                 return true;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 transferEvent(event);
                 changeCalendarState();
+                resetScrollingState();
                 return true;
         }
         return super.onTouchEvent(event);
@@ -233,12 +236,10 @@ public class ScheduleLayout extends FrameLayout {
 
     private void transferEvent(MotionEvent event) {
         if (mState == ScheduleState.CLOSE) {
-            mIsScrolling = true;
             mcvCalendar.setVisibility(VISIBLE);
             wcvCalendar.setVisibility(INVISIBLE);
             mGestureDetector.onTouchEvent(event);
         } else {
-            mIsScrolling = true;
             mGestureDetector.onTouchEvent(event);
         }
     }
@@ -256,7 +257,6 @@ public class ScheduleLayout extends FrameLayout {
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     changeState();
-                    resetScrollingState();
                 }
 
                 @Override
@@ -281,7 +281,6 @@ public class ScheduleLayout extends FrameLayout {
                     } else {
                         resetCalendar();
                     }
-                    resetScrollingState();
                 }
 
                 @Override
@@ -302,7 +301,6 @@ public class ScheduleLayout extends FrameLayout {
                 public void onAnimationEnd(Animation animation) {
                     if (mState == ScheduleState.CLOSE) {
                         mState = ScheduleState.OPEN;
-                        resetScrollingState();
                     }
                 }
 

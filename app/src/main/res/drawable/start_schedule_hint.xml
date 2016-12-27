@@ -4,7 +4,5 @@
     <solid android:color="@color/colorTranslate"/>
     <stroke
         android:width="@dimen/schedule_hint_dash_line_width"
-        android:color="@color/color_schedule_finish"
-        android:dashGap="@dimen/schedule_hint_dash_gap_width"
-        android:dashWidth="@dimen/schedule_hint_dash_width"/>
+        android:color="@color/color_schedule_start" />
 </shape>

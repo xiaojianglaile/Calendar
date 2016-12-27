@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.jeek.calendar.R;
+import com.jeek.calendar.data.ScheduleDao;
 
 import org.joda.time.DateTime;
 
@@ -28,6 +29,7 @@ public class WeekView extends View {
     private int mNormalDayColor;
     private int mSelectDayColor;
     private int mSelectBGColor;
+    private int mSelectBGTodayColor;
     private int mCurrentDayColor;
     private int mHintCircleColor;
     private int mCurrYear, mCurrMonth, mCurrDay;
@@ -35,11 +37,12 @@ public class WeekView extends View {
     private int mColumnSize, mRowSize, mSelectCircleSize;
     private int mDaySize;
     private int mCircleRadius = 6;
+    private boolean mIsShowHint;
     private DateTime mStartDate;
     private DisplayMetrics mDisplayMetrics;
     private OnWeekClickListener mOnWeekClickListener;
     private GestureDetector mGestureDetector;
-    private List<Integer> daysHasThingList;
+    private List<Integer> mTaskHintList;
 
     public WeekView(Context context, DateTime dateTime) {
         this(context, null, dateTime);
@@ -61,21 +64,32 @@ public class WeekView extends View {
         initGestureDetector();
     }
 
+    private void initTaskHint(DateTime startDate, DateTime endDate) {
+        if (mIsShowHint) {
+            ScheduleDao dao = ScheduleDao.getInstance(getContext());
+            mTaskHintList = dao.getTaskHintByWeek(startDate.getYear(), startDate.getMonthOfYear() - 1, startDate.getDayOfMonth(), endDate.getYear(), endDate.getMonthOfYear() - 1, endDate.getDayOfMonth());
+        }
+    }
+
     private void initAttrs(TypedArray array, DateTime dateTime) {
         if (array != null) {
             mSelectDayColor = array.getColor(R.styleable.WeekCalendarView_week_selected_text_color, Color.parseColor("#FFFFFF"));
-            mSelectBGColor = array.getColor(R.styleable.WeekCalendarView_week_selected_circle_color, Color.parseColor("#FF8594"));
+            mSelectBGColor = array.getColor(R.styleable.WeekCalendarView_week_selected_circle_color, Color.parseColor("#E8E8E8"));
+            mSelectBGTodayColor = array.getColor(R.styleable.WeekCalendarView_week_selected_circle_today_color, Color.parseColor("#FF8594"));
             mNormalDayColor = array.getColor(R.styleable.WeekCalendarView_week_normal_text_color, Color.parseColor("#575471"));
-            mCurrentDayColor = array.getColor(R.styleable.WeekCalendarView_week_today_text_color, Color.parseColor("#8F81BC"));
+            mCurrentDayColor = array.getColor(R.styleable.WeekCalendarView_week_today_text_color, Color.parseColor("#FF8594"));
             mHintCircleColor = array.getColor(R.styleable.WeekCalendarView_week_hint_circle_color, Color.parseColor("#FE8595"));
             mDaySize = array.getInteger(R.styleable.WeekCalendarView_week_day_text_size, 13);
+            mIsShowHint = array.getBoolean(R.styleable.WeekCalendarView_week_show_task_hint, true);
         } else {
             mSelectDayColor = Color.parseColor("#FFFFFF");
-            mSelectBGColor = Color.parseColor("#FF8594");
+            mSelectBGColor = Color.parseColor("#E8E8E8");
+            mSelectBGTodayColor = Color.parseColor("#FF8594");
             mNormalDayColor = Color.parseColor("#575471");
-            mCurrentDayColor = Color.parseColor("#8F81BC");
+            mCurrentDayColor = Color.parseColor("#FF8594");
             mHintCircleColor = Color.parseColor("#FE8595");
             mDaySize = 13;
+            mIsShowHint = true;
         }
         mStartDate = dateTime;
     }
@@ -92,12 +106,13 @@ public class WeekView extends View {
         mCurrYear = calendar.get(Calendar.YEAR);
         mCurrMonth = calendar.get(Calendar.MONTH);
         mCurrDay = calendar.get(Calendar.DATE);
-        DateTime lastDate = mStartDate.plusDays(7);
-        if (mStartDate.getMillis() <= System.currentTimeMillis() && lastDate.getMillis() > System.currentTimeMillis()) {
+        DateTime endDate = mStartDate.plusDays(7);
+        if (mStartDate.getMillis() <= System.currentTimeMillis() && endDate.getMillis() > System.currentTimeMillis()) {
             setSelectYearMonth(mStartDate.getYear(), mStartDate.getMonthOfYear() - 1, mCurrDay);
         } else {
             setSelectYearMonth(mStartDate.getYear(), mStartDate.getMonthOfYear() - 1, mStartDate.getDayOfMonth());
         }
+        initTaskHint(mStartDate, endDate);
     }
 
     private void initGestureDetector() {
@@ -158,10 +173,14 @@ public class WeekView extends View {
             if (day == mSelDay) {
                 int startRecX = mColumnSize * i;
                 int endRecX = startRecX + mColumnSize;
-                mPaint.setColor(mSelectBGColor);
+                if (date.getYear() == mCurrYear && date.getMonthOfYear() - 1 == mCurrMonth && day == mCurrDay) {
+                    mPaint.setColor(mSelectBGTodayColor);
+                } else {
+                    mPaint.setColor(mSelectBGColor);
+                }
                 canvas.drawCircle((startRecX + endRecX) / 2, mRowSize / 2, mSelectCircleSize, mPaint);
             }
-            drawHintCircle(i, day + 1, canvas);
+            drawHintCircle(i, day, canvas);
             if (day == mSelDay) {
                 mPaint.setColor(mSelectDayColor);
             } else if (date.getYear() == mCurrYear && date.getMonthOfYear() - 1 == mCurrMonth && day == mCurrDay
@@ -175,8 +194,8 @@ public class WeekView extends View {
     }
 
     private void drawHintCircle(int column, int day, Canvas canvas) {
-        if (daysHasThingList != null && daysHasThingList.size() > 0) {
-            if (!daysHasThingList.contains(day)) return;
+        if (mTaskHintList != null && mTaskHintList.size() > 0) {
+            if (!mTaskHintList.contains(day)) return;
             mPaint.setColor(mHintCircleColor);
             float circleX = (float) (mColumnSize * column + mColumnSize * 0.5);
             float circleY = (float) (mRowSize * 0.75);
@@ -225,5 +244,27 @@ public class WeekView extends View {
 
     public int getSelectDay() {
         return mSelDay;
+    }
+
+    public void setTaskHintList(List<Integer> taskHintList) {
+        mTaskHintList = taskHintList;
+        invalidate();
+    }
+
+    public void addTaskHint(Integer day) {
+        if (mTaskHintList != null) {
+            if (!mTaskHintList.contains(day)) {
+                mTaskHintList.add(day);
+                invalidate();
+            }
+        }
+    }
+
+    public void removeTaskHint(Integer day) {
+        if (mTaskHintList != null) {
+            if (mTaskHintList.remove(day)) {
+                invalidate();
+            }
+        }
     }
 }

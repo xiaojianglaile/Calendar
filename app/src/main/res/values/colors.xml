@@ -6,14 +6,57 @@
     <color name="colorBackground">#F0F1F5</color>
     <color name="colorWrite">#FFFFFF</color>
     <color name="colorTranslate">#00FFFFFF</color>
-    
+    <color name="colorRed">#FF0000</color>
+
     <color name="color_schedule_purple">#9082BD</color>
+    <color name="color_schedule_orange">#f6af80</color>
     <color name="color_schedule_pink">#E67986</color>
     <color name="color_schedule_yellow">#F7E373</color>
     <color name="color_schedule_green">#84C5A3</color>
     <color name="color_schedule_blue">#679BE4</color>
+    <color name="color_schedule_grey">#B9B9BD</color>
     <color name="color_schedule_start">#3D81E2</color>
     <color name="color_schedule_finish">#EC4A5F</color>
     <color name="color_schedule_title_text">#272E3E</color>
+    <color name="color_schedule_finish_title_text">#7F838F</color>
+    <color name="color_schedule_line">#E3E1EE</color>
+
+    <color name="color_schedule_normal">#9E9DC9</color>
+    <color name="color_schedule_focus">#9082BD</color>
+
+    <color name="color_text_grey">#ADADB9</color>
+
+    <color name="color_menu_title_background">#353655</color>
+    <color name="color_menu_background">#454567</color>
+    <color name="color_menu_border">#2D2D51</color>
+    <color name="color_menu_text_color_normal">#A5A1C2</color>
+    <color name="color_menu_text_color_pre">#73728B</color>
+    <color name="color_menu_line">#303054</color>
+
+    <color name="color_circle_border">#706F7D</color>
+    <color name="color_add_event_set_border">#EEEEEE</color>
+    <color name="color_add_event_set_content">#F4F4F4</color>
+    <color name="color_add_event_text">#282D40</color>
+
+    <color name="color_cancel_normal">#B6B6B6</color>
+    <color name="color_cancel_pre">#9FB6B6B6</color>
+    <color name="color_confirm_normal">#8F81BC</color>
+    <color name="color_confirm_pre">#9F8F81BC</color>
+
+    <color name="color_show_finish_normal">#9E9DC9</color>
+    <color name="color_show_finish_pre">#B2B1D3</color>
+    <color name="color_finish_hint_text">#8D8BA0</color>
+
+    <color name="color_select_date_dialog_line">#B8B5D4</color>
+    <color name="color_select_date_dialog_edit_text_bg_normal">#C6C0DC</color>
+    <color name="color_select_date_dialog_edit_text_bg_focus">#A68BFF</color>
+    <color name="color_small_calendar_text">#7452E4</color>
+    <color name="color_dialog_shadow">#65000000</color>
+
+    <color name="color_schedule_text">#282D40</color>
+    <color name="color_schedule_text_pre">#ABABAD</color>
+    <color name="color_input_location_bg">#F4F4F4</color>
+    <color name="color_input_location_text_hint">#AAA8B3</color>
+    <color name="color_input_location_text">#272E3E</color>
 
 </resources>

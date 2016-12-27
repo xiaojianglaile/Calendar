@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="@dimen/schedule_button_radius_size"/>
+    <stroke
+        android:width="@dimen/schedule_hint_dash_line_width"
+        android:color="@color/color_schedule_focus"/>
+</shape>

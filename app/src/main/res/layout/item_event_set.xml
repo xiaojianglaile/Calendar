@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50.5dp"
+    android:orientation="vertical">
+
+    <com.jeek.calendar.widget.SlideDeleteView
+        android:id="@+id/sdvEventSet"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/vEventSetColor"
+                android:layout_width="@dimen/space_10dp"
+                android:layout_height="match_parent"
+                android:background="@color/color_schedule_purple"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_12dp"
+                android:layout_marginRight="@dimen/space_12dp"
+                android:src="@mipmap/ic_event_set_icon"/>
+
+            <TextView
+                android:id="@+id/tvEventSetName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="大风科技"
+                android:textColor="@color/menu_item_text_color"
+                android:textSize="@dimen/text_size_16sp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/space_10dp"
+                android:src="@mipmap/ic_menu_item_go"/>
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/ibEventSetDelete"
+            android:layout_width="@dimen/menu_item_height"
+            android:layout_height="match_parent"
+            android:background="@color/colorTranslate"
+            android:src="@drawable/btn_delete"
+            android:tag="delete"/>
+
+    </com.jeek.calendar.widget.SlideDeleteView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_height"
+        android:background="@color/color_menu_line"/>
+
+</LinearLayout>
+

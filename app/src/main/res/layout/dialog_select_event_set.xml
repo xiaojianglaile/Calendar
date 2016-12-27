@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:paddingLeft="@dimen/space_30dp"
+              android:paddingRight="@dimen/space_30dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/dialog_background"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_10dp"
+            android:gravity="center"
+            android:text="@string/select_event_set"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_size_16sp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/schedule_hint_dash_line_width"
+            android:background="@color/color_select_date_dialog_line"/>
+
+        <ListView
+            android:id="@+id/lvEventSets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/color_schedule_line"
+            android:dividerHeight="@dimen/line_height"
+            android:listSelector="@color/colorTranslate"
+            android:overScrollMode="never"
+            android:scrollbars="none"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_height"
+            android:background="@color/color_schedule_line"/>
+
+        <TextView
+            android:id="@+id/tvAddEventSet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:drawableLeft="@drawable/btn_dialog_add_event_set"
+            android:drawablePadding="@dimen/space_12dp"
+            android:paddingBottom="@dimen/space_10dp"
+            android:paddingLeft="@dimen/space_16dp"
+            android:paddingTop="@dimen/space_10dp"
+            android:text="@string/menu_add_event_set"
+            android:textColor="@color/dialog_add_event_set_color"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_16dp"
+            android:layout_marginLeft="@dimen/space_20dp"
+            android:layout_marginRight="@dimen/space_20dp"
+            android:layout_marginTop="@dimen/space_16dp">
+
+            <TextView
+                android:id="@+id/tvCancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/space_30dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_cancel"
+                android:gravity="center"
+                android:paddingBottom="6dp"
+                android:paddingTop="6dp"
+                android:text="@string/cancel"
+                android:textColor="@color/colorWrite"/>
+
+            <TextView
+                android:id="@+id/tvConfirm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_30dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_confirm"
+                android:gravity="center"
+                android:paddingBottom="6dp"
+                android:paddingTop="6dp"
+                android:text="@string/confirm"
+                android:textColor="@color/colorWrite"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

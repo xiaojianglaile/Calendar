@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/bottom_bar_height"
+              android:layout_alignParentBottom="true"
+              android:background="@drawable/bg_bottom_input_bar"
+              android:focusable="true"
+              android:focusableInTouchMode="true"
+              android:orientation="horizontal">
+
+    <ImageButton
+        android:id="@+id/ibMainClock"
+        android:layout_width="@dimen/action_bar_height"
+        android:layout_height="match_parent"
+        android:background="@color/colorTranslate"
+        android:src="@drawable/btn_clock"/>
+
+    <EditText
+        android:id="@+id/etInputContent"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/space_6dp"
+        android:layout_marginTop="@dimen/space_6dp"
+        android:layout_weight="1"
+        android:background="@drawable/schedule_input_edit_text"
+        android:ellipsize="start"
+        android:gravity="center"
+        android:hint="@string/schedule_input_you_do_thing"
+        android:lines="1"
+        android:padding="@dimen/space_6dp"
+        android:textColor="@color/color_schedule_title_text"
+        android:textColorHint="@color/color_text_grey"/>
+
+    <ImageButton
+        android:id="@+id/ibMainOk"
+        android:layout_width="@dimen/action_bar_height"
+        android:layout_height="match_parent"
+        android:background="@color/colorTranslate"
+        android:src="@drawable/btn_ok"/>
+
+</LinearLayout>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:paddingLeft="@dimen/space_30dp"
+              android:paddingRight="@dimen/space_30dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/dialog_background"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_10dp"
+            android:gravity="center"
+            android:text="十月"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_size_16sp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/schedule_hint_dash_line_width"
+            android:background="@color/color_select_date_dialog_line"/>
+
+        <com.jeek.calendar.widget.calendar.WeekBarView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/small_week_bar_height"
+            app:week_text_color="@color/color_small_calendar_text"
+            app:week_text_size="@integer/small_calendar_text_size"/>
+
+        <com.jeek.calendar.widget.calendar.month.MonthCalendarView
+            android:id="@+id/mcvCalendar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/small_month_calendar_height"
+            app:month_day_text_size="@integer/small_calendar_text_size"
+            app:month_selected_circle_color="@color/color_select_date_dialog_edit_text_bg_focus"
+            app:month_selected_circle_today_color="@color/color_select_date_dialog_edit_text_bg_focus"
+            app:month_show_task_hint="false"
+            app:week_text_size="@integer/small_calendar_text_size"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/schedule_hint_dash_line_width"
+            android:background="@color/color_select_date_dialog_line"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_20dp"
+            android:layout_marginRight="@dimen/space_20dp"
+            android:layout_marginTop="@dimen/space_16dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hour"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_size_20sp"/>
+
+            <EditText
+                android:id="@+id/etTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_16dp"
+                android:background="@drawable/bg_select_date_dialog_edit_text_normal"
+                android:inputType="datetime"
+                android:maxEms="5"
+                android:padding="@dimen/schedule_hint_dash_line_width"
+                android:textColor="@color/colorPrimary"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_16dp"
+            android:layout_marginLeft="@dimen/space_20dp"
+            android:layout_marginRight="@dimen/space_20dp"
+            android:layout_marginTop="@dimen/space_16dp">
+
+            <TextView
+                android:id="@+id/tvCancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/space_30dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_cancel"
+                android:gravity="center"
+                android:paddingBottom="6dp"
+                android:paddingTop="6dp"
+                android:text="@string/cancel"
+                android:textColor="@color/colorWrite"/>
+
+            <TextView
+                android:id="@+id/tvConfirm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_30dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_confirm"
+                android:gravity="center"
+                android:paddingBottom="6dp"
+                android:paddingTop="6dp"
+                android:text="@string/confirm"
+                android:textColor="@color/colorWrite"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

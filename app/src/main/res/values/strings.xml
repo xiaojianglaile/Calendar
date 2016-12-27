@@ -1,38 +1,71 @@
 <resources>
-    <string name="app_name">Calendar</string>
+    <string name="app_name">JeekCalendar</string>
+    <string name="exit_app_hint">Click to exit.</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="finish">Finish</string>
+    <string name="finished">Finished</string>
+    <string name="start">Start</string>
 
     <!--calendar-->
-    <string name="calendar_today">今天</string>
+    <string name="calendar_today">Today</string>
     <string-array name="calendar_week">
-        <item>日</item>
-        <item>一</item>
-        <item>二</item>
-        <item>三</item>
-        <item>四</item>
-        <item>五</item>
-        <item>六</item>
+        <item>Sun</item>
+        <item>Mon</item>
+        <item>Tues</item>
+        <item>Wed</item>
+        <item>Thur</item>
+        <item>Fri</item>
+        <item>Sat</item>
     </string-array>
     <string-array name="calendar_month">
-        <item>一月</item>
-        <item>二月</item>
-        <item>三月</item>
-        <item>四月</item>
-        <item>五月</item>
-        <item>六月</item>
-        <item>七月</item>
-        <item>八月</item>
-        <item>九月</item>
-        <item>十月</item>
-        <item>十一月</item>
-        <item>十二月</item>
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
     </string-array>
-    <string name="calendar_day">%d日</string>
-    <string name="calendar_year">%d年</string>
+    <string name="calendar_day">%d day</string>
+    <string name="calendar_year">%d-</string>
 
     <!--schedule-->
-    <string-array name="schedule_state">
-        <item>Start</item>
-        <item>Finish</item>
-    </string-array>
+    <string name="schedule_input_you_do_thing">Input what to do</string>
+    <string name="schedule_input_content_is_no_null">Content can\'t be empty.</string>
+    <string name="schedule_event_detail_setting">Detail setting</string>
+    <string name="schedule_title">Schedule title</string>
+    <string name="schedule_show_finish_task">Show completed</string>
+    <string name="schedule_hide_finish_task">Hide completed</string>
+    <string name="schedule_delete_this_schedule">Delete the schedule?</string>
+
+    <!--menu-->
+    <string name="menu_schedule">Schedule</string>
+    <string name="menu_event_set">Events</string>
+    <string name="menu_add_event_set">Add event list</string>
+    <string name="menu_no_category">Unclassified </string>
+
+    <!--event.set-->
+    <string name="event_set_list_name">List name</string>
+    <string name="event_set_color">Color</string>
+    <string name="event_set_name_is_not_null">List name can\'t be empty.</string>
+    <string name="event_set_select_color">Choose color</string>
+    <string name="event_set_delete_this_event_set">Delete events?</string>
+
+    <string name="hour">Hour</string>
+    <string name="remarks">Reminders</string>
+    <string name="please_input_desc">Input the reminders</string>
+    <string name="date_format">yyyy-MM-dd HH:mm</string>
+    <string name="date_format_no_time">%1$s-%2$s-%3$s</string>
+    <string name="click_here_select_date">Click to choose time</string>
+    <string name="click_here_select_location">Click to select location</string>
+    <string name="click_input_location">Click to input location</string>
+    <string name="add_location">Add spot</string>
+    <string name="select_event_set">Choose events</string>
 
 </resources>

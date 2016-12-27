@@ -3,6 +3,160 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:layout_gravity="start"
-              android:orientation="vertical">
+              android:layout_marginRight="@dimen/action_bar_height"
+              android:background="@color/color_menu_title_background"
+              android:clickable="true"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical"
+              android:tag="menu">
+
+    <TextView
+        android:id="@+id/tvMenuTitle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_height"
+        android:paddingLeft="@dimen/space_20dp"
+        android:text="@string/app_name"
+        android:textColor="@color/colorWrite"
+        android:textSize="@dimen/text_size_20sp"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_menu_background"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/llMenuSchedule"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/menu_item_height"
+                    android:background="@drawable/menu_item_border"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/space_20dp"
+                        android:src="@mipmap/ic_menu_schedule"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/space_10dp"
+                        android:layout_weight="1"
+                        android:text="@string/menu_schedule"
+                        android:textColor="@color/colorWrite"
+                        android:textSize="@dimen/text_size_18sp"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/space_10dp"
+                        android:src="@mipmap/ic_menu_go"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_menu_border_with_arrow"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/menu_item_second_height"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/space_20dp"
+                            android:src="@mipmap/ic_menu_event_set"/>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/space_10dp"
+                            android:layout_weight="1"
+                            android:text="@string/menu_event_set"
+                            android:textColor="@color/colorWrite"
+                            android:textSize="@dimen/text_size_18sp"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llMenuNoCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/menu_item_second_height"
+                    android:layout_marginTop="-9dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/space_30dp"
+                        android:src="@mipmap/ic_menu_category"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/space_16dp"
+                        android:layout_weight="1"
+                        android:text="@string/menu_no_category"
+                        android:textColor="@color/menu_item_text_color"
+                        android:textSize="@dimen/text_size_16sp"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/space_10dp"
+                        android:src="@mipmap/ic_menu_item_go"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_height"
+                    android:background="@color/color_menu_line"/>
+
+                <com.jeek.calendar.widget.AbsoluteRecyclerView
+                    android:id="@+id/rvMenuEventSetList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/tvMenuAddEventSet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:drawableLeft="@drawable/btn_add_event_set"
+                    android:drawablePadding="@dimen/space_16dp"
+                    android:paddingBottom="@dimen/space_16dp"
+                    android:paddingLeft="@dimen/space_30dp"
+                    android:paddingTop="@dimen/space_16dp"
+                    android:text="@string/menu_add_event_set"
+                    android:textColor="@color/menu_item_text_color"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
 
 </LinearLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape
+            android:shape="oval">
+            <solid android:color="@color/colorPrimary"/>
+        </shape>
+    </item>
+    <item
+        android:bottom="@dimen/schedule_hint_dash_line_width"
+        android:left="@dimen/schedule_hint_dash_line_width"
+        android:right="@dimen/schedule_hint_dash_line_width"
+        android:top="@dimen/schedule_hint_dash_line_width">
+        <shape
+            android:shape="oval">
+            <solid android:color="@color/colorPrimary"/>
+            <stroke
+                android:width="@dimen/space_3dp"
+                android:color="@color/colorWrite"/>
+        </shape>
+    </item>
+</layer-list>

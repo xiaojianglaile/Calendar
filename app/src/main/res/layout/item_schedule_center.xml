@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/schedule_item_center_size"
+                android:layout_marginBottom="4dp"
+                android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvChangeTaskList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/space_8dp"
+        android:background="@drawable/btn_show_finish"
+        android:paddingBottom="@dimen/space_8dp"
+        android:paddingLeft="@dimen/space_14dp"
+        android:paddingRight="@dimen/space_14dp"
+        android:paddingTop="@dimen/space_8dp"
+        android:text="@string/schedule_show_finish_task"
+        android:textColor="@color/colorWrite"/>
+
+    <TextView
+        android:id="@+id/tvFinishHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/space_18dp"
+        android:text="@string/finished"
+        android:textColor="@color/color_finish_hint_text"
+        android:visibility="visible"/>
+
+</RelativeLayout>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:paddingLeft="@dimen/space_20dp"
+              android:paddingRight="@dimen/space_20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/dialog_background"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/space_10dp"
+            android:text="@string/event_set_select_color"
+            android:textColor="@color/color_schedule_purple"
+            android:textSize="@dimen/text_size_16sp"
+            android:textStyle="bold"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/schedule_hint_dash_line_width"
+            android:background="@color/color_schedule_purple"/>
+
+        <LinearLayout
+            android:id="@+id/llTopColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_16dp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="@dimen/select_color_item_height"
+                android:layout_weight="1">
+
+                <View
+                    android:layout_width="@dimen/select_color_item_width"
+                    android:layout_height="@dimen/select_color_item_height"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/select_color_item_border"/>
+
+                <View
+                    android:layout_width="@dimen/select_color_item_child_width"
+                    android:layout_height="@dimen/select_color_item_child_height"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/purple_select_color_item"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="@dimen/select_color_item_height"
+                android:layout_weight="1">
+
+                <View
+                    android:layout_width="@dimen/select_color_item_width"
+                    android:layout_height="@dimen/select_color_item_height"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/select_color_item_border"
+                    android:visibility="gone"/>
+
+                <View
+                    android:layout_width="@dimen/select_color_item_child_width"
+                    android:layout_height="@dimen/select_color_item_child_height"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/blue_select_color_item"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="@dimen/select_color_item_height"
+                android:layout_weight="1">
+
+                <View
+                    android:layout_width="@dimen/select_color_item_width"
+                    android:layout_height="@dimen/select_color_item_height"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/select_color_item_border"
+                    android:visibility="gone"/>
+
+                <View
+                    android:layout_width="@dimen/select_color_item_child_width"
+                    android:layout_height="@dimen/select_color_item_child_height"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/green_select_color_item"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llBottomColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_16dp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="@dimen/select_color_item_height"
+                android:layout_weight="1">
+
+                <View
+                    android:layout_width="@dimen/select_color_item_width"
+                    android:layout_height="@dimen/select_color_item_height"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/select_color_item_border"
+                    android:visibility="gone"/>
+
+                <View
+                    android:layout_width="@dimen/select_color_item_child_width"
+                    android:layout_height="@dimen/select_color_item_child_height"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/pink_select_color_item"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="@dimen/select_color_item_height"
+                android:layout_weight="1">
+
+                <View
+                    android:layout_width="@dimen/select_color_item_width"
+                    android:layout_height="@dimen/select_color_item_height"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/select_color_item_border"
+                    android:visibility="gone"/>
+
+                <View
+                    android:layout_width="@dimen/select_color_item_child_width"
+                    android:layout_height="@dimen/select_color_item_child_height"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/orange_select_color_item"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="@dimen/select_color_item_height"
+                android:layout_weight="1">
+
+                <View
+                    android:layout_width="@dimen/select_color_item_width"
+                    android:layout_height="@dimen/select_color_item_height"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/select_color_item_border"
+                    android:visibility="gone"/>
+
+                <View
+                    android:layout_width="@dimen/select_color_item_child_width"
+                    android:layout_height="@dimen/select_color_item_child_height"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/yellow_select_color_item"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_16dp"
+            android:layout_marginTop="@dimen/space_10dp">
+
+            <TextView
+                android:id="@+id/tvCancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_30dp"
+                android:layout_marginRight="@dimen/space_30dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_cancel"
+                android:gravity="center"
+                android:paddingBottom="6dp"
+                android:paddingTop="6dp"
+                android:text="@string/cancel"
+                android:textColor="@color/colorWrite"/>
+
+            <TextView
+                android:id="@+id/tvConfirm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_30dp"
+                android:layout_marginRight="@dimen/space_30dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_confirm"
+                android:gravity="center"
+                android:paddingBottom="6dp"
+                android:paddingTop="6dp"
+                android:text="@string/confirm"
+                android:textColor="@color/colorWrite"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

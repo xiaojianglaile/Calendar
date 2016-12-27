@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.jeek.calendar.R;
+import com.jeek.calendar.data.ScheduleDao;
 import com.jeek.calendar.widget.calendar.CalendarUtils;
 
 import java.util.Calendar;
@@ -28,6 +29,7 @@ public class MonthView extends View {
     private int mNormalDayColor;
     private int mSelectDayColor;
     private int mSelectBGColor;
+    private int mSelectBGTodayColor;
     private int mCurrentDayColor;
     private int mHintCircleColor;
     private int mLastOrNextMonthTextColor;
@@ -38,10 +40,11 @@ public class MonthView extends View {
     private int mWeekRow; // 当前月份第几周
     private int mCircleRadius = 6;
     private int[][] mDaysText;
+    private boolean mIsShowHint;
     private DisplayMetrics mDisplayMetrics;
     private OnMonthClickListener mDateClickListener;
     private GestureDetector mGestureDetector;
-    private List<Integer> daysHasThingList;
+    private List<Integer> mTaskHintList;
 
     public MonthView(Context context, int year, int month) {
         this(context, null, year, month);
@@ -61,6 +64,14 @@ public class MonthView extends View {
         initPaint();
         initMonth();
         initGestureDetector();
+        initTaskHint();
+    }
+
+    private void initTaskHint() {
+        if (mIsShowHint) {
+            ScheduleDao dao = ScheduleDao.getInstance(getContext());
+            mTaskHintList = dao.getTaskHintByMonth(mSelYear, mSelMonth);
+        }
     }
 
     private void initGestureDetector() {
@@ -81,20 +92,24 @@ public class MonthView extends View {
     private void initAttrs(TypedArray array, int year, int month) {
         if (array != null) {
             mSelectDayColor = array.getColor(R.styleable.MonthCalendarView_month_selected_text_color, Color.parseColor("#FFFFFF"));
-            mSelectBGColor = array.getColor(R.styleable.MonthCalendarView_month_selected_circle_color, Color.parseColor("#FF8594"));
+            mSelectBGColor = array.getColor(R.styleable.MonthCalendarView_month_selected_circle_color, Color.parseColor("#E8E8E8"));
+            mSelectBGTodayColor = array.getColor(R.styleable.MonthCalendarView_month_selected_circle_today_color, Color.parseColor("#FF8594"));
             mNormalDayColor = array.getColor(R.styleable.MonthCalendarView_month_normal_text_color, Color.parseColor("#575471"));
-            mCurrentDayColor = array.getColor(R.styleable.MonthCalendarView_month_today_text_color, Color.parseColor("#8F81BC"));
+            mCurrentDayColor = array.getColor(R.styleable.MonthCalendarView_month_today_text_color, Color.parseColor("#FF8594"));
             mHintCircleColor = array.getColor(R.styleable.MonthCalendarView_month_hint_circle_color, Color.parseColor("#FE8595"));
             mLastOrNextMonthTextColor = array.getColor(R.styleable.MonthCalendarView_month_last_or_next_month_text_color, Color.parseColor("#ACA9BC"));
             mDaySize = array.getInteger(R.styleable.MonthCalendarView_month_day_text_size, 13);
+            mIsShowHint = array.getBoolean(R.styleable.MonthCalendarView_month_show_task_hint, true);
         } else {
             mSelectDayColor = Color.parseColor("#FFFFFF");
-            mSelectBGColor = Color.parseColor("#FF8594");
+            mSelectBGColor = Color.parseColor("#E8E8E8");
+            mSelectBGTodayColor = Color.parseColor("#FF8594");
             mNormalDayColor = Color.parseColor("#575471");
-            mCurrentDayColor = Color.parseColor("#8F81BC");
+            mCurrentDayColor = Color.parseColor("#FF8594");
             mHintCircleColor = Color.parseColor("#FE8595");
             mLastOrNextMonthTextColor = Color.parseColor("#ACA9BC");
             mDaySize = 13;
+            mIsShowHint = true;
         }
         mSelYear = year;
         mSelMonth = month;
@@ -190,7 +205,11 @@ public class MonthView extends View {
                 int startRecY = mRowSize * row;
                 int endRecX = startRecX + mColumnSize;
                 int endRecY = startRecY + mRowSize;
-                mPaint.setColor(mSelectBGColor);
+                if (mSelYear == mCurrYear && mCurrMonth == mSelMonth && day + 1 == mCurrDay) {
+                    mPaint.setColor(mSelectBGTodayColor);
+                } else {
+                    mPaint.setColor(mSelectBGColor);
+                }
                 canvas.drawCircle((startRecX + endRecX) / 2, (startRecY + endRecY) / 2, mSelectCircleSize, mPaint);
                 mWeekRow = row + 1;
             }
@@ -228,8 +247,8 @@ public class MonthView extends View {
     }
 
     private void drawHintCircle(int row, int column, int day, Canvas canvas) {
-        if (daysHasThingList != null && daysHasThingList.size() > 0) {
-            if (!daysHasThingList.contains(day)) return;
+        if (mTaskHintList != null && mTaskHintList.size() > 0) {
+            if (!mTaskHintList.contains(day)) return;
             mPaint.setColor(mHintCircleColor);
             float circleX = (float) (mColumnSize * column + mColumnSize * 0.5);
             float circleY = (float) (mRowSize * row + mRowSize * 0.75);
@@ -324,8 +343,26 @@ public class MonthView extends View {
         return mWeekRow;
     }
 
-    public void setDaysHasThingList(List<Integer> daysHasThingList) {
-        this.daysHasThingList = daysHasThingList;
+    public void setTaskHintList(List<Integer> taskHintList) {
+        mTaskHintList = taskHintList;
+        invalidate();
+    }
+
+    public void addTaskHint(Integer day) {
+        if (mTaskHintList != null) {
+            if (!mTaskHintList.contains(day)) {
+                mTaskHintList.add(day);
+                invalidate();
+            }
+        }
+    }
+
+    public void removeTaskHint(Integer day) {
+        if (mTaskHintList != null) {
+            if (mTaskHintList.remove(day)) {
+                invalidate();
+            }
+        }
     }
 
     public void setOnDateClickListener(OnMonthClickListener dateClickListener) {

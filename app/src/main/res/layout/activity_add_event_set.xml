@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <include
+        layout="@layout/simple_title_bar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWrite"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_18dp"
+            android:layout_marginRight="@dimen/space_18dp"
+            android:layout_marginTop="@dimen/space_12dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_add_event_set_name"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_18dp"
+                android:background="@drawable/bg_add_event_set_item">
+
+                <EditText
+                    android:id="@+id/etEventSetName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/space_30dp"
+                    android:background="@color/colorTranslate"
+                    android:hint="@string/event_set_list_name"
+                    android:padding="@dimen/space_12dp"
+                    android:lines="1"
+                    android:ellipsize="start"
+                    android:textColor="@color/color_add_event_text"
+                    android:textColorHint="@color/color_add_event_text"
+                    android:textSize="@dimen/text_size_16sp"/>
+
+                <View
+                    android:id="@+id/vEventSetColor"
+                    android:layout_width="@dimen/add_event_set_circle_size"
+                    android:layout_height="@dimen/add_event_set_circle_size"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/space_14dp"
+                    android:background="@drawable/purple_circle"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_18dp"
+            android:layout_marginRight="@dimen/space_18dp"
+            android:layout_marginTop="@dimen/space_12dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_add_event_set_color"/>
+
+            <RelativeLayout
+                android:id="@+id/rlEventSetColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_18dp"
+                android:background="@drawable/bg_add_event_set_item">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/space_12dp"
+                    android:background="@color/colorTranslate"
+                    android:text="@string/event_set_color"
+                    android:textColor="@color/color_add_event_text"
+                    android:textSize="@dimen/text_size_16sp"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/space_12dp"
+                    android:src="@mipmap/ic_detail_arrow_normal"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
