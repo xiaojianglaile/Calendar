@@ -41,7 +41,6 @@ import java.util.List;
 public class ScheduleFragment extends BaseFragment implements OnCalendarClickListener, View.OnClickListener,
         OnTaskFinishedListener<List<Schedule>>, SelectDateDialog.OnSelectDateListener, OnDragFinishedListener {
 
-    private DragContainerLayout dclDropContainer;
     private ScheduleLayout slSchedule;
     private ScheduleRecyclerView rvScheduleList;
     private EditText etInputContent;
@@ -108,7 +107,7 @@ public class ScheduleFragment extends BaseFragment implements OnCalendarClickLis
         DefaultItemAnimator itemAnimator = new DefaultItemAnimator();
         itemAnimator.setSupportsChangeAnimations(false);
         rvScheduleList.setItemAnimator(itemAnimator);
-        mScheduleAdapter = new ScheduleAdapter(mActivity, this, dclDropContainer);
+        mScheduleAdapter = new ScheduleAdapter(mActivity, this);
         rvScheduleList.setAdapter(mScheduleAdapter);
     }
 
@@ -234,13 +233,6 @@ public class ScheduleFragment extends BaseFragment implements OnCalendarClickLis
 
     public int getCurrentCalendarPosition() {
         return slSchedule.getMonthCalendar().getCurrentItem();
-    }
-
-    public void setDropContainerLayout(DragContainerLayout dragContainerLayout) {
-        dclDropContainer = dragContainerLayout;
-        if (dclDropContainer != null) {
-            dclDropContainer.setOnDragFinishedListener(this);
-        }
     }
 
     @Override

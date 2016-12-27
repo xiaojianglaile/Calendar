@@ -43,7 +43,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private LinearLayout llTitleDate;
     private TextView tvTitleMonth, tvTitleDay, tvTitle;
     private RecyclerView rvMenuEventSetList;
-    private DragContainerLayout dclDropContainer;
 
     private EventSetAdapter mEventSetAdapter;
     private List<EventSet> mEventSets;
@@ -65,7 +64,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         tvTitleDay = searchViewById(R.id.tvTitleDay);
         tvTitle = searchViewById(R.id.tvTitle);
         rvMenuEventSetList = searchViewById(R.id.rvMenuEventSetList);
-        dclDropContainer = searchViewById(R.id.dclDropContainer);
         searchViewById(R.id.ivMainMenu).setOnClickListener(this);
         searchViewById(R.id.llMenuSchedule).setOnClickListener(this);
         searchViewById(R.id.llMenuNoCategory).setOnClickListener(this);
@@ -176,7 +174,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         if (mScheduleFragment == null) {
             mScheduleFragment = ScheduleFragment.getInstance();
             ft.add(R.id.flMainContainer, mScheduleFragment);
-            ((ScheduleFragment) mScheduleFragment).setDropContainerLayout(dclDropContainer);
         }
         if (mEventSetFragment != null)
             ft.hide(mEventSetFragment);

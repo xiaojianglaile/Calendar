@@ -120,7 +120,7 @@ public class EventSetFragment extends BaseFragment implements View.OnClickListen
         DefaultItemAnimator itemAnimator = new DefaultItemAnimator();
         itemAnimator.setSupportsChangeAnimations(false);
         rvScheduleList.setItemAnimator(itemAnimator);
-        mScheduleAdapter = new ScheduleAdapter(mActivity, this, null);
+        mScheduleAdapter = new ScheduleAdapter(mActivity, this);
         rvScheduleList.setAdapter(mScheduleAdapter);
     }
 

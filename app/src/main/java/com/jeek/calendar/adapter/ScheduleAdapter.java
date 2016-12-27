@@ -40,16 +40,14 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private Context mContext;
     private BaseFragment mBaseFragment;
-    private DragContainerLayout dclDropContainer;
     private List<Schedule> mSchedules;
     private List<Schedule> mFinishSchedules;
 
     private boolean mIsShowFinishTask = false;
 
-    public ScheduleAdapter(Context context, BaseFragment baseFragment, DragContainerLayout dragContainerLayout) {
+    public ScheduleAdapter(Context context, BaseFragment baseFragment) {
         mContext = context;
         mBaseFragment = baseFragment;
-        dclDropContainer = dragContainerLayout;
         initData();
     }
 
@@ -112,9 +110,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                 }
             });
-            if (dclDropContainer != null) {
-                ((DragHelperLayout) viewHolder.itemView).setDropContainerLayout(dclDropContainer, (Activity) mContext);
-            }
         } else if (holder instanceof ScheduleFinishViewHolder) {
             final Schedule schedule = mFinishSchedules.get(position - mSchedules.size() - 1);
             ScheduleFinishViewHolder viewHolder = (ScheduleFinishViewHolder) holder;
