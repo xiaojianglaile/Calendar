@@ -35,6 +35,13 @@
         <attr name="week_show_lunar" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="ScheduleLayout">
+        <attr name="default_view">
+            <enum name="month" value="0" />
+            <enum name="week" value="1" />
+        </attr>
+    </declare-styleable>
+
     <declare-styleable name="DragDisplayBoard">
         <attr name="board_select_circle_color" format="color" />
         <attr name="board_select_border_color" format="color" />

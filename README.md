@@ -22,6 +22,9 @@
 
 ###ScheduleLayout的使用
 layout_schedule.xml文件，必须包含MonthCalendarView、WeekCalendarView和ScheduleRecyclerView，可以直接引用改文件作为布局。<br/>
+ScheduleLayout：
+app:default_view="week" <!-默认周视图->
+app:default_view="month" <!-默认月视图->
 
 ###设置日期监听
         slSchedule.setOnCalendarClickListener(new OnCalendarClickListener() {

@@ -1,6 +1,7 @@
 package com.jeek.calendar.widget.calendar.schedule;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -25,6 +26,9 @@ import java.util.Calendar;
  */
 public class ScheduleLayout extends FrameLayout {
 
+    private final int DEFAULT_MONTH = 0;
+    private final int DEFAULT_WEEK = 1;
+
     private MonthCalendarView mcvCalendar;
     private WeekCalendarView wcvCalendar;
     private RelativeLayout rlMonthCalendar;
@@ -37,6 +41,7 @@ public class ScheduleLayout extends FrameLayout {
     private int mRowSize;
     private int mMinDistance;
     private int mAutoScrollDistance;
+    private int mDefaultView;
     private float mDownPosition[] = new float[2];
     private boolean mIsScrolling = false;
 
@@ -54,12 +59,13 @@ public class ScheduleLayout extends FrameLayout {
 
     public ScheduleLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initAttrs();
+        initAttrs(context.obtainStyledAttributes(attrs, R.styleable.ScheduleLayout));
         initDate();
         initGestureDetector();
     }
 
-    private void initAttrs() {
+    private void initAttrs(TypedArray array) {
+        mDefaultView = array.getInt(R.styleable.ScheduleLayout_default_view, DEFAULT_MONTH);
         mState = ScheduleState.OPEN;
         mRowSize = getResources().getDimensionPixelSize(R.dimen.week_calendar_height);
         mMinDistance = getResources().getDimensionPixelSize(R.dimen.calendar_min_distance);
@@ -89,8 +95,18 @@ public class ScheduleLayout extends FrameLayout {
     private void bindingMonthAndWeekCalendar() {
         mcvCalendar.setOnCalendarClickListener(mMonthCalendarClickListener);
         wcvCalendar.setOnCalendarClickListener(mWeekCalendarClickListener);
-        mcvCalendar.setVisibility(VISIBLE);
-        wcvCalendar.setVisibility(GONE);
+        // 初始化视图
+        if (mDefaultView == DEFAULT_MONTH) {
+            wcvCalendar.setVisibility(INVISIBLE);
+            mState = ScheduleState.OPEN;
+        } else if (mDefaultView == DEFAULT_WEEK) {
+            wcvCalendar.setVisibility(VISIBLE);
+            mState = ScheduleState.CLOSE;
+            Calendar calendar = Calendar.getInstance();
+            int row = CalendarUtils.getWeekRow(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+            rlMonthCalendar.setY(-row * mRowSize);
+            rlScheduleList.setY(rlScheduleList.getY() - 5 * mRowSize);
+        }
     }
 
     private void resetCurrentSelectDate(int year, int month, int day) {
