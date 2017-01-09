@@ -52,7 +52,9 @@
                             android:background="@color/colorWrite"
                             android:overScrollMode="never"
                             app:month_day_text_size="@integer/calendar_text_size"
-                            app:month_selected_circle_color="@color/colorAccent"/>
+                            app:month_show_lunar="true"
+                            app:month_selected_circle_color="@color/colorAccent"
+                            app:month_show_task_hint="false"/>
                     </RelativeLayout>
 
                 </RelativeLayout>

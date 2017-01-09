@@ -14,6 +14,7 @@ import android.view.View;
 import com.jeek.calendar.R;
 import com.jeek.calendar.data.ScheduleDao;
 import com.jeek.calendar.widget.calendar.CalendarUtils;
+import com.jeek.calendar.widget.calendar.week.LunarCalendarUtils;
 
 import java.util.Calendar;
 import java.util.List;
@@ -26,20 +27,24 @@ public class MonthView extends View {
     private static final int NUM_COLUMNS = 7;
     private static final int NUM_ROWS = 6;
     private Paint mPaint;
+    private Paint mLunarPaint;
     private int mNormalDayColor;
     private int mSelectDayColor;
     private int mSelectBGColor;
     private int mSelectBGTodayColor;
     private int mCurrentDayColor;
     private int mHintCircleColor;
+    private int mLunarTextColor;
     private int mLastOrNextMonthTextColor;
     private int mCurrYear, mCurrMonth, mCurrDay;
     private int mSelYear, mSelMonth, mSelDay;
     private int mColumnSize, mRowSize, mSelectCircleSize;
     private int mDaySize;
+    private int mLunarTextSize;
     private int mWeekRow; // 当前月份第几周
     private int mCircleRadius = 6;
     private int[][] mDaysText;
+    private boolean mIsShowHunar;
     private boolean mIsShowHint;
     private DisplayMetrics mDisplayMetrics;
     private OnMonthClickListener mDateClickListener;
@@ -99,8 +104,11 @@ public class MonthView extends View {
             mCurrentDayColor = array.getColor(R.styleable.MonthCalendarView_month_today_text_color, Color.parseColor("#FF8594"));
             mHintCircleColor = array.getColor(R.styleable.MonthCalendarView_month_hint_circle_color, Color.parseColor("#FE8595"));
             mLastOrNextMonthTextColor = array.getColor(R.styleable.MonthCalendarView_month_last_or_next_month_text_color, Color.parseColor("#ACA9BC"));
+            mLunarTextColor = array.getColor(R.styleable.MonthCalendarView_month_lunar_text_color, Color.parseColor("#ACA9BC"));
             mDaySize = array.getInteger(R.styleable.MonthCalendarView_month_day_text_size, 13);
+            mLunarTextSize = array.getInteger(R.styleable.MonthCalendarView_month_day_lunar_text_size, 8);
             mIsShowHint = array.getBoolean(R.styleable.MonthCalendarView_month_show_task_hint, true);
+            mIsShowHunar = array.getBoolean(R.styleable.MonthCalendarView_month_show_lunar, true);
         } else {
             mSelectDayColor = Color.parseColor("#FFFFFF");
             mSelectBGColor = Color.parseColor("#E8E8E8");
@@ -110,7 +118,9 @@ public class MonthView extends View {
             mHintCircleColor = Color.parseColor("#FE8595");
             mLastOrNextMonthTextColor = Color.parseColor("#ACA9BC");
             mDaySize = 13;
+            mLunarTextSize = 8;
             mIsShowHint = true;
+            mIsShowHunar = true;
         }
         mSelYear = year;
         mSelMonth = month;
@@ -118,9 +128,15 @@ public class MonthView extends View {
 
     private void initPaint() {
         mDisplayMetrics = getResources().getDisplayMetrics();
+
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setTextSize(mDaySize * mDisplayMetrics.scaledDensity);
+
+        mLunarPaint = new Paint();
+        mLunarPaint.setAntiAlias(true);
+        mLunarPaint.setTextSize(mLunarTextSize * mDisplayMetrics.scaledDensity);
+        mLunarPaint.setColor(mLunarTextColor);
     }
 
     private void initMonth() {
@@ -157,6 +173,7 @@ public class MonthView extends View {
         drawLastMonth(canvas);
         drawThisMonth(canvas);
         drawNextMonth(canvas);
+        drawLunarText(canvas);
     }
 
     private void initSize() {
@@ -248,7 +265,50 @@ public class MonthView extends View {
     }
 
     /**
+     * 绘制农历
+     *
+     * @param canvas
+     */
+    private void drawLunarText(Canvas canvas) {
+        if (mIsShowHunar) {
+            int firstYear, firstMonth, firstDay;
+            if (mSelMonth == 0) {
+                firstYear = mSelYear - 1;
+                firstMonth = 11;
+            } else {
+                firstYear = mSelYear;
+                firstMonth = mSelMonth - 1;
+            }
+            int monthDays = CalendarUtils.getMonthDays(firstYear, firstMonth);
+            int weekNumber = CalendarUtils.getFirstDayWeek(mSelYear, mSelMonth);
+            firstDay = monthDays - weekNumber + 2;
+            firstMonth++;
+            int[] lunarDate = LunarCalendarUtils.solarToLunar(firstYear, firstMonth, firstDay);
+            int days = LunarCalendarUtils.daysInLunarMonth(lunarDate[0], lunarDate[1]);
+            int day = lunarDate[2];
+            for (int i = 0; i < 42; i++) {
+                int column = i % 7;
+                int row = i / 7;
+                if (day > days) {
+                    day = 1;
+                    if (lunarDate[1] == 12) {
+                        lunarDate[1] = 1;
+                        lunarDate[0] = lunarDate[0] + 1;
+                    }
+                    days = LunarCalendarUtils.daysInLunarMonth(lunarDate[0], lunarDate[1]);
+                }
+                String dayString = LunarCalendarUtils.getLunarDayWithHoliday(lunarDate[0], lunarDate[1], day);
+                int startX = (int) (mColumnSize * column + (mColumnSize - mLunarPaint.measureText(dayString)) / 2);
+                int startY = (int) (mRowSize * row + mRowSize * 0.72 - (mLunarPaint.ascent() + mLunarPaint.descent()) / 2);
+                canvas.drawText(dayString, startX, startY, mLunarPaint);
+                day++;
+            }
+        }
+    }
+
+    /**
      * 绘制圆点提示
+     *
      * @param column
      * @param day
      * @param canvas
@@ -324,6 +384,7 @@ public class MonthView extends View {
 
     /**
      * 跳转到某日期
+     *
      * @param year
      * @param month
      * @param day
@@ -338,6 +399,7 @@ public class MonthView extends View {
 
     /**
      * 获取当前选择年
+     *
      * @return
      */
     public int getSelectYear() {
@@ -346,6 +408,7 @@ public class MonthView extends View {
 
     /**
      * 获取当前选择月
+     *
      * @return
      */
     public int getSelectMonth() {
@@ -354,6 +417,7 @@ public class MonthView extends View {
 
     /**
      * 获取当前选择日
+     *
      * @return
      */
     public int getSelectDay() {
@@ -370,6 +434,7 @@ public class MonthView extends View {
 
     /**
      * 设置圆点提示的集合
+     *
      * @param taskHintList
      */
     public void setTaskHintList(List<Integer> taskHintList) {
@@ -379,6 +444,7 @@ public class MonthView extends View {
 
     /**
      * 添加一个圆点提示
+     *
      * @param day
      */
     public void addTaskHint(Integer day) {
@@ -392,6 +458,7 @@ public class MonthView extends View {
 
     /**
      * 删除一个圆点提示
+     *
      * @param day
      */
     public void removeTaskHint(Integer day) {
@@ -404,6 +471,7 @@ public class MonthView extends View {
 
     /**
      * 设置点击日期监听
+     *
      * @param dateClickListener
      */
     public void setOnDateClickListener(OnMonthClickListener dateClickListener) {

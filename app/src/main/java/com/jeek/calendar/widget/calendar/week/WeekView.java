@@ -26,17 +26,21 @@ public class WeekView extends View {
 
     private static final int NUM_COLUMNS = 7;
     private Paint mPaint;
+    private Paint mLunarPaint;
     private int mNormalDayColor;
     private int mSelectDayColor;
     private int mSelectBGColor;
     private int mSelectBGTodayColor;
     private int mCurrentDayColor;
     private int mHintCircleColor;
+    private int mLunarTextColor;
     private int mCurrYear, mCurrMonth, mCurrDay;
     private int mSelYear, mSelMonth, mSelDay;
     private int mColumnSize, mRowSize, mSelectCircleSize;
     private int mDaySize;
+    private int mLunarTextSize;
     private int mCircleRadius = 6;
+    private boolean mIsShowHunar;
     private boolean mIsShowHint;
     private DateTime mStartDate;
     private DisplayMetrics mDisplayMetrics;
@@ -79,8 +83,11 @@ public class WeekView extends View {
             mNormalDayColor = array.getColor(R.styleable.WeekCalendarView_week_normal_text_color, Color.parseColor("#575471"));
             mCurrentDayColor = array.getColor(R.styleable.WeekCalendarView_week_today_text_color, Color.parseColor("#FF8594"));
             mHintCircleColor = array.getColor(R.styleable.WeekCalendarView_week_hint_circle_color, Color.parseColor("#FE8595"));
+            mLunarTextColor = array.getColor(R.styleable.WeekCalendarView_week_lunar_text_color, Color.parseColor("#ACA9BC"));
             mDaySize = array.getInteger(R.styleable.WeekCalendarView_week_day_text_size, 13);
+            mLunarTextSize = array.getInteger(R.styleable.WeekCalendarView_week_day_lunar_text_size, 8);
             mIsShowHint = array.getBoolean(R.styleable.WeekCalendarView_week_show_task_hint, true);
+            mIsShowHunar = array.getBoolean(R.styleable.WeekCalendarView_week_show_lunar, true);
         } else {
             mSelectDayColor = Color.parseColor("#FFFFFF");
             mSelectBGColor = Color.parseColor("#E8E8E8");
@@ -88,17 +95,26 @@ public class WeekView extends View {
             mNormalDayColor = Color.parseColor("#575471");
             mCurrentDayColor = Color.parseColor("#FF8594");
             mHintCircleColor = Color.parseColor("#FE8595");
+            mLunarTextColor = Color.parseColor("#ACA9BC");
             mDaySize = 13;
+            mDaySize = 8;
             mIsShowHint = true;
+            mIsShowHunar = true;
         }
         mStartDate = dateTime;
     }
 
     private void initPaint() {
         mDisplayMetrics = getResources().getDisplayMetrics();
+
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setTextSize(mDaySize * mDisplayMetrics.scaledDensity);
+
+        mLunarPaint = new Paint();
+        mLunarPaint.setAntiAlias(true);
+        mLunarPaint.setTextSize(mLunarTextSize * mDisplayMetrics.scaledDensity);
+        mLunarPaint.setColor(mLunarTextColor);
     }
 
     private void initWeek() {
@@ -155,6 +171,7 @@ public class WeekView extends View {
     protected void onDraw(Canvas canvas) {
         initSize();
         drawThisWeek(canvas);
+        drawLunarText(canvas);
     }
 
     private void initSize() {
@@ -194,7 +211,36 @@ public class WeekView extends View {
     }
 
     /**
+     * 绘制农历
+     *
+     * @param canvas
+     */
+    private void drawLunarText(Canvas canvas) {
+        if (mIsShowHunar) {
+            int[] lunarDate = LunarCalendarUtils.solarToLunar(mStartDate.getYear(), mStartDate.getMonthOfYear(), mStartDate.getDayOfMonth());
+            int days = LunarCalendarUtils.daysInLunarMonth(lunarDate[0], lunarDate[1]);
+            int day = lunarDate[2];
+            for (int i = 0; i < 7; i++) {
+                if (day > days) {
+                    day = 1;
+                    if (lunarDate[1] == 12) {
+                        lunarDate[1] = 1;
+                        lunarDate[0] = lunarDate[0] + 1;
+                    }
+                    days = LunarCalendarUtils.daysInLunarMonth(lunarDate[0], lunarDate[1]);
+                }
+                String dayString = LunarCalendarUtils.getLunarDayWithHoliday(lunarDate[0], lunarDate[1], day);
+                int startX = (int) (mColumnSize * i + (mColumnSize - mLunarPaint.measureText(dayString)) / 2);
+                int startY = (int) (mRowSize * 0.72 - (mLunarPaint.ascent() + mLunarPaint.descent()) / 2);
+                canvas.drawText(dayString, startX, startY, mLunarPaint);
+                day++;
+            }
+        }
+    }
+
+    /**
      * 绘制圆点提示
+     *
      * @param column
      * @param day
      * @param canvas
@@ -242,6 +288,7 @@ public class WeekView extends View {
 
     /**
      * 获取当前选择年
+     *
      * @return
      */
     public int getSelectYear() {
@@ -250,6 +297,7 @@ public class WeekView extends View {
 
     /**
      * 获取当前选择月
+     *
      * @return
      */
     public int getSelectMonth() {
@@ -258,6 +306,7 @@ public class WeekView extends View {
 
     /**
      * 获取当前选择日
+     *
      * @return
      */
     public int getSelectDay() {
@@ -266,6 +315,7 @@ public class WeekView extends View {
 
     /**
      * 设置圆点提示的集合
+     *
      * @param taskHintList
      */
     public void setTaskHintList(List<Integer> taskHintList) {
@@ -275,6 +325,7 @@ public class WeekView extends View {
 
     /**
      * 添加一个圆点提示
+     *
      * @param day
      */
     public void addTaskHint(Integer day) {
@@ -288,6 +339,7 @@ public class WeekView extends View {
 
     /**
      * 删除一个圆点提示
+     *
      * @param day
      */
     public void removeTaskHint(Integer day) {

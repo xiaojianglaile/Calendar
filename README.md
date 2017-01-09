@@ -16,6 +16,7 @@
                     app:month_day_text_size="@integer/small_calendar_text_size"
                     app:month_selected_circle_color="@color/color_select_date_dialog_edit_text_bg_focus"
                     app:month_selected_circle_today_color="@color/color_select_date_dialog_edit_text_bg_focus"
+                    app:month_show_lunar="true" <!-是否显示农历，默认显示->
                     app:month_show_task_hint="false" <!-是否显示圆点提示->
                     app:week_text_size="@integer/small_calendar_text_size"/>
 
@@ -32,6 +33,9 @@ layout_schedule.xml文件，必须包含MonthCalendarView、WeekCalendarView和S
 
 ###跳转到今天
         slSchedule.getMonthCalendar().setTodayToView();
+
+###缺点
+该日历暂时没有支持无限循环，需要查看很多日期的朋友可以在MonthAdapter和WeekAdapter调高SIZE的大小即可。
 
 #效果图:
 ![image](https://github.com/xiaojianglaile/Calendar/blob/master/raw/jeek_image_0.gif)
