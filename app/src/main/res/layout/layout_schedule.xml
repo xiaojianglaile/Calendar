@@ -39,7 +39,8 @@
                         android:overScrollMode="never"
                         android:visibility="gone"
                         app:week_day_text_size="@integer/calendar_text_size"
-                        app:week_selected_circle_color="@color/colorAccent"/>
+                        app:week_selected_circle_color="@color/colorAccent"
+                        app:week_show_task_hint="false"/>
 
                     <RelativeLayout
                         android:id="@+id/rlMonthCalendar"
