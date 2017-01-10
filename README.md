@@ -42,10 +42,3 @@ app:default_view="month" <!-默认月视图->
 
 #效果图:
 ![image](https://github.com/xiaojianglaile/Calendar/blob/master/raw/jeek_image_0.gif)
-![image](https://github.com/xiaojianglaile/Calendar/blob/master/raw/jeek_image_1.png)
-![image](https://github.com/xiaojianglaile/Calendar/blob/master/raw/jeek_image_2.png)
-![image](https://github.com/xiaojianglaile/Calendar/blob/master/raw/jeek_image_3.png)
-![image](https://github.com/xiaojianglaile/Calendar/blob/master/raw/jeek_image_4.png)
-![image](https://github.com/xiaojianglaile/Calendar/blob/master/raw/jeek_image_5.png)
-![image](https://github.com/xiaojianglaile/Calendar/blob/master/raw/jeek_image_6.png)
-![image](https://github.com/xiaojianglaile/Calendar/blob/master/raw/jeek_image_7.png)
