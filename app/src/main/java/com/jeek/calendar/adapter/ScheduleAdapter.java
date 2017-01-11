@@ -20,8 +20,6 @@ import com.jeek.calendar.task.schedule.RemoveScheduleTask;
 import com.jeek.calendar.task.schedule.UpdateScheduleTask;
 import com.jeek.calendar.utils.JeekUtils;
 import com.jeek.calendar.widget.StrikeThruTextView;
-import com.jeek.calendar.widget.drag.DragContainerLayout;
-import com.jeek.calendar.widget.drag.DragHelperLayout;
 import com.jimmy.common.base.app.BaseFragment;
 import com.jimmy.common.listener.OnTaskFinishedListener;
 

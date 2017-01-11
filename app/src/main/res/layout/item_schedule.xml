@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.jeek.calendar.widget.drag.DragHelperLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -50,5 +50,5 @@
         android:textColor="@color/color_schedule_title_text"
         android:textSize="@dimen/text_size_16sp"/>
 
-</com.jeek.calendar.widget.drag.DragHelperLayout>
+</LinearLayout>
 
