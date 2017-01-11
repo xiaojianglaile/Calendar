@@ -1,4 +1,4 @@
-package com.jeek.calendar.widget.calendar.week;
+package com.jeek.calendar.widget.calendar;
 
 import java.util.Date;
 import java.util.GregorianCalendar;

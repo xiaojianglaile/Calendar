@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.jeek.calendar.R;
 import com.jeek.calendar.data.ScheduleDao;
+import com.jeek.calendar.widget.calendar.LunarCalendarUtils;
 
 import org.joda.time.DateTime;
 

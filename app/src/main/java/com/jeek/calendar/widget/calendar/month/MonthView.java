@@ -14,7 +14,7 @@ import android.view.View;
 import com.jeek.calendar.R;
 import com.jeek.calendar.data.ScheduleDao;
 import com.jeek.calendar.widget.calendar.CalendarUtils;
-import com.jeek.calendar.widget.calendar.week.LunarCalendarUtils;
+import com.jeek.calendar.widget.calendar.LunarCalendarUtils;
 
 import java.util.Calendar;
 import java.util.List;
