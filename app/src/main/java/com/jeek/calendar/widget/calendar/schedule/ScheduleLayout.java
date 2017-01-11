@@ -101,7 +101,6 @@ public class ScheduleLayout extends FrameLayout {
             mState = ScheduleState.OPEN;
         } else if (mDefaultView == DEFAULT_WEEK) {
             wcvCalendar.setVisibility(VISIBLE);
-            mcvCalendar.setEnabled(false);
             mState = ScheduleState.CLOSE;
             Calendar calendar = Calendar.getInstance();
             int row = CalendarUtils.getWeekRow(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -233,7 +232,6 @@ public class ScheduleLayout extends FrameLayout {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
-                mcvCalendar.setEnabled(true);
                 mDownPosition[0] = event.getRawX();
                 mDownPosition[1] = event.getRawY();
                 resetCalendarPosition();
