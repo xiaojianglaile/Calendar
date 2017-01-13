@@ -234,7 +234,7 @@ public class MonthView extends View {
             drawHintCircle(row, column, day + 1, canvas);
             if (dayString.equals(String.valueOf(mSelDay))) {
                 mPaint.setColor(mSelectDayColor);
-            } else if (dayString.equals(String.valueOf(mCurrDay)) && mCurrDay != mSelDay && mCurrMonth == mSelMonth) {
+            } else if (dayString.equals(String.valueOf(mCurrDay)) && mCurrDay != mSelDay && mCurrMonth == mSelMonth && mCurrYear == mSelYear) {
                 mPaint.setColor(mCurrentDayColor);
             } else {
                 mPaint.setColor(mNormalDayColor);
@@ -306,8 +306,6 @@ public class MonthView extends View {
                     } else {
                         lunar.lunarMonth++;
                     }
-                    firstMonth++;
-                    lunar = LunarCalendarUtils.solarToLunar(new LunarCalendarUtils.Solar(firstYear, firstMonth, firstDay));
                     days = LunarCalendarUtils.daysInLunarMonth(lunar.lunarYear, lunar.lunarMonth);
                 }
                 String dayString = LunarCalendarUtils.getLunarDayWithHoliday(lunar.lunarYear, lunar.lunarMonth, day);

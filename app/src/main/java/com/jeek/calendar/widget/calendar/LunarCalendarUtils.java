@@ -197,7 +197,6 @@ public class LunarCalendarUtils {
         int lunarM = 1;
         int lunarD = 1;
         offset += 1;
-
         for (int i = 0; i < 13; i++) {
             int dm = getBitInt(days, 1, 12 - i) == 1 ? 30 : 29;
             if (offset > dm) {
@@ -217,7 +216,6 @@ public class LunarCalendarUtils {
                 lunar.isLeap = true;
             }
         }
-
         lunar.lunarDay = lunarD;
         return lunar;
     }

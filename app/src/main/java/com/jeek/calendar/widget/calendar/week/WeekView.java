@@ -201,8 +201,7 @@ public class WeekView extends View {
             drawHintCircle(i, day, canvas);
             if (day == mSelDay) {
                 mPaint.setColor(mSelectDayColor);
-            } else if (date.getYear() == mCurrYear && date.getMonthOfYear() - 1 == mCurrMonth && day == mCurrDay
-                    && day != mSelDay) {
+            } else if (date.getYear() == mCurrYear && date.getMonthOfYear() - 1 == mCurrMonth && day == mCurrDay && day != mSelDay && mCurrYear == mSelYear) {
                 mPaint.setColor(mCurrentDayColor);
             } else {
                 mPaint.setColor(mNormalDayColor);
