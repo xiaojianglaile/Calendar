@@ -272,6 +272,7 @@ public class MonthView extends View {
     private void drawLunarText(Canvas canvas) {
         if (mIsShowHunar) {
             int firstYear, firstMonth, firstDay;
+            int weekNumber = CalendarUtils.getFirstDayWeek(mSelYear, mSelMonth);
             if (mSelMonth == 0) {
                 firstYear = mSelYear - 1;
                 firstMonth = 11;
@@ -280,9 +281,12 @@ public class MonthView extends View {
                 firstMonth = mSelMonth - 1;
             }
             int monthDays = CalendarUtils.getMonthDays(firstYear, firstMonth);
-            int weekNumber = CalendarUtils.getFirstDayWeek(mSelYear, mSelMonth);
             firstDay = monthDays - weekNumber + 2;
             firstMonth++;
+            if (weekNumber == 1) {
+                firstMonth++;
+                firstDay = 1;
+            }
             int[] lunarDate = LunarCalendarUtils.solarToLunar(firstYear, firstMonth, firstDay);
             int days = LunarCalendarUtils.daysInLunarMonth(lunarDate[0], lunarDate[1]);
             int day = lunarDate[2];
@@ -294,6 +298,8 @@ public class MonthView extends View {
                     if (lunarDate[1] == 12) {
                         lunarDate[1] = 1;
                         lunarDate[0] = lunarDate[0] + 1;
+                    } else {
+                        lunarDate[1]++;
                     }
                     days = LunarCalendarUtils.daysInLunarMonth(lunarDate[0], lunarDate[1]);
                 }
