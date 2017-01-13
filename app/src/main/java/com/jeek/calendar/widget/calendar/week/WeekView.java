@@ -218,19 +218,19 @@ public class WeekView extends View {
      */
     private void drawLunarText(Canvas canvas) {
         if (mIsShowHunar) {
-            int[] lunarDate = LunarCalendarUtils.solarToLunar(mStartDate.getYear(), mStartDate.getMonthOfYear(), mStartDate.getDayOfMonth());
-            int days = LunarCalendarUtils.daysInLunarMonth(lunarDate[0], lunarDate[1]);
-            int day = lunarDate[2];
+            LunarCalendarUtils.Lunar lunar = LunarCalendarUtils.solarToLunar(new LunarCalendarUtils.Solar(mStartDate.getYear(), mStartDate.getMonthOfYear(), mStartDate.getDayOfMonth()));
+            int days = LunarCalendarUtils.daysInLunarMonth(lunar.lunarYear, lunar.lunarMonth);
+            int day = lunar.lunarDay;
             for (int i = 0; i < 7; i++) {
                 if (day > days) {
                     day = 1;
-                    if (lunarDate[1] == 12) {
-                        lunarDate[1] = 1;
-                        lunarDate[0] = lunarDate[0] + 1;
+                    if (lunar.lunarMonth == 12) {
+                        lunar.lunarMonth = 1;
+                        lunar.lunarYear = lunar.lunarYear + 1;
                     }
-                    days = LunarCalendarUtils.daysInLunarMonth(lunarDate[0], lunarDate[1]);
+                    days = LunarCalendarUtils.daysInLunarMonth(lunar.lunarYear, lunar.lunarMonth);
                 }
-                String dayString = LunarCalendarUtils.getLunarDayWithHoliday(lunarDate[0], lunarDate[1], day);
+                String dayString = LunarCalendarUtils.getLunarDayWithHoliday(lunar.lunarYear, lunar.lunarMonth, day);
                 int startX = (int) (mColumnSize * i + (mColumnSize - mLunarPaint.measureText(dayString)) / 2);
                 int startY = (int) (mRowSize * 0.72 - (mLunarPaint.ascent() + mLunarPaint.descent()) / 2);
                 canvas.drawText(dayString, startX, startY, mLunarPaint);
