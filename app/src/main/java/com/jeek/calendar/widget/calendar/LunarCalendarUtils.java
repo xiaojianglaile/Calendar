@@ -1,8 +1,5 @@
 package com.jeek.calendar.widget.calendar;
 
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 /**
  * Created by Jimmy on 2017/1/9 0009.
  * 农历工具类
@@ -13,11 +10,6 @@ public class LunarCalendarUtils {
      * 支持转换的最小农历年份
      */
     private static final int MIN_YEAR = 1900;
-
-    /**
-     * 支持转换的最大农历年份
-     */
-    private static final int MAX_YEAR = 2099;
 
     /**
      * 用于保存中文的月份
