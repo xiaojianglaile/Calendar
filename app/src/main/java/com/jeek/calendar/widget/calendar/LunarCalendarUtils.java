@@ -64,6 +64,16 @@ public class LunarCalendarUtils {
     }
 
     /**
+     * 传回农历 year年闰哪个月 1-12 , 没闰传回 0
+     *
+     * @param year 将要计算的年份
+     * @return 传回农历 year年闰哪个月1-12, 没闰传回 0
+     */
+    public static int leapMonth(int year) {
+        return (LUNAR_INFO[year - MIN_YEAR] & 0xF00000) >> 20;
+    }
+
+    /**
      * 用于获取中国的传统节日
      *
      * @param month 农历的月

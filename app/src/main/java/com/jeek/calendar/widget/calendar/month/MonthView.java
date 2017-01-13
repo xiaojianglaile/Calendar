@@ -271,6 +271,7 @@ public class MonthView extends View {
      */
     private void drawLunarText(Canvas canvas) {
         if (mIsShowHunar) {
+            boolean isLeapLeft = false;
             int firstYear, firstMonth, firstDay;
             int weekNumber = CalendarUtils.getFirstDayWeek(mSelYear, mSelMonth);
             if (weekNumber == 1) {
@@ -293,8 +294,15 @@ public class MonthView extends View {
                 firstDay = monthDays - weekNumber + 2;
             }
             LunarCalendarUtils.Lunar lunar = LunarCalendarUtils.solarToLunar(new LunarCalendarUtils.Solar(firstYear, firstMonth, firstDay));
-            int days = LunarCalendarUtils.daysInLunarMonth(lunar.lunarYear, lunar.lunarMonth);
+            int days;
             int day = lunar.lunarDay;
+            int leapMonth = LunarCalendarUtils.leapMonth(lunar.lunarYear);
+            if (lunar.lunarMonth == leapMonth) {
+                days = 30;
+                isLeapLeft = true;
+            } else {
+                days = LunarCalendarUtils.daysInLunarMonth(lunar.lunarYear, lunar.lunarMonth);
+            }
             for (int i = 0; i < 42; i++) {
                 int column = i % 7;
                 int row = i / 7;
@@ -304,9 +312,19 @@ public class MonthView extends View {
                         lunar.lunarMonth = 1;
                         lunar.lunarYear = lunar.lunarYear + 1;
                     } else {
-                        lunar.lunarMonth++;
+                        if (lunar.lunarMonth == leapMonth) {
+                            if (!isLeapLeft) {
+                                days = 30;
+                                isLeapLeft = true;
+                            } else {
+                                lunar.lunarMonth++;
+                                days = LunarCalendarUtils.daysInLunarMonth(lunar.lunarYear, lunar.lunarMonth);
+                            }
+                        } else {
+                            lunar.lunarMonth++;
+                            days = LunarCalendarUtils.daysInLunarMonth(lunar.lunarYear, lunar.lunarMonth);
+                        }
                     }
-                    days = LunarCalendarUtils.daysInLunarMonth(lunar.lunarYear, lunar.lunarMonth);
                 }
                 String dayString = LunarCalendarUtils.getLunarDayWithHoliday(lunar.lunarYear, lunar.lunarMonth, day);
                 int startX = (int) (mColumnSize * column + (mColumnSize - mLunarPaint.measureText(dayString)) / 2);
