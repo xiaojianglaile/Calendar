@@ -243,7 +243,7 @@ public class LunarCalendarUtils {
     }
 
     public static class Lunar {
-        boolean isLeap;
+        public boolean isLeap;
         public int lunarDay;
         public int lunarMonth;
         public int lunarYear;
