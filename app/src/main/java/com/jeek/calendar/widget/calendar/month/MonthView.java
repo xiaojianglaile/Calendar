@@ -299,7 +299,7 @@ public class MonthView extends View {
             int leapMonth = LunarCalendarUtils.leapMonth(lunar.lunarYear);
             days = LunarCalendarUtils.daysInLunarMonth(lunar.lunarYear, lunar.lunarMonth);
             if (lunar.isLeap) {
-                days++;
+                days = 30;
             }
             for (int i = 0; i < 42; i++) {
                 int column = i % 7;
