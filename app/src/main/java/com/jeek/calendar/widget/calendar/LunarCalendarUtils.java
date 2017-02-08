@@ -82,19 +82,19 @@ public class LunarCalendarUtils {
      */
     public static String getLunarHoliday(int year, int month, int day) {
         String message = "";
-        if (((month) == 1) && day == 1) {
+        if (month == 1 && day == 1) {
             message = "春节";
-        } else if (((month) == 1) && day == 15) {
+        } else if (month == 1 && day == 15) {
             message = "元宵节";
-        } else if (((month) == 5) && day == 5) {
+        } else if (month == 5 && day == 5) {
             message = "端午节";
-        } else if ((month == 7) && day == 7) {
+        } else if (month == 7 && day == 7) {
             message = "七夕";
-        } else if (((month) == 8) && day == 15) {
+        } else if (month == 8 && day == 15) {
             message = "中秋节";
-        } else if ((month == 9) && day == 9) {
+        } else if (month == 9 && day == 9) {
             message = "重阳节";
-        } else if ((month == 12) && day == 8) {
+        } else if (month == 12 && day == 8) {
             message = "腊八节";
         } else {
             if (month == 12) {
@@ -122,14 +122,6 @@ public class LunarCalendarUtils {
             return "初十";
         else
             return chineseTen[day / 10] + CHINESE_NUMBER[n];
-    }
-
-    public static String getLunarDayWithHoliday(int year, int month, int day) {
-        String text = getLunarHoliday(year, month, day);
-        if ("".equals(text)) {
-            text = getLunarDayString(day);
-        }
-        return text;
     }
 
     private static int[] lunar_month_days = {1887, 0x1694, 0x16aa, 0x4ad5, 0xab6, 0xc4b7, 0x4ae, 0xa56, 0xb52a, 0x1d2a,

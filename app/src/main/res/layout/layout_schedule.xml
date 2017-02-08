@@ -16,7 +16,7 @@
         android:id="@+id/slSchedule"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:default_view="week">
+        app:default_view="month">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,6 +39,7 @@
                         android:background="@color/colorWrite"
                         android:overScrollMode="never"
                         app:month_day_text_size="@integer/calendar_text_size"
+                        app:month_holiday_color="@color/color_schedule_purple"
                         app:month_selected_circle_color="@color/colorAccent"
                         app:month_show_lunar="true"
                         app:month_show_task_hint="false"/>
@@ -52,6 +53,7 @@
                     android:overScrollMode="never"
                     android:visibility="gone"
                     app:week_day_text_size="@integer/calendar_text_size"
+                    app:week_holiday_color="@color/color_schedule_purple"
                     app:week_selected_circle_color="@color/colorAccent"
                     app:week_show_lunar="true"
                     app:week_show_task_hint="false"/>

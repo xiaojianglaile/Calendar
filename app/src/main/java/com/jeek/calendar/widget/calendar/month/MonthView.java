@@ -35,6 +35,7 @@ public class MonthView extends View {
     private int mCurrentDayColor;
     private int mHintCircleColor;
     private int mLunarTextColor;
+    private int mHolidayTextColor;
     private int mLastOrNextMonthTextColor;
     private int mCurrYear, mCurrMonth, mCurrDay;
     private int mSelYear, mSelMonth, mSelDay;
@@ -44,6 +45,7 @@ public class MonthView extends View {
     private int mWeekRow; // 当前月份第几周
     private int mCircleRadius = 6;
     private int[][] mDaysText;
+    private String[][] mHolidayOrLunarText;
     private boolean mIsShowHunar;
     private boolean mIsShowHint;
     private DisplayMetrics mDisplayMetrics;
@@ -105,6 +107,7 @@ public class MonthView extends View {
             mHintCircleColor = array.getColor(R.styleable.MonthCalendarView_month_hint_circle_color, Color.parseColor("#FE8595"));
             mLastOrNextMonthTextColor = array.getColor(R.styleable.MonthCalendarView_month_last_or_next_month_text_color, Color.parseColor("#ACA9BC"));
             mLunarTextColor = array.getColor(R.styleable.MonthCalendarView_month_lunar_text_color, Color.parseColor("#ACA9BC"));
+            mHolidayTextColor = array.getColor(R.styleable.MonthCalendarView_month_holiday_color, Color.parseColor("#A68BFF"));
             mDaySize = array.getInteger(R.styleable.MonthCalendarView_month_day_text_size, 13);
             mLunarTextSize = array.getInteger(R.styleable.MonthCalendarView_month_day_lunar_text_size, 8);
             mIsShowHint = array.getBoolean(R.styleable.MonthCalendarView_month_show_task_hint, true);
@@ -117,6 +120,7 @@ public class MonthView extends View {
             mCurrentDayColor = Color.parseColor("#FF8594");
             mHintCircleColor = Color.parseColor("#FE8595");
             mLastOrNextMonthTextColor = Color.parseColor("#ACA9BC");
+            mHolidayTextColor = Color.parseColor("#A68BFF");
             mDaySize = 13;
             mLunarTextSize = 8;
             mIsShowHint = true;
@@ -184,6 +188,7 @@ public class MonthView extends View {
 
     private void clearData() {
         mDaysText = new int[6][7];
+        mHolidayOrLunarText = new String[6][7];
     }
 
     private void drawLastMonth(Canvas canvas) {
@@ -204,6 +209,7 @@ public class MonthView extends View {
             int startX = (int) (mColumnSize * day + (mColumnSize - mPaint.measureText(dayString)) / 2);
             int startY = (int) (mRowSize / 2 - (mPaint.ascent() + mPaint.descent()) / 2);
             canvas.drawText(dayString, startX, startY, mPaint);
+            mHolidayOrLunarText[0][day] = CalendarUtils.getHolidayFromSolar(lastMonth, mDaysText[0][day]);
         }
     }
 
@@ -240,6 +246,7 @@ public class MonthView extends View {
                 mPaint.setColor(mNormalDayColor);
             }
             canvas.drawText(dayString, startX, startY, mPaint);
+            mHolidayOrLunarText[row][column] = CalendarUtils.getHolidayFromSolar(mSelMonth, mDaysText[row][column]);
         }
     }
 
@@ -248,12 +255,15 @@ public class MonthView extends View {
         int monthDays = CalendarUtils.getMonthDays(mSelYear, mSelMonth);
         int weekNumber = CalendarUtils.getFirstDayWeek(mSelYear, mSelMonth);
         int nextMonthDays = 42 - monthDays - weekNumber + 1;
+        int nextMonth = mSelMonth + 1;
+        if (nextMonth == 12)
+            nextMonth = 0;
         for (int day = 0; day < nextMonthDays; day++) {
             int column = (monthDays + weekNumber - 1 + day) % 7;
             int row = 5 - (nextMonthDays - day - 1) / 7;
             try {
                 mDaysText[row][column] = day + 1;
-
+                mHolidayOrLunarText[row][column] = CalendarUtils.getHolidayFromSolar(nextMonth, mDaysText[row][column]);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -324,7 +334,19 @@ public class MonthView extends View {
                         }
                     }
                 }
-                String dayString = LunarCalendarUtils.getLunarDayWithHoliday(lunar.lunarYear, lunar.lunarMonth, day);
+                if (row == 0 && mDaysText[row][column] >= 23 || row >= 4 && mDaysText[row][column] <= 14) {
+                    mLunarPaint.setColor(mLunarTextColor);
+                } else {
+                    mLunarPaint.setColor(mHolidayTextColor);
+                }
+                String dayString = mHolidayOrLunarText[row][column];
+                if ("".equals(dayString)) {
+                    dayString = LunarCalendarUtils.getLunarHoliday(lunar.lunarYear, lunar.lunarMonth, day);
+                }
+                if ("".equals(dayString)) {
+                    dayString = LunarCalendarUtils.getLunarDayString(day);
+                    mLunarPaint.setColor(mLunarTextColor);
+                }
                 int startX = (int) (mColumnSize * column + (mColumnSize - mLunarPaint.measureText(dayString)) / 2);
                 int startY = (int) (mRowSize * row + mRowSize * 0.72 - (mLunarPaint.ascent() + mLunarPaint.descent()) / 2);
                 canvas.drawText(dayString, startX, startY, mLunarPaint);

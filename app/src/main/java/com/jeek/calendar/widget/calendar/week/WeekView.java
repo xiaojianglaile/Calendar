@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.jeek.calendar.R;
 import com.jeek.calendar.data.ScheduleDao;
+import com.jeek.calendar.widget.calendar.CalendarUtils;
 import com.jeek.calendar.widget.calendar.LunarCalendarUtils;
 
 import org.joda.time.DateTime;
@@ -35,12 +36,14 @@ public class WeekView extends View {
     private int mCurrentDayColor;
     private int mHintCircleColor;
     private int mLunarTextColor;
+    private int mHolidayTextColor;
     private int mCurrYear, mCurrMonth, mCurrDay;
     private int mSelYear, mSelMonth, mSelDay;
     private int mColumnSize, mRowSize, mSelectCircleSize;
     private int mDaySize;
     private int mLunarTextSize;
     private int mCircleRadius = 6;
+    private String mHolidayOrLunarText[];
     private boolean mIsShowHunar;
     private boolean mIsShowHint;
     private DateTime mStartDate;
@@ -85,6 +88,7 @@ public class WeekView extends View {
             mCurrentDayColor = array.getColor(R.styleable.WeekCalendarView_week_today_text_color, Color.parseColor("#FF8594"));
             mHintCircleColor = array.getColor(R.styleable.WeekCalendarView_week_hint_circle_color, Color.parseColor("#FE8595"));
             mLunarTextColor = array.getColor(R.styleable.WeekCalendarView_week_lunar_text_color, Color.parseColor("#ACA9BC"));
+            mHolidayTextColor = array.getColor(R.styleable.WeekCalendarView_week_holiday_color, Color.parseColor("#A68BFF"));
             mDaySize = array.getInteger(R.styleable.WeekCalendarView_week_day_text_size, 13);
             mLunarTextSize = array.getInteger(R.styleable.WeekCalendarView_week_day_lunar_text_size, 8);
             mIsShowHint = array.getBoolean(R.styleable.WeekCalendarView_week_show_task_hint, true);
@@ -97,6 +101,7 @@ public class WeekView extends View {
             mCurrentDayColor = Color.parseColor("#FF8594");
             mHintCircleColor = Color.parseColor("#FE8595");
             mLunarTextColor = Color.parseColor("#ACA9BC");
+            mHolidayTextColor = Color.parseColor("#A68BFF");
             mDaySize = 13;
             mDaySize = 8;
             mIsShowHint = true;
@@ -171,8 +176,13 @@ public class WeekView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         initSize();
+        clearData();
         drawThisWeek(canvas);
         drawLunarText(canvas);
+    }
+
+    private void clearData() {
+        mHolidayOrLunarText = new String[7];
     }
 
     private void initSize() {
@@ -207,6 +217,7 @@ public class WeekView extends View {
                 mPaint.setColor(mNormalDayColor);
             }
             canvas.drawText(dayString, startX, startY, mPaint);
+            mHolidayOrLunarText[i] = CalendarUtils.getHolidayFromSolar(date.getMonthOfYear() - 1, day);
         }
     }
 
@@ -229,7 +240,15 @@ public class WeekView extends View {
                     }
                     days = LunarCalendarUtils.daysInLunarMonth(lunar.lunarYear, lunar.lunarMonth);
                 }
-                String dayString = LunarCalendarUtils.getLunarDayWithHoliday(lunar.lunarYear, lunar.lunarMonth, day);
+                mLunarPaint.setColor(mHolidayTextColor);
+                String dayString = mHolidayOrLunarText[i];
+                if ("".equals(dayString)) {
+                    dayString = LunarCalendarUtils.getLunarHoliday(lunar.lunarYear, lunar.lunarMonth, day);
+                }
+                if ("".equals(dayString)) {
+                    dayString = LunarCalendarUtils.getLunarDayString(day);
+                    mLunarPaint.setColor(mLunarTextColor);
+                }
                 int startX = (int) (mColumnSize * i + (mColumnSize - mLunarPaint.measureText(dayString)) / 2);
                 int startY = (int) (mRowSize * 0.72 - (mLunarPaint.ascent() + mLunarPaint.descent()) / 2);
                 canvas.drawText(dayString, startX, startY, mLunarPaint);

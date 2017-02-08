@@ -91,5 +91,45 @@ public class CalendarUtils {
         return (day + week - 1) / 7;
     }
 
+    /**
+     * 根据国历获取假期
+     * @return
+     */
+    public static String getHolidayFromSolar(int month, int day) {
+        String message = "";
+        if (month == 0 && day == 1) {
+            message = "元旦";
+        } else if (month == 1 && day == 14) {
+            message = "情人节";
+        } else if (month == 2 && day == 8) {
+            message = "妇女节";
+        } else if (month == 2 && day == 12) {
+            message = "植树节";
+        } else if (month == 3 && day == 1) {
+            message = "愚人节";
+        } else if (month == 4 && day == 1) {
+            message = "劳动节";
+        } else if (month == 4 && day == 4) {
+            message = "青年节";
+        } else if (month == 4 && day == 12) {
+            message = "护士节";
+        } else if (month == 5 && day == 1) {
+            message = "儿童节";
+        } else if (month == 6 && day == 1) {
+            message = "建党节";
+        } else if (month == 7 && day == 1) {
+            message = "建军节";
+        } else if (month == 8 && day == 10) {
+            message = "教师节";
+        } else if (month == 9 && day == 1) {
+            message = "国庆节";
+        } else if (month == 10 && day == 11) {
+            message = "光棍节";
+        } else if (month == 11 && day == 25) {
+            message = "圣诞节";
+        }
+        return message;
+    }
+
 }
 

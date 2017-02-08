@@ -14,6 +14,7 @@
         <attr name="month_today_text_color" format="color" />
         <attr name="month_lunar_text_color" format="color" />
         <attr name="month_hint_circle_color" format="color" />
+        <attr name="month_holiday_color" format="color" />
         <attr name="month_last_or_next_month_text_color" format="color" />
         <attr name="month_day_text_size" format="integer" />
         <attr name="month_day_lunar_text_size" format="integer" />
@@ -28,6 +29,7 @@
         <attr name="week_normal_text_color" format="color" />
         <attr name="week_today_text_color" format="color" />
         <attr name="week_hint_circle_color" format="color" />
+        <attr name="week_holiday_color" format="color" />
         <attr name="week_lunar_text_color" format="color" />
         <attr name="week_day_text_size" format="integer" />
         <attr name="week_day_lunar_text_size" format="integer" />
