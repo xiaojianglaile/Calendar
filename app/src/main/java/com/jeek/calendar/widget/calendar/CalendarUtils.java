@@ -1,11 +1,46 @@
 package com.jeek.calendar.widget.calendar;
 
+import android.content.Context;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Calendar;
+import java.util.Map;
 
 /**
  * Created by Jimmy on 2016/10/6 0006.
  */
 public class CalendarUtils {
+
+    private static CalendarUtils sUtils;
+    private static Map<String, int[]> sAllHolidays;
+
+    public static synchronized CalendarUtils getInstance(Context context) {
+        if (sUtils == null) {
+            sUtils = new CalendarUtils();
+            initAllHolidays(context);
+        }
+        return sUtils;
+    }
+
+    private static void initAllHolidays(Context context) {
+        try {
+            InputStream is = context.getAssets().open("holiday.json");
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            int i;
+            while ((i = is.read()) != -1) {
+                baos.write(i);
+            }
+            sAllHolidays = new Gson().fromJson(baos.toString(), new TypeToken<Map<String, int[]>>() {
+            }.getType());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * 通过年份和月份 得到当月的日子
@@ -93,9 +128,10 @@ public class CalendarUtils {
 
     /**
      * 根据国历获取假期
+     *
      * @return
      */
-    public static String getHolidayFromSolar(int month, int day) {
+    public static String getHolidayFromSolar(int year, int month, int day) {
         String message = "";
         if (month == 0 && day == 1) {
             message = "元旦";
@@ -105,8 +141,22 @@ public class CalendarUtils {
             message = "妇女节";
         } else if (month == 2 && day == 12) {
             message = "植树节";
-        } else if (month == 3 && day == 1) {
-            message = "愚人节";
+        } else if (month == 3) {
+            if (day == 1) {
+                message = "愚人节";
+            } else if (day >= 4 && day <= 6) {
+                if (year <= 1999) {
+                    int compare = (int) (((year - 1900) * 0.2422 + 5.59) - ((year - 1900) / 4));
+                    if (compare == day) {
+                        message = "清明节";
+                    }
+                } else {
+                    int compare = (int) (((year - 2000) * 0.2422 + 4.81) - ((year - 2000) / 4));
+                    if (compare == day) {
+                        message = "清明节";
+                    }
+                }
+            }
         } else if (month == 4 && day == 1) {
             message = "劳动节";
         } else if (month == 4 && day == 4) {
@@ -129,6 +179,19 @@ public class CalendarUtils {
             message = "圣诞节";
         }
         return message;
+    }
+
+    public int[] getHolidays(int year, int month) {
+        int holidays[];
+        if (sAllHolidays != null) {
+            holidays = sAllHolidays.get(year + "" + month);
+            if (holidays == null) {
+                holidays = new int[42];
+            }
+        } else {
+            holidays = new int[42];
+        }
+        return holidays;
     }
 
 }

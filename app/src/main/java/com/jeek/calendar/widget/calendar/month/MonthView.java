@@ -2,9 +2,12 @@ package com.jeek.calendar.widget.calendar.month;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.GestureDetector;
@@ -45,13 +48,16 @@ public class MonthView extends View {
     private int mWeekRow; // 当前月份第几周
     private int mCircleRadius = 6;
     private int[][] mDaysText;
+    private int[] mHolidays;
     private String[][] mHolidayOrLunarText;
-    private boolean mIsShowHunar;
+    private boolean mIsShowLunar;
     private boolean mIsShowHint;
+    private boolean mIsShowHolidayHint;
     private DisplayMetrics mDisplayMetrics;
     private OnMonthClickListener mDateClickListener;
     private GestureDetector mGestureDetector;
     private List<Integer> mTaskHintList;
+    private Bitmap mRestBitmap, mWorkBitmap;
 
     public MonthView(Context context, int year, int month) {
         this(context, null, year, month);
@@ -111,7 +117,8 @@ public class MonthView extends View {
             mDaySize = array.getInteger(R.styleable.MonthCalendarView_month_day_text_size, 13);
             mLunarTextSize = array.getInteger(R.styleable.MonthCalendarView_month_day_lunar_text_size, 8);
             mIsShowHint = array.getBoolean(R.styleable.MonthCalendarView_month_show_task_hint, true);
-            mIsShowHunar = array.getBoolean(R.styleable.MonthCalendarView_month_show_lunar, true);
+            mIsShowLunar = array.getBoolean(R.styleable.MonthCalendarView_month_show_lunar, true);
+            mIsShowHolidayHint = array.getBoolean(R.styleable.MonthCalendarView_month_show_holiday_hint, true);
         } else {
             mSelectDayColor = Color.parseColor("#FFFFFF");
             mSelectBGColor = Color.parseColor("#E8E8E8");
@@ -124,10 +131,14 @@ public class MonthView extends View {
             mDaySize = 13;
             mLunarTextSize = 8;
             mIsShowHint = true;
-            mIsShowHunar = true;
+            mIsShowLunar = true;
+            mIsShowHolidayHint = true;
         }
         mSelYear = year;
         mSelMonth = month;
+        mRestBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_rest_day);
+        mWorkBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_work_day);
+        mHolidays = CalendarUtils.getInstance(getContext()).getHolidays(mSelYear, mSelMonth + 1);
     }
 
     private void initPaint() {
@@ -178,6 +189,7 @@ public class MonthView extends View {
         drawThisMonth(canvas);
         drawNextMonth(canvas);
         drawLunarText(canvas);
+        drawHoliday(canvas);
     }
 
     private void initSize() {
@@ -209,7 +221,7 @@ public class MonthView extends View {
             int startX = (int) (mColumnSize * day + (mColumnSize - mPaint.measureText(dayString)) / 2);
             int startY = (int) (mRowSize / 2 - (mPaint.ascent() + mPaint.descent()) / 2);
             canvas.drawText(dayString, startX, startY, mPaint);
-            mHolidayOrLunarText[0][day] = CalendarUtils.getHolidayFromSolar(lastMonth, mDaysText[0][day]);
+            mHolidayOrLunarText[0][day] = CalendarUtils.getHolidayFromSolar(lastYear, lastMonth, mDaysText[0][day]);
         }
     }
 
@@ -246,7 +258,7 @@ public class MonthView extends View {
                 mPaint.setColor(mNormalDayColor);
             }
             canvas.drawText(dayString, startX, startY, mPaint);
-            mHolidayOrLunarText[row][column] = CalendarUtils.getHolidayFromSolar(mSelMonth, mDaysText[row][column]);
+            mHolidayOrLunarText[row][column] = CalendarUtils.getHolidayFromSolar(mSelYear, mSelMonth, mDaysText[row][column]);
         }
     }
 
@@ -256,14 +268,17 @@ public class MonthView extends View {
         int weekNumber = CalendarUtils.getFirstDayWeek(mSelYear, mSelMonth);
         int nextMonthDays = 42 - monthDays - weekNumber + 1;
         int nextMonth = mSelMonth + 1;
-        if (nextMonth == 12)
+        int nextYear = mSelYear;
+        if (nextMonth == 12) {
             nextMonth = 0;
+            nextYear += 1;
+        }
         for (int day = 0; day < nextMonthDays; day++) {
             int column = (monthDays + weekNumber - 1 + day) % 7;
             int row = 5 - (nextMonthDays - day - 1) / 7;
             try {
                 mDaysText[row][column] = day + 1;
-                mHolidayOrLunarText[row][column] = CalendarUtils.getHolidayFromSolar(nextMonth, mDaysText[row][column]);
+                mHolidayOrLunarText[row][column] = CalendarUtils.getHolidayFromSolar(nextYear, nextMonth, mDaysText[row][column]);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -280,7 +295,7 @@ public class MonthView extends View {
      * @param canvas
      */
     private void drawLunarText(Canvas canvas) {
-        if (mIsShowHunar) {
+        if (mIsShowLunar) {
             boolean isLeapLeft = false;
             int firstYear, firstMonth, firstDay;
             int weekNumber = CalendarUtils.getFirstDayWeek(mSelYear, mSelMonth);
@@ -351,6 +366,24 @@ public class MonthView extends View {
                 int startY = (int) (mRowSize * row + mRowSize * 0.72 - (mLunarPaint.ascent() + mLunarPaint.descent()) / 2);
                 canvas.drawText(dayString, startX, startY, mLunarPaint);
                 day++;
+            }
+        }
+    }
+
+    private void drawHoliday(Canvas canvas) {
+        if (mIsShowHolidayHint) {
+            Rect rect = new Rect(0, 0, mRestBitmap.getWidth(), mRestBitmap.getHeight());
+            Rect rectF = new Rect();
+            int distance = (int) (mSelectCircleSize / 2.5);
+            for (int i = 0; i < mHolidays.length; i++) {
+                int column = i % 7;
+                int row = i / 7;
+                rectF.set(mColumnSize * (column + 1) - mRestBitmap.getWidth() - distance, mRowSize * row + distance, mColumnSize * (column + 1) - distance, mRowSize * row + mRestBitmap.getHeight() + distance);
+                if (mHolidays[i] == 1) {
+                    canvas.drawBitmap(mRestBitmap, rect, rectF, null);
+                } else if (mHolidays[i] == 2) {
+                    canvas.drawBitmap(mWorkBitmap, rect, rectF, null);
+                }
             }
         }
     }

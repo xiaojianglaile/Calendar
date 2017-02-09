@@ -41,6 +41,7 @@
                         app:month_day_text_size="@integer/calendar_text_size"
                         app:month_holiday_color="@color/color_schedule_purple"
                         app:month_selected_circle_color="@color/colorAccent"
+                        app:month_show_holiday_hint="true"
                         app:month_show_lunar="true"
                         app:month_show_task_hint="false"/>
                 </RelativeLayout>
@@ -55,6 +56,7 @@
                     app:week_day_text_size="@integer/calendar_text_size"
                     app:week_holiday_color="@color/color_schedule_purple"
                     app:week_selected_circle_color="@color/colorAccent"
+                    app:week_show_holiday_hint="true"
                     app:week_show_lunar="true"
                     app:week_show_task_hint="false"/>
 
