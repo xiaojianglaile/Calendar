@@ -42,5 +42,5 @@ app:default_view="month" <!-默认月视图->
 该日历暂时没有支持无限循环，需要查看很多日期的朋友可以在MonthAdapter和WeekAdapter调高SIZE的大小即可。
 
 #效果图:
-![image](https://github.com/xiaojianglaile/Calendar/blob/master/raw/jeek_image_0.png)
 ![image](https://github.com/xiaojianglaile/Calendar/blob/master/raw/jeek_image_1.gif)
+![image](https://github.com/xiaojianglaile/Calendar/blob/master/raw/jeek_image_2.png)
