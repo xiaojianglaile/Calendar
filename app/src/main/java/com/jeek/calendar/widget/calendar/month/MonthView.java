@@ -196,6 +196,9 @@ public class MonthView extends View {
         mColumnSize = getWidth() / NUM_COLUMNS;
         mRowSize = getHeight() / NUM_ROWS;
         mSelectCircleSize = (int) (mColumnSize / 3.2);
+        while (mSelectCircleSize > mRowSize / 2) {
+            mSelectCircleSize = (int) (mSelectCircleSize / 1.3);
+        }
     }
 
     private void clearData() {
