@@ -9,8 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jeek.calendar.R;
-import com.jeek.calendar.bean.EventSet;
-import com.jeek.calendar.bean.Schedule;
+import com.jimmy.common.bean.EventSet;
+import com.jimmy.common.bean.Schedule;
 import com.jeek.calendar.dialog.InputLocationDialog;
 import com.jeek.calendar.dialog.SelectDateDialog;
 import com.jeek.calendar.dialog.SelectEventSetDialog;

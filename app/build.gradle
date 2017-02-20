@@ -20,6 +20,5 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':common')
-    compile 'joda-time:joda-time:2.9.4'
+    compile project(':calendar')
 }

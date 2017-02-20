@@ -10,7 +10,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.jeek.calendar.R;
-import com.jeek.calendar.bean.EventSet;
+import com.jimmy.common.bean.EventSet;
 
 import java.util.List;
 

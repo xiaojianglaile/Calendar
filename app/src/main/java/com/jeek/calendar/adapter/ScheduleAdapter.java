@@ -1,6 +1,5 @@
 package com.jeek.calendar.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -13,7 +12,7 @@ import android.widget.TextView;
 
 import com.jeek.calendar.R;
 import com.jeek.calendar.activity.ScheduleDetailActivity;
-import com.jeek.calendar.bean.Schedule;
+import com.jimmy.common.bean.Schedule;
 import com.jeek.calendar.dialog.ConfirmDialog;
 import com.jeek.calendar.fragment.ScheduleFragment;
 import com.jeek.calendar.task.schedule.RemoveScheduleTask;

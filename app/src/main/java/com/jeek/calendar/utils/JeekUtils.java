@@ -18,7 +18,7 @@ public class JeekUtils {
     public static int getEventSetColor(int color) {
         switch (color) {
             case 0:
-                return R.color.color_schedule_purple;
+                return R.color.holiday_text_color;
             case 1:
                 return R.color.color_schedule_blue;
             case 2:
@@ -30,7 +30,7 @@ public class JeekUtils {
             case 5:
                 return R.color.color_schedule_yellow;
             default:
-                return R.color.color_schedule_purple;
+                return R.color.holiday_text_color;
         }
     }
 

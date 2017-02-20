@@ -18,15 +18,13 @@ import android.widget.RelativeLayout;
 import com.jeek.calendar.R;
 import com.jeek.calendar.activity.MainActivity;
 import com.jeek.calendar.adapter.ScheduleAdapter;
-import com.jeek.calendar.bean.Schedule;
+import com.jimmy.common.bean.Schedule;
 import com.jeek.calendar.dialog.SelectDateDialog;
 import com.jeek.calendar.task.schedule.AddScheduleTask;
 import com.jeek.calendar.task.schedule.LoadScheduleTask;
 import com.jeek.calendar.widget.calendar.OnCalendarClickListener;
 import com.jeek.calendar.widget.calendar.schedule.ScheduleLayout;
 import com.jeek.calendar.widget.calendar.schedule.ScheduleRecyclerView;
-import com.jeek.calendar.widget.drag.DragContainerLayout;
-import com.jeek.calendar.widget.drag.OnDragFinishedListener;
 import com.jimmy.common.base.app.BaseFragment;
 import com.jimmy.common.listener.OnTaskFinishedListener;
 import com.jimmy.common.util.DeviceUtils;
@@ -39,7 +37,7 @@ import java.util.List;
  * Created by Jimmy on 2016/10/11 0011.
  */
 public class ScheduleFragment extends BaseFragment implements OnCalendarClickListener, View.OnClickListener,
-        OnTaskFinishedListener<List<Schedule>>, SelectDateDialog.OnSelectDateListener, OnDragFinishedListener {
+        OnTaskFinishedListener<List<Schedule>>, SelectDateDialog.OnSelectDateListener {
 
     private ScheduleLayout slSchedule;
     private ScheduleRecyclerView rvScheduleList;
@@ -233,21 +231,6 @@ public class ScheduleFragment extends BaseFragment implements OnCalendarClickLis
 
     public int getCurrentCalendarPosition() {
         return slSchedule.getMonthCalendar().getCurrentItem();
-    }
-
-    @Override
-    public void onSelectDisplayBoard(int x, int y) {
-        ToastUtils.showShortToast(mActivity, "x:" + x + ";y:" + y);
-    }
-
-    @Override
-    public void onSelectTopBarRightButton() {
-        ToastUtils.showShortToast(mActivity, "Delete");
-    }
-
-    @Override
-    public void onSelectOther() {
-        ToastUtils.showShortToast(mActivity, "Other");
     }
 
 }

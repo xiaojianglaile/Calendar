@@ -8,7 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jeek.calendar.R;
-import com.jeek.calendar.bean.EventSet;
+import com.jimmy.common.bean.EventSet;
 import com.jeek.calendar.dialog.SelectColorDialog;
 import com.jeek.calendar.task.eventset.AddEventSetTask;
 import com.jeek.calendar.utils.JeekUtils;

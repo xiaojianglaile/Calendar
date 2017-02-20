@@ -12,7 +12,7 @@ import android.widget.ListView;
 import com.jeek.calendar.R;
 import com.jeek.calendar.activity.AddEventSetActivity;
 import com.jeek.calendar.adapter.SelectEventSetAdapter;
-import com.jeek.calendar.bean.EventSet;
+import com.jimmy.common.bean.EventSet;
 import com.jeek.calendar.task.eventset.LoadEventSetTask;
 import com.jimmy.common.listener.OnTaskFinishedListener;
 

@@ -2,8 +2,8 @@ package com.jeek.calendar.task.schedule;
 
 import android.content.Context;
 
-import com.jeek.calendar.bean.Schedule;
-import com.jeek.calendar.data.ScheduleDao;
+import com.jimmy.common.bean.Schedule;
+import com.jimmy.common.data.ScheduleDao;
 import com.jimmy.common.base.task.BaseAsyncTask;
 import com.jimmy.common.listener.OnTaskFinishedListener;
 

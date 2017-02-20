@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.jeek.calendar.R;
 import com.jeek.calendar.activity.MainActivity;
-import com.jeek.calendar.bean.EventSet;
+import com.jimmy.common.bean.EventSet;
 import com.jeek.calendar.dialog.ConfirmDialog;
 import com.jeek.calendar.task.eventset.RemoveEventSetTask;
 import com.jeek.calendar.utils.JeekUtils;

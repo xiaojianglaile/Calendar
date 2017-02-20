@@ -3,5 +3,5 @@
     <corners android:radius="@dimen/add_event_set_radius"/>
     <stroke
         android:width="@dimen/schedule_hint_dash_line_width"
-        android:color="@color/color_schedule_purple"/>
+        android:color="@color/holiday_text_color"/>
 </shape>

@@ -16,7 +16,7 @@
             <solid android:color="@color/colorPrimary"/>
             <stroke
                 android:width="@dimen/space_3dp"
-                android:color="@color/colorWrite"/>
+                android:color="@color/calendar_bg_color"/>
         </shape>
     </item>
 </layer-list>

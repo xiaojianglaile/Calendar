@@ -22,5 +22,4 @@ dependencies {
     compile "com.android.support:appcompat-v7:${support_library_version}"
     compile "com.android.support:design:${support_library_version}"
     compile "com.android.support:support-v4:${support_library_version}"
-    compile 'com.google.code.gson:gson:2.7'
 }

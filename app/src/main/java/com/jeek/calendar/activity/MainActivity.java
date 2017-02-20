@@ -21,11 +21,10 @@ import android.widget.Toast;
 
 import com.jeek.calendar.R;
 import com.jeek.calendar.adapter.EventSetAdapter;
-import com.jeek.calendar.bean.EventSet;
+import com.jimmy.common.bean.EventSet;
 import com.jeek.calendar.fragment.EventSetFragment;
 import com.jeek.calendar.fragment.ScheduleFragment;
 import com.jeek.calendar.task.eventset.LoadEventSetTask;
-import com.jeek.calendar.widget.drag.DragContainerLayout;
 import com.jimmy.common.base.app.BaseActivity;
 import com.jimmy.common.base.app.BaseFragment;
 import com.jimmy.common.listener.OnTaskFinishedListener;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/color_schedule_purple"/>
+    <solid android:color="@color/holiday_text_color"/>
     <corners
         android:bottomLeftRadius="@dimen/schedule_radius_size"
         android:topLeftRadius="@dimen/schedule_radius_size"/>
