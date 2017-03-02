@@ -144,7 +144,15 @@ public class WeekView extends View {
         mCurrDay = calendar.get(Calendar.DATE);
         DateTime endDate = mStartDate.plusDays(7);
         if (mStartDate.getMillis() <= System.currentTimeMillis() && endDate.getMillis() > System.currentTimeMillis()) {
-            setSelectYearMonth(mStartDate.getYear(), mStartDate.getMonthOfYear() - 1, mCurrDay);
+            if (mStartDate.getMonthOfYear() != endDate.getMonthOfYear()) {
+                if (mCurrDay < mStartDate.getDayOfMonth()) {
+                    setSelectYearMonth(mStartDate.getYear(), endDate.getMonthOfYear() - 1, mCurrDay);
+                } else {
+                    setSelectYearMonth(mStartDate.getYear(), mStartDate.getMonthOfYear() - 1, mCurrDay);
+                }
+            } else {
+                setSelectYearMonth(mStartDate.getYear(), mStartDate.getMonthOfYear() - 1, mCurrDay);
+            }
         } else {
             setSelectYearMonth(mStartDate.getYear(), mStartDate.getMonthOfYear() - 1, mStartDate.getDayOfMonth());
         }
