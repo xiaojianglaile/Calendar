@@ -17,7 +17,11 @@ allprojects {
         jcenter()
     }
     ext {
-        support_library_version = '24.2.0'
+        compile_sdk_version = 25
+        build_tools_version = '25.0.2'
+        min_sdk_version = 15
+        target_sdk_version = 22
+        support_library_version = '25.2.0'
     }
 }
 
