@@ -56,7 +56,6 @@ public class WeekAdapter extends PagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
-        mViews.remove(position);
     }
 
     public SparseArray<WeekView> getViews() {
