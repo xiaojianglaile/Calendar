@@ -255,7 +255,8 @@ public class WeekView extends View {
     private void drawLunarText(Canvas canvas) {
         if (mIsShowLunar) {
             LunarCalendarUtils.Lunar lunar = LunarCalendarUtils.solarToLunar(new LunarCalendarUtils.Solar(mStartDate.getYear(), mStartDate.getMonthOfYear(), mStartDate.getDayOfMonth()));
-            int days = LunarCalendarUtils.daysInLunarMonth(lunar.lunarYear, lunar.lunarMonth);
+            int leapMonth = LunarCalendarUtils.leapMonth(lunar.lunarYear);
+            int days = LunarCalendarUtils.daysInMonth(lunar.lunarYear, lunar.lunarMonth, lunar.isLeap);
             int day = lunar.lunarDay;
             for (int i = 0; i < 7; i++) {
                 if (day > days) {
@@ -264,7 +265,12 @@ public class WeekView extends View {
                         lunar.lunarMonth = 1;
                         lunar.lunarYear = lunar.lunarYear + 1;
                     }
-                    days = LunarCalendarUtils.daysInLunarMonth(lunar.lunarYear, lunar.lunarMonth);
+                    if (lunar.lunarMonth == leapMonth) {
+                        days = LunarCalendarUtils.daysInMonth(lunar.lunarYear, lunar.lunarMonth, lunar.isLeap);
+                    } else {
+                        lunar.lunarMonth++;
+                        days = LunarCalendarUtils.daysInLunarMonth(lunar.lunarYear, lunar.lunarMonth);
+                    }
                 }
                 mLunarPaint.setColor(mHolidayTextColor);
                 String dayString = mHolidayOrLunarText[i];

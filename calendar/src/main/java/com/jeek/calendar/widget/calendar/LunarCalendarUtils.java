@@ -50,6 +50,43 @@ public class LunarCalendarUtils {
     };
 
     /**
+     * 传回农历year年month月的总天数
+     * @param year 要计算的年份
+     * @param month        要计算的月
+     * @return 传回天数
+     */
+    public static int daysInMonth(int year, int month) {
+        return daysInMonth(year, month, false);
+    }
+
+    /**
+     * 传回农历year年month月的总天数
+     * @param year 要计算的年份
+     * @param month        要计算的月
+     * @param leap 当月是否是闰月
+     * @return 传回天数，如果闰月是错误的，返回0.
+     */
+    public static int daysInMonth(int year, int month, boolean leap) {
+        int leapMonth = leapMonth(year);
+        int offset = 0;
+        // 如果本年有闰月且month大于闰月时，需要校正
+        if (leapMonth != 0 && month > leapMonth) {
+            offset = 1;
+        }
+        // 不考虑闰月
+        if (!leap) {
+            return daysInLunarMonth(year, month + offset);
+        } else {
+            // 传入的闰月是正确的月份
+            if (leapMonth != 0 && leapMonth == month) {
+                return daysInLunarMonth(year, month + 1);
+            }
+        }
+        return 0;
+    }
+
+
+    /**
      * 传回农历year年month月的总天数，总共有13个月包括闰月
      *
      * @param year  将要计算的年份
