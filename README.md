@@ -10,7 +10,7 @@ Calendar(觉得好用记得帮忙Star哦)
 
 使用方法：
 ---
-###MonthCalendarView的使用<br/>
+* MonthCalendarView的使用<br/>
 ```
 <com.jeek.calendar.widget.calendar.month.MonthCalendarView
     android:id="@+id/mcvCalendar"
@@ -25,13 +25,17 @@ Calendar(觉得好用记得帮忙Star哦)
     app:month_text_size="@integer/small_calendar_text_size"/>
 ```
 
-###ScheduleLayout的使用<br/>
+ScheduleLayout的使用<br/>
+
 layout_schedule.xml文件，必须包含MonthCalendarView、WeekCalendarView和ScheduleRecyclerView，可以直接引用改文件作为布局。<br/>
+
 ScheduleLayout：<br/>
+```
 app:default_view="week" <!-默认周视图-><br/>
 app:default_view="month" <!-默认月视图-><br/>
+```
 
-###设置日期监听<br/>
+* 设置日期监听<br/>
 ```
 slSchedule.setOnCalendarClickListener(new OnCalendarClickListener() {
     @Override
@@ -40,11 +44,11 @@ slSchedule.setOnCalendarClickListener(new OnCalendarClickListener() {
     }
 });
 ```
-###跳转到今天<br/>
+* 跳转到今天<br/>
 ```
 slSchedule.getMonthCalendar().setTodayToView();
 ```
-###缺点<br/>
+* 缺点<br/>
 该日历暂时没有支持无限循环，需要查看很多日期的朋友可以在MonthAdapter和WeekAdapter调高SIZE的大小即可。
 
 效果图:<br/>
