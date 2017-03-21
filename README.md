@@ -1,12 +1,15 @@
-#Calendar(觉得好用记得帮忙Star哦)
-
-##注意事项：
+Calendar(觉得好用记得帮忙Star哦)
+===
+注意事项：
+---
 该Demo没有进行网络数据的联调，使用了本地数据库进行存储数据，有需要网络配置的可删除本地数据库相关代码，再去进行网络数据显示即可。<br/>
 
-##交流QQ群：
+交流QQ群：
+---
 小江Android交流群(259194144)，进群备注Android、Github之类的关键词即可。
 
-##使用方法：
+使用方法：
+---
 ###MonthCalendarView的使用<br/>
         <com.jeek.calendar.widget.calendar.month.MonthCalendarView
             android:id="@+id/mcvCalendar"
@@ -40,6 +43,7 @@ app:default_view="month" <!-默认月视图-><br/>
 ###缺点<br/>
 该日历暂时没有支持无限循环，需要查看很多日期的朋友可以在MonthAdapter和WeekAdapter调高SIZE的大小即可。
 
-#效果图:<br/>
+效果图:<br/>
+---
 ![image](https://github.com/xiaojianglaile/Calendar/blob/master/raw/jeek_image_1.gif)
 ![image](https://github.com/xiaojianglaile/Calendar/blob/master/raw/jeek_image_2.png)
