@@ -8,7 +8,7 @@
 小江Android交流群(259194144)，进群备注Android、Github之类的关键词即可。
 
 ##使用方法：
-###MonthCalendarView的使用
+###MonthCalendarView的使用<br/>
         <com.jeek.calendar.widget.calendar.month.MonthCalendarView
                   android:id="@+id/mcvCalendar"
                   android:layout_width="match_parent"
@@ -21,13 +21,13 @@
                     app:month_show_holiday_hint="true" <!-是否显示休班日提示->
                     app:month_text_size="@integer/small_calendar_text_size"/>
 
-###ScheduleLayout的使用
+###ScheduleLayout的使用<br/>
 layout_schedule.xml文件，必须包含MonthCalendarView、WeekCalendarView和ScheduleRecyclerView，可以直接引用改文件作为布局。<br/>
-ScheduleLayout：
-app:default_view="week" <!-默认周视图->
-app:default_view="month" <!-默认月视图->
+ScheduleLayout：<br/>
+app:default_view="week" <!-默认周视图-><br/>
+app:default_view="month" <!-默认月视图-><br/>
 
-###设置日期监听
+###设置日期监听<br/>
         slSchedule.setOnCalendarClickListener(new OnCalendarClickListener() {
                     @Override
                     public void onClickDate(int year, int month, int day) {
@@ -35,12 +35,12 @@ app:default_view="month" <!-默认月视图->
                     }
                 });
 
-###跳转到今天
+###跳转到今天<br/>
         slSchedule.getMonthCalendar().setTodayToView();
 
-###缺点
+###缺点<br/>
 该日历暂时没有支持无限循环，需要查看很多日期的朋友可以在MonthAdapter和WeekAdapter调高SIZE的大小即可。
 
-#效果图:
+#效果图:<br/>
 ![image](https://github.com/xiaojianglaile/Calendar/blob/master/raw/jeek_image_1.gif)
 ![image](https://github.com/xiaojianglaile/Calendar/blob/master/raw/jeek_image_2.png)
