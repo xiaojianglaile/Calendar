@@ -25,12 +25,12 @@ Calendar(觉得好用记得帮忙Star哦)
     app:month_text_size="@integer/small_calendar_text_size"/>
 ```
 
-ScheduleLayout的使用<br/>
+* ScheduleLayout的使用<br/>
 
 layout_schedule.xml文件，必须包含MonthCalendarView、WeekCalendarView和ScheduleRecyclerView，可以直接引用改文件作为布局。<br/>
 
-ScheduleLayout：<br/>
 ```
+ScheduleLayout：
 app:default_view="week" <!-默认周视图->
 app:default_view="month" <!-默认月视图->
 ```
@@ -49,6 +49,7 @@ slSchedule.setOnCalendarClickListener(new OnCalendarClickListener() {
 slSchedule.getMonthCalendar().setTodayToView();
 ```
 * 缺点<br/>
+
 该日历暂时没有支持无限循环，需要查看很多日期的朋友可以在MonthAdapter和WeekAdapter调高SIZE的大小即可。
 
 效果图:<br/>
