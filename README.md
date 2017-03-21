@@ -31,8 +31,8 @@ layout_schedule.xml文件，必须包含MonthCalendarView、WeekCalendarView和S
 
 ScheduleLayout：<br/>
 ```
-app:default_view="week" <!-默认周视图-><br/>
-app:default_view="month" <!-默认月视图-><br/>
+app:default_view="week" <!-默认周视图->
+app:default_view="month" <!-默认月视图->
 ```
 
 * 设置日期监听<br/>
