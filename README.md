@@ -1,13 +1,13 @@
 #Calendar(觉得好用记得帮忙Star哦)
 
-#注意事项：
+##注意事项：
 *该Demo没有进行网络数据的联调，使用了本地数据库进行存储数据，有需要网络配置的可删除本地数据库相关代码，再去进行网络数据显示即可。<br/>
 *该Demo的DragContainerLayout，即拖拽功能未实现，可忽略删除。
 
-#交流QQ群：
+##交流QQ群：
 小江Android交流群(259194144)，进群备注Android、Github之类的关键词即可。
 
-#使用方法：
+##使用方法：
 ###MonthCalendarView的使用
         <com.jeek.calendar.widget.calendar.month.MonthCalendarView
                   android:id="@+id/mcvCalendar"
