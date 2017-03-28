@@ -299,7 +299,6 @@ public class MonthView extends View {
      */
     private void drawLunarText(Canvas canvas) {
         if (mIsShowLunar) {
-            boolean isLeapLeft = false;
             int firstYear, firstMonth, firstDay;
             int weekNumber = CalendarUtils.getFirstDayWeek(mSelYear, mSelMonth);
             if (weekNumber == 1) {
@@ -325,10 +324,7 @@ public class MonthView extends View {
             int days;
             int day = lunar.lunarDay;
             int leapMonth = LunarCalendarUtils.leapMonth(lunar.lunarYear);
-            days = LunarCalendarUtils.daysInLunarMonth(lunar.lunarYear, lunar.lunarMonth);
-            if (lunar.isLeap) {
-                days = 30;
-            }
+            days = LunarCalendarUtils.daysInMonth(lunar.lunarYear, lunar.lunarMonth, lunar.isLeap);
             for (int i = 0; i < 42; i++) {
                 int column = i % 7;
                 int row = i / 7;
@@ -337,19 +333,12 @@ public class MonthView extends View {
                     if (lunar.lunarMonth == 12) {
                         lunar.lunarMonth = 1;
                         lunar.lunarYear = lunar.lunarYear + 1;
+                    }
+                    if (lunar.lunarMonth == leapMonth) {
+                        days = LunarCalendarUtils.daysInMonth(lunar.lunarYear, lunar.lunarMonth, lunar.isLeap);
                     } else {
-                        if (lunar.lunarMonth == leapMonth) {
-                            if (!isLeapLeft) {
-                                days = 30;
-                                isLeapLeft = true;
-                            } else {
-                                lunar.lunarMonth++;
-                                days = LunarCalendarUtils.daysInLunarMonth(lunar.lunarYear, lunar.lunarMonth);
-                            }
-                        } else {
-                            lunar.lunarMonth++;
-                            days = LunarCalendarUtils.daysInLunarMonth(lunar.lunarYear, lunar.lunarMonth);
-                        }
+                        lunar.lunarMonth++;
+                        days = LunarCalendarUtils.daysInLunarMonth(lunar.lunarYear, lunar.lunarMonth);
                     }
                 }
                 if (row == 0 && mDaysText[row][column] >= 23 || row >= 4 && mDaysText[row][column] <= 14) {
