@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 
+import com.jeek.calendar.library.R;
+
 import org.joda.time.DateTime;
 
 /**
@@ -19,13 +21,14 @@ public class MonthAdapter extends PagerAdapter {
     private Context mContext;
     private TypedArray mArray;
     private MonthCalendarView mMonthCalendarView;
-    private int mMonthCount = 48;
+    private int mMonthCount;
 
     public MonthAdapter(Context context, TypedArray array, MonthCalendarView monthCalendarView) {
         mContext = context;
         mArray = array;
         mMonthCalendarView = monthCalendarView;
         mViews = new SparseArray<>();
+        mMonthCount = array.getInteger(R.styleable.MonthCalendarView_month_count, 48);
     }
 
     @Override

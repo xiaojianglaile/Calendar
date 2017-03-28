@@ -7,6 +7,8 @@ import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.jeek.calendar.library.R;
+
 import org.joda.time.DateTime;
 
 /**
@@ -27,6 +29,7 @@ public class WeekAdapter extends PagerAdapter {
         mWeekCalendarView = weekCalendarView;
         mViews = new SparseArray<>();
         initStartDate();
+        mWeekCount = array.getInteger(R.styleable.WeekCalendarView_week_count, 220);
     }
 
     private void initStartDate() {
