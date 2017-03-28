@@ -71,6 +71,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         initEventSetList();
         gotoScheduleFragment();
         initBroadcastReceiver();
+
     }
 
     private void initBroadcastReceiver() {

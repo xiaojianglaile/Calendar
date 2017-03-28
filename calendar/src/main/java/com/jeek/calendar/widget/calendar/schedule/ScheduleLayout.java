@@ -19,6 +19,8 @@ import com.jeek.calendar.widget.calendar.month.MonthView;
 import com.jeek.calendar.widget.calendar.week.WeekCalendarView;
 import com.jeek.calendar.widget.calendar.week.WeekView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
@@ -412,5 +414,48 @@ public class ScheduleLayout extends FrameLayout {
 
     public int getCurrentSelectDay() {
         return mCurrentSelectDay;
+    }
+
+
+    /**
+     * 设置回到某天
+     *
+     * @param dateStr yyyy-MM-dd HH:mm:ss 跳转任意时间的方法
+     */
+    public void setSomedayDate(String dateStr) {
+
+        try {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateStr));
+
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DATE);
+
+            int weeks = CalendarUtils.getInstance(getContext()).getWeeksAgo(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay, year, month, day);
+            int months = CalendarUtils.getInstance(getContext()).getMonthsAgo(mCurrentSelectYear, mCurrentSelectMonth, year, month);
+
+            wcvCalendar.setOnCalendarClickListener(null);
+            resetCurrentSelectDate(year, month, day);
+            if (weeks != 0) {
+                int position = wcvCalendar.getCurrentItem() + weeks;
+                wcvCalendar.setCurrentItem(position, false);
+            }
+            resetWeekView();
+            wcvCalendar.setOnCalendarClickListener(mWeekCalendarClickListener);
+
+            mcvCalendar.setOnCalendarClickListener(null);
+
+            resetCurrentSelectDate(year, month, day);
+            if (months != 0) {
+                int position = mcvCalendar.getCurrentItem() + months;
+                mcvCalendar.setCurrentItem(position, false);
+            }
+            resetMonthView();
+            mcvCalendar.setOnCalendarClickListener(mMonthCalendarClickListener);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -100,6 +100,8 @@ public class WeekView extends View {
             mIsShowHint = array.getBoolean(R.styleable.WeekCalendarView_week_show_task_hint, true);
             mIsShowLunar = array.getBoolean(R.styleable.WeekCalendarView_week_show_lunar, true);
             mIsShowHolidayHint = array.getBoolean(R.styleable.WeekCalendarView_week_show_holiday_hint, true);
+
+
         } else {
             mSelectDayColor = Color.parseColor("#FFFFFF");
             mSelectBGColor = Color.parseColor("#E8E8E8");

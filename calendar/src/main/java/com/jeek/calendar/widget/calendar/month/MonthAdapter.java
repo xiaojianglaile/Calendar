@@ -60,7 +60,7 @@ public class MonthAdapter extends PagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
-        mViews.remove(position);
+        //mViews.remove(position);
     }
 
     @Override
