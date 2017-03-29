@@ -97,6 +97,11 @@ public class ScheduleFragment extends BaseFragment implements OnCalendarClickLis
         resetScheduleList();
     }
 
+    @Override
+    public void onPageChange(int year, int month, int day) {
+
+    }
+
     private void initScheduleList() {
         rvScheduleList = slSchedule.getSchedulerRecyclerView();
         LinearLayoutManager manager = new LinearLayoutManager(mActivity);

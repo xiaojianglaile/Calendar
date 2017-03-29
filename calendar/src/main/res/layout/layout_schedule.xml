@@ -16,7 +16,8 @@
         android:id="@+id/slSchedule"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:default_view="week">
+        app:auto_change_month_row="false"
+        app:default_view="month">
 
         <LinearLayout
             android:layout_width="match_parent"

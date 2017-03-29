@@ -46,6 +46,7 @@
             <enum name="month" value="0"/>
             <enum name="week" value="1"/>
         </attr>
+        <attr name="auto_change_month_row" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="DragDisplayBoard">

@@ -169,6 +169,11 @@ public class SelectDateDialog extends Dialog implements View.OnClickListener, On
         setCurrentSelectDate(year, month, day);
     }
 
+    @Override
+    public void onPageChange(int year, int month, int day) {
+
+    }
+
     private void setCurrentSelectDate(int year, int month, int day) {
         mCurrentSelectYear = year;
         mCurrentSelectMonth = month;

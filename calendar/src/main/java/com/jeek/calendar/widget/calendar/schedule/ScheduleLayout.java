@@ -44,6 +44,8 @@ public class ScheduleLayout extends FrameLayout {
     private int mDefaultView;
     private float mDownPosition[] = new float[2];
     private boolean mIsScrolling = false;
+    private boolean mIsAutoChangeMonthRow;
+    private boolean mCurrentRowsIsSix = true;
 
     private ScheduleState mState;
     private OnCalendarClickListener mOnCalendarClickListener;
@@ -66,6 +68,7 @@ public class ScheduleLayout extends FrameLayout {
 
     private void initAttrs(TypedArray array) {
         mDefaultView = array.getInt(R.styleable.ScheduleLayout_default_view, DEFAULT_MONTH);
+        mIsAutoChangeMonthRow = array.getBoolean(R.styleable.ScheduleLayout_auto_change_month_row, false);
         mState = ScheduleState.OPEN;
         mRowSize = getResources().getDimensionPixelSize(R.dimen.week_calendar_height);
         mMinDistance = getResources().getDimensionPixelSize(R.dimen.calendar_min_distance);
@@ -96,13 +99,19 @@ public class ScheduleLayout extends FrameLayout {
         mcvCalendar.setOnCalendarClickListener(mMonthCalendarClickListener);
         wcvCalendar.setOnCalendarClickListener(mWeekCalendarClickListener);
         // 初始化视图
+        Calendar calendar = Calendar.getInstance();
+        if (mIsAutoChangeMonthRow) {
+            mCurrentRowsIsSix = CalendarUtils.getMonthRows(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)) == 6;
+        }
         if (mDefaultView == DEFAULT_MONTH) {
             wcvCalendar.setVisibility(INVISIBLE);
             mState = ScheduleState.OPEN;
+            if (!mCurrentRowsIsSix) {
+                rlScheduleList.setY(rlScheduleList.getY() - mRowSize);
+            }
         } else if (mDefaultView == DEFAULT_WEEK) {
             wcvCalendar.setVisibility(VISIBLE);
             mState = ScheduleState.CLOSE;
-            Calendar calendar = Calendar.getInstance();
             int row = CalendarUtils.getWeekRow(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
             rlMonthCalendar.setY(-row * mRowSize);
             rlScheduleList.setY(rlScheduleList.getY() - 5 * mRowSize);
@@ -128,7 +137,26 @@ public class ScheduleLayout extends FrameLayout {
             resetWeekView();
             wcvCalendar.setOnCalendarClickListener(mWeekCalendarClickListener);
         }
+
+        @Override
+        public void onPageChange(int year, int month, int day) {
+            computeCurrentRowsIsSix(year, month);
+        }
     };
+
+    private void computeCurrentRowsIsSix(int year, int month) {
+        boolean isSixRow = CalendarUtils.getMonthRows(year, month) == 6;
+        if (mIsAutoChangeMonthRow) {
+            if (mCurrentRowsIsSix != isSixRow) {
+                mCurrentRowsIsSix = isSixRow;
+                if (mCurrentRowsIsSix) {
+                    rlScheduleList.setY(rlScheduleList.getY() + mRowSize);
+                } else {
+                    rlScheduleList.setY(rlScheduleList.getY() - mRowSize);
+                }
+            }
+        }
+    }
 
     private void resetWeekView() {
         WeekView weekView = wcvCalendar.getCurrentWeekView();
@@ -157,6 +185,13 @@ public class ScheduleLayout extends FrameLayout {
             }
             resetMonthView();
             mcvCalendar.setOnCalendarClickListener(mMonthCalendarClickListener);
+        }
+
+        @Override
+        public void onPageChange(int year, int month, int day) {
+            if (mCurrentSelectMonth != month) {
+                mCurrentRowsIsSix = CalendarUtils.getMonthRows(year, month) == 6;
+            }
         }
     };
 
@@ -332,7 +367,11 @@ public class ScheduleLayout extends FrameLayout {
     private void resetCalendarPosition() {
         if (mState == ScheduleState.OPEN) {
             rlMonthCalendar.setY(0);
-            rlScheduleList.setY(mcvCalendar.getHeight());
+            if (mCurrentRowsIsSix) {
+                rlScheduleList.setY(mcvCalendar.getHeight());
+            } else {
+                rlScheduleList.setY(mcvCalendar.getHeight() - mRowSize);
+            }
         } else {
             rlMonthCalendar.setY(-CalendarUtils.getWeekRow(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay) * mRowSize);
             rlScheduleList.setY(mRowSize);
@@ -372,7 +411,7 @@ public class ScheduleLayout extends FrameLayout {
     protected void onCalendarScroll(float distanceY) {
         MonthView monthView = mcvCalendar.getCurrentMonthView();
         distanceY = Math.min(distanceY, mAutoScrollDistance);
-        float calendarDistanceY = distanceY / 5.0f;
+        float calendarDistanceY = distanceY / (mCurrentRowsIsSix ? 5.0f : 4.0f);
         int row = monthView.getWeekRow() - 1;
         int calendarTop = -row * mRowSize;
         int scheduleTop = mRowSize;
@@ -381,7 +420,11 @@ public class ScheduleLayout extends FrameLayout {
         calendarY = Math.max(calendarY, calendarTop);
         rlMonthCalendar.setY(calendarY);
         float scheduleY = rlScheduleList.getY() - distanceY;
-        scheduleY = Math.min(scheduleY, mcvCalendar.getHeight());
+        if (mCurrentRowsIsSix) {
+            scheduleY = Math.min(scheduleY, mcvCalendar.getHeight());
+        } else {
+            scheduleY = Math.min(scheduleY, mcvCalendar.getHeight() - mRowSize);
+        }
         scheduleY = Math.max(scheduleY, scheduleTop);
         rlScheduleList.setY(scheduleY);
     }
@@ -405,9 +448,10 @@ public class ScheduleLayout extends FrameLayout {
 
     /**
      * 初始化年月日
+     *
      * @param year
      * @param month (0-11)
-     * @param day (1-31)
+     * @param day   (1-31)
      */
     public void initData(int year, int month, int day) {
         int monthDis = CalendarUtils.getMonthsAgo(mCurrentSelectYear, mCurrentSelectMonth, year, month);

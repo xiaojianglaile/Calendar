@@ -194,5 +194,10 @@ public class CalendarUtils {
         return holidays;
     }
 
+    public static int getMonthRows(int year, int month) {
+        int size = getFirstDayWeek(year, month) + getMonthDays(year, month) - 1;
+        return size % 7 == 0 ? size / 7 : (size / 7) + 1;
+    }
+
 }
 
