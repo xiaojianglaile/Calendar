@@ -33,6 +33,8 @@ layout_schedule.xml文件，必须包含MonthCalendarView、WeekCalendarView和S
 ScheduleLayout：
 app:default_view="week" <!-默认周视图->
 app:default_view="month" <!-默认月视图->
+app:auto_change_month_row="false" <!-不自动改变五六行->
+app:auto_change_month_row="true" <!-自动改变五六行->
 ```
 
 * 设置日期监听<br/>
@@ -47,6 +49,10 @@ slSchedule.setOnCalendarClickListener(new OnCalendarClickListener() {
 * 跳转到今天<br/>
 ```
 slSchedule.getMonthCalendar().setTodayToView();
+```
+* 跳转到某一天<br/>
+```
+slSchedule.initData(year, month, day);
 ```
 * 缺点<br/>
 
