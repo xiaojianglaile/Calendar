@@ -150,9 +150,11 @@ public class ScheduleLayout extends FrameLayout {
             if (mCurrentRowsIsSix != isSixRow) {
                 mCurrentRowsIsSix = isSixRow;
                 if (mCurrentRowsIsSix) {
-                    rlScheduleList.setY(rlScheduleList.getY() + mRowSize);
+                    AutoMoveAnimation animation = new AutoMoveAnimation(rlScheduleList, mRowSize);
+                    rlScheduleList.startAnimation(animation);
                 } else {
-                    rlScheduleList.setY(rlScheduleList.getY() - mRowSize);
+                    AutoMoveAnimation animation = new AutoMoveAnimation(rlScheduleList, -mRowSize);
+                    rlScheduleList.startAnimation(animation);
                 }
             }
         }

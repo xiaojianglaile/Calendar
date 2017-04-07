@@ -16,7 +16,7 @@
         android:id="@+id/slSchedule"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:auto_change_month_row="false"
+        app:auto_change_month_row="true"
         app:default_view="month">
 
         <LinearLayout
