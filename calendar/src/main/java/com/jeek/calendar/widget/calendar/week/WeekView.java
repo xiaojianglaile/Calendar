@@ -199,8 +199,8 @@ public class WeekView extends View {
     protected void onDraw(Canvas canvas) {
         initSize();
         clearData();
-        drawThisWeek(canvas);
-        drawLunarText(canvas);
+        int selected = drawThisWeek(canvas);
+        drawLunarText(canvas, selected);
         drawHoliday(canvas);
     }
 
@@ -217,7 +217,8 @@ public class WeekView extends View {
         }
     }
 
-    private void drawThisWeek(Canvas canvas) {
+    private int drawThisWeek(Canvas canvas) {
+        int selected = 0;
         for (int i = 0; i < 7; i++) {
             DateTime date = mStartDate.plusDays(i);
             int day = date.getDayOfMonth();
@@ -236,6 +237,7 @@ public class WeekView extends View {
             }
             drawHintCircle(i, day, canvas);
             if (day == mSelDay) {
+                selected = i;
                 mPaint.setColor(mSelectDayColor);
             } else if (date.getYear() == mCurrYear && date.getMonthOfYear() - 1 == mCurrMonth && day == mCurrDay && day != mSelDay && mCurrYear == mSelYear) {
                 mPaint.setColor(mCurrentDayColor);
@@ -245,14 +247,16 @@ public class WeekView extends View {
             canvas.drawText(dayString, startX, startY, mPaint);
             mHolidayOrLunarText[i] = CalendarUtils.getHolidayFromSolar(date.getYear(), date.getMonthOfYear() - 1, day);
         }
+        return selected;
     }
 
     /**
      * 绘制农历
      *
      * @param canvas
+     * @param selected
      */
-    private void drawLunarText(Canvas canvas) {
+    private void drawLunarText(Canvas canvas, int selected) {
         if (mIsShowLunar) {
             LunarCalendarUtils.Lunar lunar = LunarCalendarUtils.solarToLunar(new LunarCalendarUtils.Solar(mStartDate.getYear(), mStartDate.getMonthOfYear(), mStartDate.getDayOfMonth()));
             int leapMonth = LunarCalendarUtils.leapMonth(lunar.lunarYear);
@@ -280,6 +284,9 @@ public class WeekView extends View {
                 if ("".equals(dayString)) {
                     dayString = LunarCalendarUtils.getLunarDayString(day);
                     mLunarPaint.setColor(mLunarTextColor);
+                }
+                if (i == selected) {
+                    mLunarPaint.setColor(mSelectDayColor);
                 }
                 int startX = (int) (mColumnSize * i + (mColumnSize - mLunarPaint.measureText(dayString)) / 2);
                 int startY = (int) (mRowSize * 0.72 - (mLunarPaint.ascent() + mLunarPaint.descent()) / 2);
