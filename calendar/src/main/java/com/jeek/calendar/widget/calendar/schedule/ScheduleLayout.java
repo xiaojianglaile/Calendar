@@ -189,8 +189,10 @@ public class ScheduleLayout extends FrameLayout {
 
         @Override
         public void onPageChange(int year, int month, int day) {
-            if (mCurrentSelectMonth != month) {
-                mCurrentRowsIsSix = CalendarUtils.getMonthRows(year, month) == 6;
+            if (mIsAutoChangeMonthRow) {
+                if (mCurrentSelectMonth != month) {
+                    mCurrentRowsIsSix = CalendarUtils.getMonthRows(year, month) == 6;
+                }
             }
         }
     };
