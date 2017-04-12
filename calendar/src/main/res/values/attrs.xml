@@ -49,9 +49,4 @@
         <attr name="auto_change_month_row" format="boolean"/>
     </declare-styleable>
 
-    <declare-styleable name="DragDisplayBoard">
-        <attr name="board_select_circle_color" format="color"/>
-        <attr name="board_select_border_color" format="color"/>
-    </declare-styleable>
-
 </resources>
