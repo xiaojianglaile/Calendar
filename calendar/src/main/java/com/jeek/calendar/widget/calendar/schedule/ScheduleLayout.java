@@ -130,11 +130,11 @@ public class ScheduleLayout extends FrameLayout {
             wcvCalendar.setOnCalendarClickListener(null);
             int weeks = CalendarUtils.getWeeksAgo(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay, year, month, day);
             resetCurrentSelectDate(year, month, day);
+            int position = wcvCalendar.getCurrentItem() + weeks;
             if (weeks != 0) {
-                int position = wcvCalendar.getCurrentItem() + weeks;
                 wcvCalendar.setCurrentItem(position, false);
             }
-            resetWeekView();
+            resetWeekView(position);
             wcvCalendar.setOnCalendarClickListener(mWeekCalendarClickListener);
         }
 
@@ -160,15 +160,16 @@ public class ScheduleLayout extends FrameLayout {
         }
     }
 
-    private void resetWeekView() {
+    private void resetWeekView(int position) {
         WeekView weekView = wcvCalendar.getCurrentWeekView();
         if (weekView != null) {
             weekView.setSelectYearMonth(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay);
             weekView.invalidate();
         } else {
-            WeekView newWeekView = wcvCalendar.getWeekAdapter().instanceWeekView(wcvCalendar.getCurrentItem());
+            WeekView newWeekView = wcvCalendar.getWeekAdapter().instanceWeekView(position);
             newWeekView.setSelectYearMonth(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay);
             newWeekView.invalidate();
+            wcvCalendar.setCurrentItem(position);
         }
         if (mOnCalendarClickListener != null) {
             mOnCalendarClickListener.onClickDate(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay);
