@@ -44,7 +44,7 @@
                         app:month_selected_circle_color="@color/select_circle_color"
                         app:month_show_holiday_hint="true"
                         app:month_show_lunar="true"
-                        app:month_show_task_hint="false"/>
+                        app:month_show_task_hint="true"/>
                 </RelativeLayout>
 
                 <com.jeek.calendar.widget.calendar.week.WeekCalendarView
@@ -59,7 +59,7 @@
                     app:week_selected_circle_color="@color/select_circle_color"
                     app:week_show_holiday_hint="true"
                     app:week_show_lunar="true"
-                    app:week_show_task_hint="false"/>
+                    app:week_show_task_hint="true"/>
 
             </RelativeLayout>
 

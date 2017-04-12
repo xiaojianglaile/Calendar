@@ -206,19 +206,9 @@ public class ScheduleFragment extends BaseFragment implements OnCalendarClickLis
 
     private void updateTaskHintUi(int size) {
         if (size == 0) {
-            if (slSchedule.getMonthCalendar().getCurrentMonthView() != null) {
-                slSchedule.getMonthCalendar().getCurrentMonthView().removeTaskHint(mCurrentSelectDay);
-            }
-            if (slSchedule.getWeekCalendar().getCurrentWeekView() != null) {
-                slSchedule.getWeekCalendar().getCurrentWeekView().removeTaskHint(mCurrentSelectDay);
-            }
+            slSchedule.removeTaskHint(mCurrentSelectDay);
         } else {
-            if (slSchedule.getMonthCalendar().getCurrentMonthView() != null) {
-                slSchedule.getMonthCalendar().getCurrentMonthView().addTaskHint(mCurrentSelectDay);
-            }
-            if (slSchedule.getWeekCalendar().getCurrentWeekView() != null) {
-                slSchedule.getWeekCalendar().getCurrentWeekView().addTaskHint(mCurrentSelectDay);
-            }
+            slSchedule.addTaskHint(mCurrentSelectDay);
         }
     }
 

@@ -464,6 +464,30 @@ public class ScheduleLayout extends FrameLayout {
         resetMonthViewDate(year, month, day, position);
     }
 
+    /**
+     * 添加一个圆点提示
+     *
+     * @param day
+     */
+    public void addTaskHint(Integer day) {
+        if (mcvCalendar.getCurrentMonthView() != null)
+            mcvCalendar.getCurrentMonthView().addTaskHint(day);
+        if (wcvCalendar.getCurrentWeekView() != null)
+            wcvCalendar.getCurrentWeekView().addTaskHint(day);
+    }
+
+    /**
+     * 删除一个圆点提示
+     *
+     * @param day
+     */
+    public void removeTaskHint(Integer day) {
+        if (mcvCalendar.getCurrentMonthView() != null)
+            mcvCalendar.getCurrentMonthView().removeTaskHint(day);
+        if (wcvCalendar.getCurrentWeekView() != null)
+            wcvCalendar.getCurrentWeekView().removeTaskHint(day);
+    }
+
     public ScheduleRecyclerView getSchedulerRecyclerView() {
         return rvScheduleList;
     }
