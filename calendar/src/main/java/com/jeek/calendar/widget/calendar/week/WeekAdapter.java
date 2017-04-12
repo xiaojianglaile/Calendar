@@ -44,8 +44,10 @@ public class WeekAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        if (mViews.get(position) == null) {
-            instanceWeekView(position);
+        for (int i = 0; i < 3; i++) {
+            if (position - 2 + i >= 0 && position - 2 + i < mWeekCount && mViews.get(position - 2 + i) == null) {
+                instanceWeekView(position - 2 + i);
+            }
         }
         container.addView(mViews.get(position));
         return mViews.get(position);
