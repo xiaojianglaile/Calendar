@@ -209,6 +209,7 @@ public class ScheduleLayout extends FrameLayout {
         if (mOnCalendarClickListener != null) {
             mOnCalendarClickListener.onClickDate(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay);
         }
+        resetCalendarPosition();
     }
 
     @Override
