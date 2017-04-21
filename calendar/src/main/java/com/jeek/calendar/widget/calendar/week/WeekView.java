@@ -361,6 +361,14 @@ public class WeekView extends View {
         mOnWeekClickListener = onWeekClickListener;
     }
 
+    public DateTime getStartDate() {
+        return mStartDate;
+    }
+
+    public DateTime getEndDate() {
+        return mStartDate.plusDays(6);
+    }
+
     /**
      * 获取当前选择年
      *

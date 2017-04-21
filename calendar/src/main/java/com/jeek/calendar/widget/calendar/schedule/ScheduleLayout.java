@@ -19,6 +19,8 @@ import com.jeek.calendar.widget.calendar.month.MonthView;
 import com.jeek.calendar.widget.calendar.week.WeekCalendarView;
 import com.jeek.calendar.widget.calendar.week.WeekView;
 
+import org.joda.time.DateTime;
+
 import java.util.Calendar;
 
 /**
@@ -400,11 +402,43 @@ public class ScheduleLayout extends FrameLayout {
             mcvCalendar.setVisibility(INVISIBLE);
             wcvCalendar.setVisibility(VISIBLE);
             rlMonthCalendar.setY((1 - mcvCalendar.getCurrentMonthView().getWeekRow()) * mRowSize);
+            checkWeekCalendar();
         } else {
             mState = ScheduleState.OPEN;
             mcvCalendar.setVisibility(VISIBLE);
             wcvCalendar.setVisibility(INVISIBLE);
             rlMonthCalendar.setY(0);
+        }
+    }
+
+    private void checkWeekCalendar() {
+        WeekView weekView = wcvCalendar.getCurrentWeekView();
+        DateTime start = weekView.getStartDate();
+        DateTime end = weekView.getEndDate();
+        DateTime current = new DateTime(mCurrentSelectYear, mCurrentSelectMonth + 1, mCurrentSelectDay, 23, 59, 59);
+        int week = 0;
+        while (current.getMillis() < start.getMillis()) {
+            week--;
+            start = start.plusDays(-7);
+        }
+        current = new DateTime(mCurrentSelectYear, mCurrentSelectMonth + 1, mCurrentSelectDay, 0, 0, 0);
+        if (week == 0) {
+            while (current.getMillis() > end.getMillis()) {
+                week++;
+                end = end.plusDays(7);
+            }
+        }
+        if (week != 0) {
+            int position = wcvCalendar.getCurrentItem() + week;
+            if (wcvCalendar.getWeekViews().get(position) != null) {
+                wcvCalendar.getWeekViews().get(position).setSelectYearMonth(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay);
+                wcvCalendar.getWeekViews().get(position).invalidate();
+            } else {
+                WeekView newWeekView = wcvCalendar.getWeekAdapter().instanceWeekView(position);
+                newWeekView.setSelectYearMonth(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay);
+                newWeekView.invalidate();
+            }
+            wcvCalendar.setCurrentItem(position, false);
         }
     }
 
