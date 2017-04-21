@@ -147,16 +147,18 @@ public class ScheduleLayout extends FrameLayout {
     };
 
     private void computeCurrentRowsIsSix(int year, int month) {
-        boolean isSixRow = CalendarUtils.getMonthRows(year, month) == 6;
         if (mIsAutoChangeMonthRow) {
+            boolean isSixRow = CalendarUtils.getMonthRows(year, month) == 6;
             if (mCurrentRowsIsSix != isSixRow) {
                 mCurrentRowsIsSix = isSixRow;
-                if (mCurrentRowsIsSix) {
-                    AutoMoveAnimation animation = new AutoMoveAnimation(rlScheduleList, mRowSize);
-                    rlScheduleList.startAnimation(animation);
-                } else {
-                    AutoMoveAnimation animation = new AutoMoveAnimation(rlScheduleList, -mRowSize);
-                    rlScheduleList.startAnimation(animation);
+                if (mState == ScheduleState.OPEN) {
+                    if (mCurrentRowsIsSix) {
+                        AutoMoveAnimation animation = new AutoMoveAnimation(rlScheduleList, mRowSize);
+                        rlScheduleList.startAnimation(animation);
+                    } else {
+                        AutoMoveAnimation animation = new AutoMoveAnimation(rlScheduleList, -mRowSize);
+                        rlScheduleList.startAnimation(animation);
+                    }
                 }
             }
         }
