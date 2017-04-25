@@ -17,7 +17,7 @@ public class ScheduleAnimation extends Animation {
         mScheduleLayout = scheduleLayout;
         mState = state;
         mDistanceY = distanceY;
-        setDuration(200);
+        setDuration(300);
         setInterpolator(new DecelerateInterpolator(1.5f));
     }
 

@@ -310,7 +310,7 @@ public class ScheduleLayout extends FrameLayout {
         if (rlScheduleList.getY() > mRowSize * 2 &&
                 rlScheduleList.getY() < mcvCalendar.getHeight() - mRowSize) { // 位于中间
             ScheduleAnimation animation = new ScheduleAnimation(this, mState, mAutoScrollDistance);
-            animation.setDuration((long) rlScheduleList.getY());
+            animation.setDuration(300);
             animation.setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
@@ -330,7 +330,7 @@ public class ScheduleLayout extends FrameLayout {
             rlScheduleList.startAnimation(animation);
         } else if (rlScheduleList.getY() <= mRowSize * 2) { // 位于顶部
             ScheduleAnimation animation = new ScheduleAnimation(this, ScheduleState.OPEN, mAutoScrollDistance);
-            animation.setDuration((long) rlScheduleList.getY());
+            animation.setDuration(50);
             animation.setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
@@ -354,7 +354,7 @@ public class ScheduleLayout extends FrameLayout {
             rlScheduleList.startAnimation(animation);
         } else {
             ScheduleAnimation animation = new ScheduleAnimation(this, ScheduleState.CLOSE, mAutoScrollDistance);
-            animation.setDuration((long)(mcvCalendar.getHeight() - rlScheduleList.getY()));
+            animation.setDuration(50);
             animation.setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
