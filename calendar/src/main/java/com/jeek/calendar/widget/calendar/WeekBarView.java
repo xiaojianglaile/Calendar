@@ -41,6 +41,7 @@ public class WeekBarView extends View {
         mWeekTextColor = array.getColor(R.styleable.WeekBarView_week_text_color, Color.parseColor("#4588E3"));
         mWeekSize = array.getInteger(R.styleable.WeekBarView_week_text_size, 13);
         mWeekString = context.getResources().getStringArray(R.array.calendar_week);
+        array.recycle();
     }
 
     private void initPaint() {

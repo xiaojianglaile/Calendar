@@ -71,6 +71,7 @@ public class ScheduleLayout extends FrameLayout {
     private void initAttrs(TypedArray array) {
         mDefaultView = array.getInt(R.styleable.ScheduleLayout_default_view, DEFAULT_MONTH);
         mIsAutoChangeMonthRow = array.getBoolean(R.styleable.ScheduleLayout_auto_change_month_row, false);
+        array.recycle();
         mState = ScheduleState.OPEN;
         mRowSize = getResources().getDimensionPixelSize(R.dimen.week_calendar_height);
         mMinDistance = getResources().getDimensionPixelSize(R.dimen.calendar_min_distance);
