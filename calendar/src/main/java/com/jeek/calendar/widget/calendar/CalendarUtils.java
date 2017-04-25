@@ -96,10 +96,10 @@ public class CalendarUtils {
      */
     public static int getWeeksAgo(int lastYear, int lastMonth, int lastDay, int year, int month, int day) {
         Calendar lastClickDay = Calendar.getInstance();
-        lastClickDay.set(lastYear, lastMonth, lastDay);
+        lastClickDay.set(lastYear, lastMonth, lastDay, 0, 0, 0);
         int week = lastClickDay.get(Calendar.DAY_OF_WEEK) - 1;
         Calendar clickDay = Calendar.getInstance();
-        clickDay.set(year, month, day);
+        clickDay.set(year, month, day, 0, 0, 0);
         if (clickDay.getTimeInMillis() > lastClickDay.getTimeInMillis()) {
             return (int) ((clickDay.getTimeInMillis() - lastClickDay.getTimeInMillis() + week * 24 * 3600 * 1000) / (7 * 24 * 3600 * 1000));
         } else {
