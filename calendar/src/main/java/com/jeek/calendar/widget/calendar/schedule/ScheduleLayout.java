@@ -221,7 +221,7 @@ public class ScheduleLayout extends FrameLayout {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int height = MeasureSpec.getSize(heightMeasureSpec);
         resetViewHeight(rlScheduleList, height - mRowSize);
-        resetViewHeight(this, height);
+        resetViewHeight(this, height + 100);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
