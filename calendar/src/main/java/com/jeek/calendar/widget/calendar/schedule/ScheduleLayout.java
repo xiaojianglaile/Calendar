@@ -193,6 +193,9 @@ public class ScheduleLayout extends FrameLayout {
             }
             resetMonthView();
             mcvCalendar.setOnCalendarClickListener(mMonthCalendarClickListener);
+            if (mIsAutoChangeMonthRow) {
+                mCurrentRowsIsSix = CalendarUtils.getMonthRows(year, month) == 6;
+            }
         }
 
         @Override
