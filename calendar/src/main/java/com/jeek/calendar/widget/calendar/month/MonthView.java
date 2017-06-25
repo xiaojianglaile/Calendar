@@ -19,6 +19,7 @@ import com.jimmy.common.data.ScheduleDao;
 import com.jeek.calendar.widget.calendar.CalendarUtils;
 import com.jeek.calendar.widget.calendar.LunarCalendarUtils;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -56,7 +57,7 @@ public class MonthView extends View {
     private DisplayMetrics mDisplayMetrics;
     private OnMonthClickListener mDateClickListener;
     private GestureDetector mGestureDetector;
-    private List<Integer> mTaskHintList;
+    private List<Integer> mTaskHintList = new ArrayList<>();
     private Bitmap mRestBitmap, mWorkBitmap;
 
     public MonthView(Context context, int year, int month) {
@@ -530,7 +531,7 @@ public class MonthView extends View {
      * @param day
      */
     public void addTaskHint(Integer day) {
-        if (mTaskHintList != null) {
+        if (mIsShowHint && mTaskHintList != null) {
             if (!mTaskHintList.contains(day)) {
                 mTaskHintList.add(day);
                 invalidate();
@@ -544,7 +545,7 @@ public class MonthView extends View {
      * @param day
      */
     public void removeTaskHint(Integer day) {
-        if (mTaskHintList != null) {
+        if (mIsShowHint && mTaskHintList != null) {
             if (mTaskHintList.remove(day)) {
                 invalidate();
             }

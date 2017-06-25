@@ -21,6 +21,7 @@ import com.jeek.calendar.widget.calendar.LunarCalendarUtils;
 
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -55,7 +56,7 @@ public class WeekView extends View {
     private DisplayMetrics mDisplayMetrics;
     private OnWeekClickListener mOnWeekClickListener;
     private GestureDetector mGestureDetector;
-    private List<Integer> mTaskHintList;
+    private List<Integer> mTaskHintList = new ArrayList<>();
     private Bitmap mRestBitmap, mWorkBitmap;
 
     public WeekView(Context context, DateTime dateTime) {
@@ -321,7 +322,7 @@ public class WeekView extends View {
      * @param canvas
      */
     private void drawHintCircle(int column, int day, Canvas canvas) {
-        if (mIsShowHint && mTaskHintList != null && mTaskHintList.size() > 0) {
+        if (mIsShowHint && mTaskHintList.size() > 0) {
             if (!mTaskHintList.contains(day)) return;
             mPaint.setColor(mHintCircleColor);
             float circleX = (float) (mColumnSize * column + mColumnSize * 0.5);
@@ -412,7 +413,7 @@ public class WeekView extends View {
      * @param day
      */
     public void addTaskHint(Integer day) {
-        if (mTaskHintList != null) {
+        if (mIsShowHint && mTaskHintList != null) {
             if (!mTaskHintList.contains(day)) {
                 mTaskHintList.add(day);
                 invalidate();
@@ -426,7 +427,7 @@ public class WeekView extends View {
      * @param day
      */
     public void removeTaskHint(Integer day) {
-        if (mTaskHintList != null) {
+        if (mIsShowHint && mTaskHintList != null) {
             if (mTaskHintList.remove(day)) {
                 invalidate();
             }
