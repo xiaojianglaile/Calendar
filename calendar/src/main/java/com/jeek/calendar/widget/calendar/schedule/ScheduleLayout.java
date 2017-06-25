@@ -22,6 +22,7 @@ import com.jeek.calendar.widget.calendar.week.WeekView;
 import org.joda.time.DateTime;
 
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by Jimmy on 2016/10/7 0007.
@@ -506,6 +507,36 @@ public class ScheduleLayout extends FrameLayout {
         int position = mcvCalendar.getCurrentItem() + monthDis;
         mcvCalendar.setCurrentItem(position);
         resetMonthViewDate(year, month, day, position);
+    }
+
+    /**
+     * 添加多个圆点提示
+     *
+     * @param hints
+     */
+    public void addTaskHints(List<Integer> hints) {
+        CalendarUtils.getInstance(getContext()).addTaskHints(mCurrentSelectYear, mCurrentSelectMonth, hints);
+        if (mcvCalendar.getCurrentMonthView() != null) {
+            mcvCalendar.getCurrentMonthView().invalidate();
+        }
+        if (wcvCalendar.getCurrentWeekView() != null) {
+            wcvCalendar.getCurrentWeekView().invalidate();
+        }
+    }
+
+    /**
+     * 删除多个圆点提示
+     *
+     * @param hints
+     */
+    public void removeTaskHints(List<Integer> hints) {
+        CalendarUtils.getInstance(getContext()).removeTaskHints(mCurrentSelectYear, mCurrentSelectMonth, hints);
+        if (mcvCalendar.getCurrentMonthView() != null) {
+            mcvCalendar.getCurrentMonthView().invalidate();
+        }
+        if (wcvCalendar.getCurrentWeekView() != null) {
+            wcvCalendar.getCurrentWeekView().invalidate();
+        }
     }
 
     /**
