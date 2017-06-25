@@ -514,10 +514,13 @@ public class ScheduleLayout extends FrameLayout {
      * @param day
      */
     public void addTaskHint(Integer day) {
-        if (mcvCalendar.getCurrentMonthView() != null)
-            mcvCalendar.getCurrentMonthView().addTaskHint(day);
-        if (wcvCalendar.getCurrentWeekView() != null)
-            wcvCalendar.getCurrentWeekView().addTaskHint(day);
+        if (mcvCalendar.getCurrentMonthView() != null) {
+            if (mcvCalendar.getCurrentMonthView().addTaskHint(day)) {
+                if (wcvCalendar.getCurrentWeekView() != null) {
+                    wcvCalendar.getCurrentWeekView().invalidate();
+                }
+            }
+        }
     }
 
     /**
@@ -526,10 +529,13 @@ public class ScheduleLayout extends FrameLayout {
      * @param day
      */
     public void removeTaskHint(Integer day) {
-        if (mcvCalendar.getCurrentMonthView() != null)
-            mcvCalendar.getCurrentMonthView().removeTaskHint(day);
-        if (wcvCalendar.getCurrentWeekView() != null)
-            wcvCalendar.getCurrentWeekView().removeTaskHint(day);
+        if (mcvCalendar.getCurrentMonthView() != null) {
+            if (mcvCalendar.getCurrentMonthView().removeTaskHint(day)) {
+                if (wcvCalendar.getCurrentWeekView() != null) {
+                    wcvCalendar.getCurrentWeekView().invalidate();
+                }
+            }
+        }
     }
 
     public ScheduleRecyclerView getSchedulerRecyclerView() {

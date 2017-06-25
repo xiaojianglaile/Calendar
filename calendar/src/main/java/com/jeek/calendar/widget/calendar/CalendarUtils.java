@@ -8,7 +8,10 @@ import com.google.gson.reflect.TypeToken;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,17 +20,18 @@ import java.util.Map;
 public class CalendarUtils {
 
     private static CalendarUtils sUtils;
-    private static Map<String, int[]> sAllHolidays;
+    private Map<String, int[]> sAllHolidays = new HashMap<>();
+    private Map<String, List<Integer>> sMonthTaskHint = new HashMap<>();
 
     public static synchronized CalendarUtils getInstance(Context context) {
         if (sUtils == null) {
             sUtils = new CalendarUtils();
-            initAllHolidays(context);
+            sUtils.initAllHolidays(context);
         }
         return sUtils;
     }
 
-    private static void initAllHolidays(Context context) {
+    private void initAllHolidays(Context context) {
         try {
             InputStream is = context.getAssets().open("holiday.json");
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -40,6 +44,81 @@ public class CalendarUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Integer> addTaskHints(int year, int month, List<Integer> days) {
+        String key = hashKey(year, month);
+        List<Integer> hints = sUtils.sMonthTaskHint.get(key);
+        if (hints == null) {
+            hints = new ArrayList<>();
+            hints.removeAll(days); // 避免重复
+            hints.addAll(days);
+            sUtils.sMonthTaskHint.put(key, hints);
+        } else {
+            hints.addAll(days);
+        }
+        return hints;
+    }
+
+    public List<Integer> removeTaskHints(int year, int month, List<Integer> days) {
+        String key = hashKey(year, month);
+        List<Integer> hints = sUtils.sMonthTaskHint.get(key);
+        if (hints == null) {
+            hints = new ArrayList<>();
+            sUtils.sMonthTaskHint.put(key, hints);
+        } else {
+            hints.removeAll(days);
+        }
+        return hints;
+    }
+
+    public boolean addTaskHint(int year, int month, int day) {
+        String key = hashKey(year, month);
+        List<Integer> hints = sUtils.sMonthTaskHint.get(key);
+        if (hints == null) {
+            hints = new ArrayList<>();
+            hints.add(day);
+            sUtils.sMonthTaskHint.put(key, hints);
+            return true;
+        } else {
+            if (!hints.contains(day)) {
+                hints.add(day);
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    public boolean removeTaskHint(int year, int month, int day) {
+        String key = hashKey(year, month);
+        List<Integer> hints = sUtils.sMonthTaskHint.get(key);
+        if (hints == null) {
+            hints = new ArrayList<>();
+            sUtils.sMonthTaskHint.put(key, hints);
+        } else {
+            if (hints.contains(day)) {
+                hints.remove(day);
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public List<Integer> getTaskHints(int year, int month) {
+        String key = hashKey(year, month);
+        List<Integer> hints = sUtils.sMonthTaskHint.get(key);
+        if (hints == null) {
+            hints = new ArrayList<>();
+            sUtils.sMonthTaskHint.put(key, hints);
+        }
+        return hints;
+    }
+
+    private static String hashKey(int year, int month) {
+        return String.format("%s:%s", year, month);
     }
 
     /**
@@ -102,7 +181,7 @@ public class CalendarUtils {
         int week = start.get(Calendar.DAY_OF_WEEK);
         start.add(Calendar.DATE, -week);
         week = end.get(Calendar.DAY_OF_WEEK);
-        end.add(Calendar.DATE, 7 -week);
+        end.add(Calendar.DATE, 7 - week);
         float v = (end.getTimeInMillis() - start.getTimeInMillis()) / (3600 * 1000 * 24 * 7 * 1.0f);
         return (int) (v - 1);
     }
@@ -183,8 +262,8 @@ public class CalendarUtils {
 
     public int[] getHolidays(int year, int month) {
         int holidays[];
-        if (sAllHolidays != null) {
-            holidays = sAllHolidays.get(year + "" + month);
+        if (sUtils.sAllHolidays != null) {
+            holidays = sUtils.sAllHolidays.get(year + "" + month);
             if (holidays == null) {
                 holidays = new int[42];
             }
