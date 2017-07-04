@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -98,7 +99,14 @@ public class CalendarUtils {
             sUtils.sMonthTaskHint.put(key, hints);
         } else {
             if (hints.contains(day)) {
-                hints.remove(day);
+                Iterator<Integer> i = hints.iterator();
+                while (i.hasNext()) {
+                    Integer next = i.next();
+                    if (next == day) {
+                        i.remove();
+                        break;
+                    }
+                }
                 return true;
             } else {
                 return false;
