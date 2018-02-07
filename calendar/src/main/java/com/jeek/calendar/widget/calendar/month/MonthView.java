@@ -303,14 +303,14 @@ public class MonthView extends View {
      */
     private void drawLunarText(Canvas canvas, int[] selected) {
         if (mIsShowLunar) {
-            int firstYear, firstMonth, firstDay;
+            int firstYear, firstMonth, firstDay, monthDays;
             int weekNumber = CalendarUtils.getFirstDayWeek(mSelYear, mSelMonth);
             if (weekNumber == 1) {
                 firstYear = mSelYear;
                 firstMonth = mSelMonth + 1;
                 firstDay = 1;
+                monthDays = CalendarUtils.getMonthDays(firstYear, firstMonth);
             } else {
-                int monthDays;
                 if (mSelMonth == 0) {
                     firstYear = mSelYear - 1;
                     firstMonth = 11;
@@ -329,6 +329,7 @@ public class MonthView extends View {
             int day = lunar.lunarDay;
             int leapMonth = LunarCalendarUtils.leapMonth(lunar.lunarYear);
             days = LunarCalendarUtils.daysInMonth(lunar.lunarYear, lunar.lunarMonth, lunar.isLeap);
+            boolean isChangeMonth = false;
             for (int i = 0; i < 42; i++) {
                 int column = i % 7;
                 int row = i / 7;
@@ -349,6 +350,10 @@ public class MonthView extends View {
                         }
                     }
                 }
+                if (firstDay > monthDays) {
+                    firstDay = 1;
+                    isChangeMonth = true;
+                }
                 if (row == 0 && mDaysText[row][column] >= 23 || row >= 4 && mDaysText[row][column] <= 14) {
                     mLunarPaint.setColor(mLunarTextColor);
                 } else {
@@ -363,7 +368,16 @@ public class MonthView extends View {
                     mLunarPaint.setColor(mLunarTextColor);
                 }
                 if ("初一".equals(dayString)) {
-                    dayString = LunarCalendarUtils.getLunarFirstDayString(lunar.lunarMonth, lunar.isLeap);
+                    int curYear = firstYear, curMonth = firstMonth, curDay = firstDay;
+                    if (isChangeMonth) {
+                        curMonth++;
+                        if (curMonth == 13) {
+                            curMonth = 1;
+                            curYear++;
+                        }
+                    }
+                    LunarCalendarUtils.Lunar chuyi = LunarCalendarUtils.solarToLunar(new LunarCalendarUtils.Solar(curYear, curMonth, curDay));
+                    dayString = LunarCalendarUtils.getLunarFirstDayString(chuyi.lunarMonth, chuyi.isLeap);
                 }
                 if (selected[0] == row && selected[1] == column) {
                     mLunarPaint.setColor(mSelectDayColor);
@@ -372,6 +386,7 @@ public class MonthView extends View {
                 int startY = (int) (mRowSize * row + mRowSize * 0.72 - (mLunarPaint.ascent() + mLunarPaint.descent()) / 2);
                 canvas.drawText(dayString, startX, startY, mLunarPaint);
                 day++;
+                firstDay++;
             }
         }
     }

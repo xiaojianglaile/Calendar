@@ -292,7 +292,9 @@ public class WeekView extends View {
                     mLunarPaint.setColor(mLunarTextColor);
                 }
                 if ("初一".equals(dayString)) {
-                    dayString = LunarCalendarUtils.getLunarFirstDayString(lunar.lunarMonth, lunar.isLeap);
+                    DateTime curDay = mStartDate.plus(i);
+                    LunarCalendarUtils.Lunar chuyi = LunarCalendarUtils.solarToLunar(new LunarCalendarUtils.Solar(curDay.getYear(), curDay.getMonthOfYear(), curDay.getDayOfMonth()));
+                    dayString = LunarCalendarUtils.getLunarFirstDayString(chuyi.lunarMonth, chuyi.isLeap);
                 }
                 if (i == selected) {
                     mLunarPaint.setColor(mSelectDayColor);
