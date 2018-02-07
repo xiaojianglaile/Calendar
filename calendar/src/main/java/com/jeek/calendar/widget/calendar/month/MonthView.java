@@ -368,7 +368,7 @@ public class MonthView extends View {
                     mLunarPaint.setColor(mLunarTextColor);
                 }
                 if ("初一".equals(dayString)) {
-                    int curYear = firstYear, curMonth = firstMonth, curDay = firstDay;
+                    int curYear = firstYear, curMonth = firstMonth;
                     if (isChangeMonth) {
                         curMonth++;
                         if (curMonth == 13) {
@@ -376,7 +376,7 @@ public class MonthView extends View {
                             curYear++;
                         }
                     }
-                    LunarCalendarUtils.Lunar chuyi = LunarCalendarUtils.solarToLunar(new LunarCalendarUtils.Solar(curYear, curMonth, curDay));
+                    LunarCalendarUtils.Lunar chuyi = LunarCalendarUtils.solarToLunar(new LunarCalendarUtils.Solar(curYear, curMonth, firstDay));
                     dayString = LunarCalendarUtils.getLunarFirstDayString(chuyi.lunarMonth, chuyi.isLeap);
                 }
                 if (selected[0] == row && selected[1] == column) {
