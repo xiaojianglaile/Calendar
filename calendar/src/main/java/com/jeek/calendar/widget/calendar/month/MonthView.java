@@ -334,15 +334,19 @@ public class MonthView extends View {
                 int row = i / 7;
                 if (day > days) {
                     day = 1;
+                    boolean isAdd = true;
                     if (lunar.lunarMonth == 12) {
                         lunar.lunarMonth = 1;
                         lunar.lunarYear = lunar.lunarYear + 1;
+                        isAdd = false;
                     }
                     if (lunar.lunarMonth == leapMonth) {
                         days = LunarCalendarUtils.daysInMonth(lunar.lunarYear, lunar.lunarMonth, lunar.isLeap);
                     } else {
-                        lunar.lunarMonth++;
-                        days = LunarCalendarUtils.daysInLunarMonth(lunar.lunarYear, lunar.lunarMonth);
+                        if (isAdd) {
+                            lunar.lunarMonth++;
+                            days = LunarCalendarUtils.daysInLunarMonth(lunar.lunarYear, lunar.lunarMonth);
+                        }
                     }
                 }
                 if (row == 0 && mDaysText[row][column] >= 23 || row >= 4 && mDaysText[row][column] <= 14) {
@@ -357,6 +361,9 @@ public class MonthView extends View {
                 if ("".equals(dayString)) {
                     dayString = LunarCalendarUtils.getLunarDayString(day);
                     mLunarPaint.setColor(mLunarTextColor);
+                }
+                if ("初一".equals(dayString)) {
+                    dayString = LunarCalendarUtils.getLunarFirstDayString(lunar.lunarMonth, lunar.isLeap);
                 }
                 if (selected[0] == row && selected[1] == column) {
                     mLunarPaint.setColor(mSelectDayColor);
