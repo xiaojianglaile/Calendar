@@ -267,15 +267,19 @@ public class WeekView extends View {
             for (int i = 0; i < 7; i++) {
                 if (day > days) {
                     day = 1;
+                    boolean isAdd = true;
                     if (lunar.lunarMonth == 12) {
                         lunar.lunarMonth = 1;
                         lunar.lunarYear = lunar.lunarYear + 1;
+                        isAdd = false;
                     }
                     if (lunar.lunarMonth == leapMonth) {
                         days = LunarCalendarUtils.daysInMonth(lunar.lunarYear, lunar.lunarMonth, lunar.isLeap);
                     } else {
-                        lunar.lunarMonth++;
-                        days = LunarCalendarUtils.daysInLunarMonth(lunar.lunarYear, lunar.lunarMonth);
+                        if (isAdd) {
+                            lunar.lunarMonth++;
+                            days = LunarCalendarUtils.daysInLunarMonth(lunar.lunarYear, lunar.lunarMonth);
+                        }
                     }
                 }
                 mLunarPaint.setColor(mHolidayTextColor);
@@ -286,6 +290,9 @@ public class WeekView extends View {
                 if ("".equals(dayString)) {
                     dayString = LunarCalendarUtils.getLunarDayString(day);
                     mLunarPaint.setColor(mLunarTextColor);
+                }
+                if ("初一".equals(dayString)) {
+                    dayString = LunarCalendarUtils.getLunarFirstDayString(lunar.lunarMonth, lunar.isLeap);
                 }
                 if (i == selected) {
                     mLunarPaint.setColor(mSelectDayColor);
